@@ -6,22 +6,22 @@ namespace PolynomialFactorizator
 {
 	public class Polynomial
 	{
-		public List<Monomial> terms;
+		public List<Monomial> Terms;
 
 		public Polynomial()
 		{
-			terms = new List<Monomial>();
+			Terms = new List<Monomial>();
 		}
 
 		public Polynomial(List<Monomial> terms)
 		{
-			this.terms = terms;
+			this.Terms = terms;
 		}
 
 		public override string ToString()
 		{
-			StringBuilder sb = new StringBuilder();
-			foreach (Monomial term in terms) {
+			var sb = new StringBuilder();
+			foreach (var term in Terms) {
 				sb.Append(term.ToString());
 				sb.Append(' ');
 			}

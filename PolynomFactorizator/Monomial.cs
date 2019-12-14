@@ -6,34 +6,35 @@ namespace PolynomialFactorizator
 {
 	public class Monomial
 	{
-		public char sign;
+		public bool Sign;
 
-		public int coefficient;
+		public int Coefficient;
 
-		public List<Indeterminate> indeterminates;
+		public List<Indeterminate> IndeterminatesList;
 
 		public Monomial()
 		{
-			indeterminates = new List<Indeterminate>();
+			IndeterminatesList = new List<Indeterminate>();
 		}
 
-		public Monomial(char sign, int coefficient, List<Indeterminate> indeterminates)
+		public Monomial(bool sign, int coefficient, List<Indeterminate> indeterminates)
 		{
-			this.sign = sign;
-			this.coefficient = coefficient;
-			this.indeterminates = indeterminates;
+			this.Sign = sign;
+			this.Coefficient = coefficient;
+			this.IndeterminatesList = indeterminates;
 		}
 
 		public override string ToString()
 		{
-			string indeterminatesString = GetIndeterminatesString();
-			return $"{sign} {coefficient}*{indeterminatesString}";
+			string indeterminateString = GetIndeterminatesString();
+            string sign = !Sign ? "-" : "";
+			return $"{sign} {Coefficient}*{indeterminateString}";
 		}
 
 		private string GetIndeterminatesString()
 		{
 			StringBuilder sb = new StringBuilder();
-			foreach (Indeterminate indeterminate in indeterminates) {
+			foreach (Indeterminate indeterminate in IndeterminatesList) {
 				sb.Append(indeterminate.ToString());
 				sb.Append('*');
 			}

@@ -5,7 +5,7 @@ namespace PolynomialFactorizator
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args) 
         {
             Indeterminate x2 = new Indeterminate('x', 2);
             Indeterminate y = new Indeterminate('y', 1);

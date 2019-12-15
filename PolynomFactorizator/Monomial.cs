@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PolynomialFactorizator
 {
-    public class Monomial: ICloneable
+    public class Monomial : ICloneable
     {
         public bool Sign;
 
@@ -27,14 +27,14 @@ namespace PolynomialFactorizator
 
         public override string ToString()
         {
-            string indeterminateString = GetIndeterminatesString();
+            string indeterminateString = GetIndeterminatesString().Length == 0 ? "" : "*" + GetIndeterminatesString();
             string sign = !Sign ? "-" : "+";
-            return $"{sign} {Coefficient}*{indeterminateString}";
+            return $"{sign} {Coefficient}{indeterminateString}";
         }
 
         public object Clone()
-        { 
-            var indeterminateList =  IndeterminatesList.Select(i => (Indeterminate)i.Clone()).ToList();
+        {
+            var indeterminateList = IndeterminatesList.Select(i => (Indeterminate) i.Clone()).ToList();
             return new Monomial(this.Sign, this.Coefficient, indeterminateList);
         }
 
@@ -47,7 +47,8 @@ namespace PolynomialFactorizator
                 sb.Append('*');
             }
 
-            sb.Remove(sb.Length - 1, 1);
+            if (sb.Length != 0)
+                sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
         }
 

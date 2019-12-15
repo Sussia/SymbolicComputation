@@ -28,9 +28,9 @@ namespace PolynomialFactorizator
 
 
             var x3 = new Indeterminate('x', 2);
-            var y3 = new Indeterminate('y', 2);
+            var y3 = new Indeterminate('y', 1);
             var z3 = new Indeterminate('z', 1);
-            var M_4_y2_x = new Monomial(true, 24, new List<Indeterminate>
+            var M_4_y2_x = new Monomial(true, 2, new List<Indeterminate>
             {
                 x3,
                 y3

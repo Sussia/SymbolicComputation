@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PolynomialFactorizator
 {
-	public class Indeterminate
+	public class Indeterminate :  ICloneable
 	{
 		public char Symbol;
 
@@ -29,5 +29,10 @@ namespace PolynomialFactorizator
 			}
 
 		}
-	}
+
+        public object Clone()
+        {
+            return new Indeterminate(this.Symbol, this.Power);
+        }
+    }
 }

@@ -127,8 +127,9 @@ namespace PolynomialFactorizator
             }
 
             Console.WriteLine($"OUTPOLYNOMIAL : {firstMultiplier.ToString()} ({secondMultiplier.ToString()})");
-
-
+            string link = "http://fred-wang.github.io/mathml.css/mspace.js";
+            string script = (args.Length == 3 && args[2] == "-S") ? $"<script src=\"{link}\"></script>\r\n" : "";
+            System.IO.File.WriteAllText(args[1], script + PolynomialMathMlConverter.ToMathMl(new List<Polynomial>() { firstMultiplier, secondMultiplier }));
             Console.WriteLine(PolynomialMathMlConverter.ToMathMl(new List<Polynomial>() {firstMultiplier, secondMultiplier}));
         }
 

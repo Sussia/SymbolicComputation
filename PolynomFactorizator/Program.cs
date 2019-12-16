@@ -124,20 +124,19 @@ namespace PolynomialFactorizator
 	            {
 
 		            int indeterminateIndex = firstMultiplier.Terms[0].FindIndeterminateByChar(indeterminate.Symbol);
-		            if (indeterminateIndex == -1)
+		            char newIndeterminateSymbol = indeterminate.Symbol;
+                    if (indeterminateIndex == -1)
 		            {
-			            char newIndeterminateSymbol = indeterminate.Symbol;
 			            int newIndeterminatePower = indeterminate.Power;
 			            newMonomial.IndeterminatesList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
 
 		            }
 		            else
 		            {
-			            if (firstMultiplier.Terms[0].IndeterminatesList[indeterminateIndex].Power > 1)
+			            int newIndeterminatePower = indeterminate.Power - firstMultiplier.Terms[0].IndeterminatesList[indeterminateIndex].Power;
+                        if (newIndeterminatePower > 0)
 			            {
-				            char newIndeterminateSymbol = indeterminate.Symbol;
-				            int newIndeterminatePower = indeterminate.Power;
-                            newMonomial.IndeterminatesList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
+				            newMonomial.IndeterminatesList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
                         }
 		            }
 	            }

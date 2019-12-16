@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PolynomialFactorizator
@@ -7,36 +8,18 @@ namespace PolynomialFactorizator
     internal class Program
     {
         private static void Main(string[] args)
-        {
-            var x2 = new Indeterminate('x', 3);
-            var z1 = new Indeterminate('z', 1);
-            var y = new Indeterminate('y', 1);
-            var M_2_x2_y = new Monomial(false, 70, new List<Indeterminate>
+        {  
+            string jsonInput = "";
+            using (StreamReader r = new StreamReader(args[0]))
             {
-                x2,
-                z1,
-                y
-            });
+                jsonInput = r.ReadToEnd();
+            }
 
-            var x1 = new Indeterminate('x', 2);
-            var y2 = new Indeterminate('y', 2);
-            var M__4_y2_x = new Monomial(true, 66, new List<Indeterminate>
+            var polynomial = new Polynomial(jsonInput);
+            foreach (var term in polynomial.Terms)
             {
-                x1,
-                y2
-            });
-
-
-            var x3 = new Indeterminate('x', 2);
-            var y3 = new Indeterminate('y', 1);
-            var z3 = new Indeterminate('z', 1);
-            var M_4_y2_x = new Monomial(true, 2, new List<Indeterminate>
-            {
-                x3,
-                y3
-            });
-
-            var polynomial = new Polynomial(new List<Monomial> {M_2_x2_y, M__4_y2_x, M_4_y2_x});
+                Console.WriteLine(term.ToString());
+            } 
             Console.WriteLine($"IN POLYNOMIAL   {polynomial.ToString()}");
 
             var coefficientFactorList = new List<List<int>>();
@@ -107,16 +90,17 @@ namespace PolynomialFactorizator
             bool outSign = (polynomial.Terms[0].Sign);
 
             OutPolynomial outPolynomial =
-                new OutPolynomial(new Monomial(outSign, outCoefficient, outIndeterminatesList), CloneTerms(polynomial.Terms));
-            Console.WriteLine($"OUTPOLYNOMIAL : {outPolynomial.ToString()}");
-            // Console.WriteLine(polynomial.ToString());
+                new OutPolynomial(new Monomial(outSign, outCoefficient, outIndeterminatesList),
+                    CloneTerms(polynomial.Terms));
+            Console.WriteLine($"OUTPOLYNOMIAL : {outPolynomial.ToString()}"); 
         }
 
         private static List<Monomial> CloneTerms(List<Monomial> originalList)
         {
-            List<Monomial> lstCloned = originalList.Select(i => (Monomial)i.Clone()).ToList();
+            List<Monomial> lstCloned = originalList.Select(i => (Monomial) i.Clone()).ToList();
             return lstCloned;
         }
+
         public static List<int> Generate(int number)
         {
             var primes = new List<int>();

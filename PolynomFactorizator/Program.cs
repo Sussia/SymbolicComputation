@@ -109,6 +109,9 @@ namespace PolynomialFactorizator
             OutPolynomial outPolynomial =
                 new OutPolynomial(new Monomial(outSign, outCoefficient, outIndeterminatesList), CloneTerms(polynomial.Terms));
             Console.WriteLine($"OUTPOLYNOMIAL : {outPolynomial.ToString()}");
+
+
+            Console.WriteLine(PolynomialMathMlConverter.ToMathMl(polynomial));
             // Console.WriteLine(polynomial.ToString());
         }
 

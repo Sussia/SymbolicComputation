@@ -111,7 +111,7 @@ namespace PolynomialFactorizator
             Console.WriteLine($"OUTPOLYNOMIAL : {outPolynomial.ToString()}");
 
 
-            Console.WriteLine(PolynomialMathMlConverter.ToMathMl(polynomial));
+            Console.WriteLine(PolynomialMathMlConverter.ToMathMl(new List<Polynomial>() {polynomial, polynomial}));
             // Console.WriteLine(polynomial.ToString());
         }
 

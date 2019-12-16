@@ -21,7 +21,7 @@ namespace PolynomialFactorizator
 			foreach (Monomial monomial in polynomial.Terms)
 			{
 				char sign = !monomial.Sign ? '-' : '+';
-				string coefficient = monomial.Coefficient == 1 ? "" : monomial.Coefficient.ToString();
+				string coefficient = (monomial.Coefficient == 1 && monomial.IndeterminatesList.Count > 0) ? "" : monomial.Coefficient.ToString();
 				sb.Append($"<mn>{sign} {coefficient}</mn>\r\n");
 				foreach (Indeterminate indeterminate in monomial.IndeterminatesList)
 				{

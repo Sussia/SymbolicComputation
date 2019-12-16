@@ -31,15 +31,5 @@ namespace PolynomialFactorizator
             sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
         }
-
-        public Polynomial(string jsonInput)
-        {
-            this.Terms = JsonConvert.DeserializeObject<Polynomial>(jsonInput).Terms;
-        }
-
-        public string ToJson()
-        { 
-            return  JsonConvert.SerializeObject(this);
-        }
     }
 }

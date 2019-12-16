@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace PolynomialFactorizator
 {
@@ -15,7 +16,7 @@ namespace PolynomialFactorizator
                 jsonInput = r.ReadToEnd();
             }
 
-            var polynomial = new Polynomial(jsonInput);
+            var polynomial = JsonConvert.DeserializeObject<Polynomial>(jsonInput);
             foreach (var term in polynomial.Terms)
             {
                 Console.WriteLine(term.ToString());
@@ -26,7 +27,7 @@ namespace PolynomialFactorizator
             var indeterminateList = new List<List<char>>();
             foreach (var term in polynomial.Terms)
             {
-                var factorList = Generate(term.Coefficient);
+                var factorList = GetPrimeFactors(term.Coefficient);
                 coefficientFactorList.Add(factorList);
 
 
@@ -89,13 +90,13 @@ namespace PolynomialFactorizator
 
             bool outSign = (polynomial.Terms[0].Sign);
 
-            Polynomial firstMultiplier = new Polynomial(new List<Monomial>(){new Monomial(outSign, outCoefficient, outIndeterminatesList)});
+            var firstMultiplier = new Polynomial(new List<Monomial>(){new Monomial(outSign, outCoefficient, outIndeterminatesList)});
 
-            Polynomial secondMultiplier = new Polynomial();
+            var secondMultiplier = new Polynomial();
 
-            foreach (Monomial monomial in polynomial.Terms)
+            foreach (var monomial in polynomial.Terms)
             {
-	            Monomial newMonomial = new Monomial();
+	            var newMonomial = new Monomial();
 	            if (!firstMultiplier.Terms[0].Sign)
 	            {
 		            newMonomial.Sign = !monomial.Sign;
@@ -133,13 +134,7 @@ namespace PolynomialFactorizator
             Console.WriteLine(PolynomialMathMlConverter.ToMathMl(new List<Polynomial>() {firstMultiplier, secondMultiplier}));
         }
 
-        private static List<Monomial> CloneTerms(List<Monomial> originalList)
-        {
-            List<Monomial> lstCloned = originalList.Select(i => (Monomial) i.Clone()).ToList();
-            return lstCloned;
-        }
-
-        public static List<int> Generate(int number)
+        public static List<int> GetPrimeFactors(int number)
         {
             var primes = new List<int>();
 

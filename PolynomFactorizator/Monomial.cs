@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PolynomialFactorizator
 {
-    public class Monomial : ICloneable
+    public class Monomial
     {
         public bool Sign;
 
@@ -32,11 +32,6 @@ namespace PolynomialFactorizator
             return $"{sign} {Coefficient}{indeterminateString}";
         }
 
-        public object Clone()
-        {
-            var indeterminateList = IndeterminatesList.Select(i => (Indeterminate) i.Clone()).ToList();
-            return new Monomial(this.Sign, this.Coefficient, indeterminateList);
-        }
 
         private string GetIndeterminatesString()
         {

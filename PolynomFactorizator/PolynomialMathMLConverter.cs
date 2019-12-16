@@ -21,11 +21,12 @@ namespace PolynomialFactorizator
 			foreach (Monomial monomial in polynomial.Terms)
 			{
 				char sign = !monomial.Sign ? '-' : '+';
-				sb.Append($"<mn>{sign} {monomial.Coefficient}</mn>\r\n");
+				string coefficient = monomial.Coefficient == 1 ? "" : monomial.Coefficient.ToString();
+				sb.Append($"<mn>{sign} {coefficient}</mn>\r\n");
 				foreach (Indeterminate indeterminate in monomial.IndeterminatesList)
 				{
-					sb.Append(
-						$"<msup>\r\n<mi>{indeterminate.Symbol}</mi>\r\n<mn>{indeterminate.Power}</mn>\r\n</msup>\r\n");
+					string power = indeterminate.Power == 1 ? "" : indeterminate.Power.ToString();
+					sb.Append($"<msup>\r\n<mi>{indeterminate.Symbol}</mi>\r\n<mn>{power}</mn>\r\n</msup>\r\n");
 				}
 			}
 		}

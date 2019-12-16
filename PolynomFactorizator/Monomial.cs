@@ -54,7 +54,7 @@ namespace PolynomialFactorizator
 
         public int FindIndeterminateByChar(char symbol)
         {
-            int outIndex = 0;
+            int outIndex = -1;
             for (int i = 0; i < IndeterminatesList.Count; i++)
             {
                 if (IndeterminatesList[i].Symbol == symbol)

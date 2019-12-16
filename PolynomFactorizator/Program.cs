@@ -106,13 +106,48 @@ namespace PolynomialFactorizator
 
             bool outSign = (polynomial.Terms[0].Sign);
 
-            OutPolynomial outPolynomial =
-                new OutPolynomial(new Monomial(outSign, outCoefficient, outIndeterminatesList), CloneTerms(polynomial.Terms));
-            Console.WriteLine($"OUTPOLYNOMIAL : {outPolynomial.ToString()}");
+            Polynomial firstMultiplier = new Polynomial(new List<Monomial>(){new Monomial(outSign, outCoefficient, outIndeterminatesList)});
+
+            Polynomial secondMultiplier = new Polynomial();
+
+            foreach (Monomial monomial in polynomial.Terms)
+            {
+	            Monomial newMonomial = new Monomial();
+	            if (!firstMultiplier.Terms[0].Sign)
+	            {
+		            newMonomial.Sign = !monomial.Sign;
+	            }
+
+	            newMonomial.Coefficient = monomial.Coefficient / firstMultiplier.Terms[0].Coefficient;
+
+	            foreach (var indeterminate in monomial.IndeterminatesList)
+	            {
+
+		            int indeterminateIndex = firstMultiplier.Terms[0].FindIndeterminateByChar(indeterminate.Symbol);
+		            if (indeterminateIndex == -1)
+		            {
+			            char newIndeterminateSymbol = indeterminate.Symbol;
+			            int newIndeterminatePower = indeterminate.Power;
+			            newMonomial.IndeterminatesList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
+
+		            }
+		            else
+		            {
+			            if (firstMultiplier.Terms[0].IndeterminatesList[indeterminateIndex].Power > 1)
+			            {
+				            char newIndeterminateSymbol = indeterminate.Symbol;
+				            int newIndeterminatePower = indeterminate.Power;
+                            newMonomial.IndeterminatesList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
+                        }
+		            }
+	            }
+                secondMultiplier.Terms.Add(newMonomial);
+            }
+
+            Console.WriteLine($"OUTPOLYNOMIAL : {firstMultiplier.ToString()} ({secondMultiplier.ToString()})");
 
 
-            Console.WriteLine(PolynomialMathMlConverter.ToMathMl(new List<Polynomial>() {polynomial, polynomial}));
-            // Console.WriteLine(polynomial.ToString());
+            Console.WriteLine(PolynomialMathMlConverter.ToMathMl(new List<Polynomial>() {firstMultiplier, secondMultiplier}));
         }
 
         private static List<Monomial> CloneTerms(List<Monomial> originalList)

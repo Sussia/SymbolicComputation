@@ -4,11 +4,11 @@ using System.Text;
 
 namespace PolynomialFactorizator
 {
-	public class Indeterminate
+	public class Indeterminate :  ICloneable
 	{
-		public char symbol;
+		public char Symbol;
 
-		public int power;
+		public int Power;
 
 		public Indeterminate()
 		{
@@ -16,18 +16,23 @@ namespace PolynomialFactorizator
 
 		public Indeterminate(char symbol, int power)
 		{
-			this.symbol = symbol;
-			this.power = power;
+			this.Symbol = symbol;
+			this.Power = power;
 		}
 
 		public override string ToString()
 		{
-			if (power != 1) {
-				return $"{symbol}^{power}";
+			if (Power != 1) {
+				return $"{Symbol}^{Power}";
 			} else {
-				return $"{symbol}";
+				return $"{Symbol}";
 			}
 
 		}
-	}
+
+        public object Clone()
+        {
+            return new Indeterminate(this.Symbol, this.Power);
+        }
+    }
 }

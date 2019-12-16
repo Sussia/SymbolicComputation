@@ -1,44 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PolynomialFactorizator
 {
-	public class Monomial
-	{
-		public char sign;
+    public class Monomial : ICloneable
+    {
+        public bool Sign;
 
-		public int coefficient;
+        public int Coefficient;
 
-		public List<Indeterminate> indeterminates;
+        public List<Indeterminate> IndeterminatesList;
 
-		public Monomial()
-		{
-			indeterminates = new List<Indeterminate>();
-		}
+        public Monomial()
+        {
+            IndeterminatesList = new List<Indeterminate>();
+        }
 
-		public Monomial(char sign, int coefficient, List<Indeterminate> indeterminates)
-		{
-			this.sign = sign;
-			this.coefficient = coefficient;
-			this.indeterminates = indeterminates;
-		}
+        public Monomial(bool sign, int coefficient, List<Indeterminate> indeterminates)
+        {
+            this.Sign = sign;
+            this.Coefficient = coefficient;
+            this.IndeterminatesList = indeterminates;
+        }
 
-		public override string ToString()
-		{
-			string indeterminatesString = GetIndeterminatesString();
-			return $"{sign} {coefficient}*{indeterminatesString}";
-		}
+        public override string ToString()
+        {
+            string indeterminateString = GetIndeterminatesString().Length == 0 ? "" : "*" + GetIndeterminatesString();
+            string sign = !Sign ? "-" : "+";
+            return $"{sign} {Coefficient}{indeterminateString}";
+        }
 
-		private string GetIndeterminatesString()
-		{
-			StringBuilder sb = new StringBuilder();
-			foreach (Indeterminate indeterminate in indeterminates) {
-				sb.Append(indeterminate.ToString());
-				sb.Append('*');
-			}
-			sb.Remove(sb.Length - 1, 1);
-			return sb.ToString();
-		}
-	}
+        public object Clone()
+        {
+            var indeterminateList = IndeterminatesList.Select(i => (Indeterminate) i.Clone()).ToList();
+            return new Monomial(this.Sign, this.Coefficient, indeterminateList);
+        }
+
+        private string GetIndeterminatesString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (Indeterminate indeterminate in IndeterminatesList)
+            {
+                sb.Append(indeterminate.ToString());
+                sb.Append('*');
+            }
+
+            if (sb.Length != 0)
+                sb.Remove(sb.Length - 1, 1);
+            return sb.ToString();
+        }
+
+        public int FindIndeterminateByChar(char symbol)
+        {
+            int outIndex = 0;
+            for (int i = 0; i < IndeterminatesList.Count; i++)
+            {
+                if (IndeterminatesList[i].Symbol == symbol)
+                {
+                    outIndex = i;
+                    break;
+                }
+            }
+
+            return outIndex;
+        }
+    }
 }

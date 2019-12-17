@@ -92,18 +92,21 @@ namespace PolynomialFactorizator
 
             var firstMultiplier = new Polynomial(new List<Monomial>(){new Monomial(outSign, outCoefficient, outIndeterminatesList)});
 
-            var secondMultiplier = new Polynomial();
+            var secondMultiplierList = new List<Monomial>();
 
             foreach (var monomial in polynomial.Terms)
             {
-	            var newMonomial = new Monomial();
+
+                bool newSign = true;
 	            if (!firstMultiplier.Terms[0].Sign)
 	            {
-		            newMonomial.Sign = !monomial.Sign;
-	            }
+                    //newMonomial.Sign = !monomial.Sign;
+                    newSign = !monomial.Sign;
+                }
+                int newCoefficient = monomial.Coefficient / firstMultiplier.Terms[0].Coefficient;
+                //newMonomial.Coefficient = monomial.Coefficient / firstMultiplier.Terms[0].Coefficient;
 
-	            newMonomial.Coefficient = monomial.Coefficient / firstMultiplier.Terms[0].Coefficient;
-
+                var newIndeterminateList = new List<Indeterminate>();
 	            foreach (var indeterminate in monomial.IndeterminatesList)
 	            {
 
@@ -112,7 +115,7 @@ namespace PolynomialFactorizator
                     if (indeterminateIndex == -1)
 		            {
 			            int newIndeterminatePower = indeterminate.Power;
-			            newMonomial.IndeterminatesList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
+			            newIndeterminateList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
 
 		            }
 		            else
@@ -120,14 +123,17 @@ namespace PolynomialFactorizator
 			            int newIndeterminatePower = indeterminate.Power - firstMultiplier.Terms[0].IndeterminatesList[indeterminateIndex].Power;
                         if (newIndeterminatePower > 0)
 			            {
-				            newMonomial.IndeterminatesList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
+				            newIndeterminateList.Add(new Indeterminate(newIndeterminateSymbol, newIndeterminatePower));
                         }
 		            }
 	            }
-                secondMultiplier.Terms.Add(newMonomial);
+
+                var newMonomial = new Monomial(newSign,newCoefficient,newIndeterminateList);
+                secondMultiplierList.Add(newMonomial);
             }
 
-            Console.WriteLine($"OUTPOLYNOMIAL : {firstMultiplier.ToString()} ({secondMultiplier.ToString()})");
+            var secondMultiplier = new Polynomial(secondMultiplierList);
+            Console.WriteLine($"OUTPOLYNOMIAL : {firstMultiplier.ToString()} ({secondMultiplierList.ToString()})");
             string link = "http://fred-wang.github.io/mathml.css/mspace.js";
             string script = (args.Length == 3 && args[2] == "-S") ? $"<script src=\"{link}\"></script>\r\n" : "";
             System.IO.File.WriteAllText(args[1], script + PolynomialMathMlConverter.ToMathMl(new List<Polynomial>() { firstMultiplier, secondMultiplier }));

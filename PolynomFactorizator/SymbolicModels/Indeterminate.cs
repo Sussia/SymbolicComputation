@@ -6,9 +6,9 @@ namespace PolynomialFactorizator
 {
     public class Indeterminate
     {
-        public char Symbol;
+        public readonly char Symbol;
 
-        public int Power;
+        public readonly int Power;
 
         public Indeterminate()
         {

@@ -7,11 +7,11 @@ namespace PolynomialFactorizator
 {
     public class Monomial
     {
-        public bool Sign;
+        public readonly bool Sign;
 
-        public int Coefficient;
+        public readonly int Coefficient;
 
-        public List<Indeterminate> IndeterminatesList;
+        public readonly List<Indeterminate> IndeterminatesList;
 
         public Monomial()
         {

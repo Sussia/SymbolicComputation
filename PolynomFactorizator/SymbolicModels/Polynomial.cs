@@ -7,7 +7,7 @@ namespace PolynomialFactorizator
 {
     public class Polynomial
     {
-        public List<Monomial> Terms;
+        public readonly List<Monomial> Terms;
 
         public Polynomial()
         {

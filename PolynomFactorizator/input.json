@@ -1,0 +1,50 @@
+{
+  "Terms": [
+    {
+      "Sign": false,
+      "Coefficient": 80,
+      "IndeterminatesList": [
+        {
+          "Symbol": "x",
+          "Power": 3
+        },
+        {
+          "Symbol": "z",
+          "Power": 1
+        },
+        {
+          "Symbol": "y",
+          "Power": 1
+        }
+      ]
+    },
+    {
+      "Sign": true,
+      "Coefficient": 66,
+      "IndeterminatesList": [
+        {
+          "Symbol": "x",
+          "Power": 2
+        },
+        {
+          "Symbol": "y",
+          "Power": 2
+        }
+      ]
+    },
+    {
+      "Sign": true,
+      "Coefficient": 2,
+      "IndeterminatesList": [
+        {
+          "Symbol": "x",
+          "Power": 2
+        },
+        {
+          "Symbol": "y",
+          "Power": 1
+        }
+      ]
+    }
+  ]
+}

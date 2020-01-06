@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PolynomialFactorizator", "PolynomFactorizator\PolynomialFactorizator.csproj", "{E6DA9CF6-52DF-4810-8AB3-4A7D8993BC98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymbolicComputation", "SymbolicComputation\SymbolicComputation.csproj", "{732C6A82-57C0-4ABE-A50A-1B2D916BC1FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E6DA9CF6-52DF-4810-8AB3-4A7D8993BC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6DA9CF6-52DF-4810-8AB3-4A7D8993BC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6DA9CF6-52DF-4810-8AB3-4A7D8993BC98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{732C6A82-57C0-4ABE-A50A-1B2D916BC1FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{732C6A82-57C0-4ABE-A50A-1B2D916BC1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{732C6A82-57C0-4ABE-A50A-1B2D916BC1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{732C6A82-57C0-4ABE-A50A-1B2D916BC1FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

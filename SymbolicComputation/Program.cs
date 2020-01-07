@@ -20,7 +20,18 @@ namespace SymbolicComputation
 
             Expression exp2 = Mul[5, exp1];
 
-            Symbol res = exp2.Evaluate();
+			Expression exp3 = Mul["x", "y"];
+
+			Symbol Set = new StringSymbol("Set");
+
+			Expression setExp = Set["x", 2];
+			Expression setExp2 = Set["y", 3];
+
+			Symbol List = new StringSymbol("List");
+
+			Expression exp4 = List[setExp, setExp2, exp3];
+
+			Symbol res = exp4.Evaluate();
 
             Console.WriteLine(res.ToString());
 

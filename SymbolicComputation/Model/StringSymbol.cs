@@ -16,5 +16,14 @@ namespace SymbolicComputation.Model
 		{
 			return Name;
 		}
+
+		public override bool Equals(object? obj)
+		{
+			if (obj is StringSymbol symbol)
+			{
+				return symbol.Name.Equals(this.Name);
+			}
+			return false;
+		}
 	}
 }

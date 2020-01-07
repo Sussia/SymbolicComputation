@@ -25,6 +25,9 @@ namespace SymbolicComputation
 				{"List", List}
 			};
 
+		private static Dictionary<string, Tuple<StringSymbol, Expression>> customFunctions =
+			new Dictionary<string, Tuple<StringSymbol, Expression>>();
+
 		private static Symbol MathEval(Expression exp, Func<decimal, decimal, decimal> func)
 		{
 			var arg1 = exp.Args[0];
@@ -42,7 +45,11 @@ namespace SymbolicComputation
 		{
 			if (exp.Action.ToString() == "Set")
 			{
-				return Set(exp);
+				return Set(exp, context);
+			}
+			if (exp.Action.ToString() == "Delayed")
+			{
+				return Delayed(exp);
 			}
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
@@ -53,7 +60,7 @@ namespace SymbolicComputation
 				}
 				else if (arg is StringSymbol symbol)
 				{
-					newArgs.Add(Substitute(symbol));
+					newArgs.Add(Substitute(symbol, context));
 				} else
 				{
 					newArgs.Add(arg);
@@ -99,7 +106,7 @@ namespace SymbolicComputation
 			return exp.Args.Last();
 		}
 
-		private static Symbol Set(Expression exp)
+		private static Symbol Set(Expression exp, Scope localContext)
 		{
 			var arg1 = exp.Args[0];
 			var arg2 = exp.Args[1];
@@ -111,21 +118,72 @@ namespace SymbolicComputation
 					newArg = Evaluate(exp2);
 				} else if (arg2 is StringSymbol stringSymbol)
 				{
-					newArg = Substitute(stringSymbol);
+					newArg = Substitute(stringSymbol, localContext);
 				}
 				else
 				{
 					newArg = arg2;
 				}
-				context.SymbolRules.Add(symbol.Name, newArg);
+				localContext.SymbolRules.Add(symbol.Name, newArg);
 				return arg1;
 			}
 			throw new Exception("First parameter of Set isn't string symbol");
 		}
 
-		private static Symbol Substitute(StringSymbol symbol)
+		private static Symbol Substitute(StringSymbol symbol, Scope localContext)
 		{
-			return context.SymbolRules[symbol.Name]; //, out var resultSymbol) ? resultSymbol : symbol;
+			return localContext.SymbolRules.TryGetValue(symbol.Name, out var resultSymbol) ? resultSymbol : symbol;
+		}
+
+		private static Symbol Delayed(Expression exp)
+		{
+			Symbol name = exp.Args[0];
+			StringSymbol variable = (StringSymbol) exp.Args[1];
+			Expression function = (Expression) exp.Args[2];
+			functionsDictionary.Add(name.ToString(), ComputeDelayed);
+			customFunctions.Add(name.ToString(), new Tuple<StringSymbol, Expression>(variable, function));
+			return exp;
+		}
+
+		private static Symbol ComputeDelayed(Expression exp)
+		{
+			string name = exp.Action.ToString();
+			var (variable, function) = customFunctions[name];
+			Expression newExpression = ReplaceVariable(function, variable, exp.Args[0]);
+			return Evaluate(newExpression);
+		}
+
+		public static Expression ReplaceVariable(Expression exp, StringSymbol localVariable, Symbol value)
+		{
+			Scope localScope = new Scope();
+			localScope.SymbolRules.Add(localVariable.Name,value);
+
+			List<Symbol> newArgs = new List<Symbol>();
+			foreach (var arg in exp.Args)
+			{
+				if (arg is Expression argExp)
+				{
+					if (argExp.Action.ToString() == "Set")
+					{
+						newArgs.Add(argExp);
+					}
+					else
+					{
+						newArgs.Add(ReplaceVariable(argExp, localVariable, value));
+					}
+				}
+				else if (arg is StringSymbol symbol)
+				{
+					newArgs.Add(Substitute(symbol, localScope));
+				}
+				else
+				{
+					newArgs.Add(arg);
+				}
+			}
+			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
+			Console.WriteLine($"Replacing {localVariable} with {value}...\nResult: {newExp}");
+			return newExp;
 		}
 	}
 }

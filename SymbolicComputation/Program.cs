@@ -9,26 +9,32 @@ namespace SymbolicComputation
 		private static void Main(string[] args)
 		{
 			Symbol Sum = new StringSymbol("Sum");
-			Expression exp1 = Sum[5, 3];
-
+			Symbol List = new StringSymbol("List");
+			Symbol Set = new StringSymbol("Set");
 			Symbol Mul = new StringSymbol("Mul");
+			Symbol Delayed = new StringSymbol("Delayed");
 
+			Expression p1Func = Sum["t", 1];
+
+			Symbol P1 = new StringSymbol("P1");
+
+			Expression delExp = Delayed[P1, "t", p1Func];
+			Expression testDelExp = List[delExp, P1[2]];
+
+			Expression exp1 = Sum[5, 3];
 			Expression exp2 = Mul[5, exp1];
 
-			Expression exp3 = Mul["x", "y"];
+			Expression exp3 = List[Set["y", 10], Mul["x", Sum["y", 1]]];
 
-			Symbol Set = new StringSymbol("Set");
+
 
 			Expression setExp = Set["x", 2];
-			Expression setExp2 = Set["y", 3];
+			Expression setExp2 = Set["y", Mul["x", 4]];
 
-			Symbol List = new StringSymbol("List");
+			//Expression repExp = BuildInFunctions.ReplaceVariable(exp3, new StringSymbol( "x"), new Constant(2));
 
-			Expression exp4 = List[setExp, setExp2, exp3];
 
-			Symbol res = exp4.Evaluate();
-
-			Console.WriteLine(res.ToString());
+			Console.WriteLine(testDelExp.Evaluate().ToString());
 
 		}
 	}

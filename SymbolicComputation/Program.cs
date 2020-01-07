@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Mime;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using SymbolicComputation.Model;
 
 namespace SymbolicComputation
@@ -36,6 +40,11 @@ namespace SymbolicComputation
 
 			Console.WriteLine(testDelExp.Evaluate().ToString());
 
+            using (StreamReader sr = new StreamReader("../../../input.json"))
+            {
+                Expression asd = (Expression)(Parser.ParseInput(sr.ReadToEnd()));
+                Console.WriteLine(asd.Evaluate());
+            }
 		}
 	}
 }

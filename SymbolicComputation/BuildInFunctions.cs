@@ -43,6 +43,7 @@ namespace SymbolicComputation
 
 		public static Symbol Evaluate(Expression exp)
 		{
+			Console.WriteLine($"\nEvaluating expression {exp} :");
 			if (exp.Action.ToString() == "Set")
 			{
 				return Set(exp, context);
@@ -54,9 +55,9 @@ namespace SymbolicComputation
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
-				if (arg is Expression)
+				if (arg is Expression argExpression)
 				{
-					newArgs.Add(Evaluate((Expression)arg));
+					newArgs.Add(Evaluate(argExpression));
 				}
 				else if (arg is StringSymbol symbol)
 				{
@@ -67,8 +68,9 @@ namespace SymbolicComputation
 				}
 			}
 			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
-			Console.WriteLine($"Evaluating expression: {newExp}");
-			return functionsDictionary[exp.Action.ToString()](newExp);
+			Symbol result = functionsDictionary[exp.Action.ToString()](newExp);
+			Console.WriteLine($"The result of {exp} is {result}");
+			return result;
 		}
 
 		private static Symbol Sum(Expression exp)
@@ -125,6 +127,7 @@ namespace SymbolicComputation
 					newArg = arg2;
 				}
 				localContext.SymbolRules.Add(symbol.Name, newArg);
+				Console.WriteLine($"{symbol.Name} is initialized by {arg2}");
 				return arg1;
 			}
 			throw new Exception("First parameter of Set isn't string symbol");
@@ -142,6 +145,7 @@ namespace SymbolicComputation
 			Expression function = (Expression) exp.Args[2];
 			functionsDictionary.Add(name.ToString(), ComputeDelayed);
 			customFunctions.Add(name.ToString(), new Tuple<StringSymbol, Expression>(variable, function));
+			Console.WriteLine($"{name}({variable}) is defined as {function}");
 			return exp;
 		}
 
@@ -155,9 +159,9 @@ namespace SymbolicComputation
 
 		public static Expression ReplaceVariable(Expression exp, StringSymbol localVariable, Symbol value)
 		{
+			Console.Write($"Replacing {localVariable} with {value}... ");
 			Scope localScope = new Scope();
 			localScope.SymbolRules.Add(localVariable.Name,value);
-
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
@@ -182,7 +186,7 @@ namespace SymbolicComputation
 				}
 			}
 			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
-			Console.WriteLine($"Replacing {localVariable} with {value}...\nResult: {newExp}");
+			Console.WriteLine($"Result: {newExp}");
 			return newExp;
 		}
 	}

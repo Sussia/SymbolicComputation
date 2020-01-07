@@ -17,7 +17,6 @@ namespace SymbolicComputation.Model
 
 		public Symbol Evaluate()
 		{
-			Console.WriteLine($"Evaluating expression: {this}");
 			return BuildInFunctions.Evaluate(this);
 		}
 
@@ -31,10 +30,10 @@ namespace SymbolicComputation.Model
 		{
 			var sb = new StringBuilder();
 			sb.Append(Action);
-			sb.Append($"[ ");
+			sb.Append($"[");
 			foreach (var term in Args)
 			{
-				sb.Append(term.ToString());
+				sb.Append(term);
 				sb.Append(", ");
 			}
 

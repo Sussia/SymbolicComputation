@@ -15,7 +15,7 @@ namespace SymbolicComputation
             // Check if it is an Expression
             try
             {
-                Console.WriteLine(a.Action);
+                string temp = a.Action.ToString();
             }
             catch (RuntimeBinderException e)
             {

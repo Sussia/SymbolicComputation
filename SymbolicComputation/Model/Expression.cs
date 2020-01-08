@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SymbolicComputation.Model
@@ -40,6 +41,26 @@ namespace SymbolicComputation.Model
 			sb.Remove(sb.Length - 2, 2);
 			sb.Append(']');
 			return sb.ToString();
+		}
+
+		public override bool Equals(object? obj)
+		{
+			if (obj is Expression exp)
+			{
+				if (exp.Action.Equals(Action) && exp.Args.Length == Args.Length)
+				{
+					for (int i = 0; i < Args.Length; i++)
+					{
+						if (!Args[i].Equals(exp.Args[i]))
+						{
+							return false;
+						}
+					}
+					return true;
+				}
+				return false;
+			}
+			return false;
 		}
 	}
 }

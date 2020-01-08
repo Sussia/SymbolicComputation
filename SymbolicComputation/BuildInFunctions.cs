@@ -58,6 +58,11 @@ namespace SymbolicComputation
 			{
 				return Delayed(exp);
 			}
+
+			if (exp.Action.ToString() == "If")
+			{
+				return If(exp);
+			}
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
@@ -74,12 +79,37 @@ namespace SymbolicComputation
 				}
 			}
 			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
-			Console.WriteLine($"\n  Evaluating expression {newExp}:");
+			if (!newExp.Equals(exp))
+			{
+				Console.WriteLine($"\n  Evaluating expression {newExp}:");
+			}
 			Symbol result = functionsDictionary[exp.Action.ToString()](newExp);
 			Console.WriteLine($"The result of {newExp} is {result}");
 			return result;
 		}
 
+		private static Symbol If(Expression exp)
+		{
+			Symbol cond = exp.Args[0];
+			Symbol condResult;
+			if (cond is Expression expression)
+			{
+				condResult = expression.Evaluate();
+			} else if (cond.Equals(Boolean.True) || cond.Equals(Boolean.False))
+			{
+				condResult = cond;
+			}
+			else
+			{
+				throw new Exception("Wrong condition");
+			}
+
+			if (exp.Args[1] is Expression body1 && exp.Args[2] is Expression body2)
+			{
+				return condResult.Equals(Boolean.True) ? body1.Evaluate() : body2.Evaluate();
+			}
+			throw new Exception("Wrong body");
+		}
 		private static Symbol Equal(Expression exp)
 		{
 			return exp.Args[0].Equals(exp.Args[1]) ? new StringSymbol("True") : new StringSymbol("False");

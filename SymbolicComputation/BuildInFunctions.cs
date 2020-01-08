@@ -191,6 +191,7 @@ namespace SymbolicComputation
 		{
 		return LogicEval(exp, (a, b) => a < b);
 		}
+
         private static Symbol Sum(Expression exp)
 		{
 			StringSymbol[] symbols = exp.Args.Select(x => x is StringSymbol symbol ? symbol : null).Where(x => x != null).ToArray();
@@ -241,6 +242,26 @@ namespace SymbolicComputation
 
         private static Symbol Divide(Expression exp)
         {
+	        Symbol arg1 = exp.Args[0];
+	        Symbol arg2 = exp.Args[1];
+	        if (arg1 is Expression innerExpression)
+	        {
+		        if (innerExpression.Action.ToString() == "Pow" && innerExpression.Args[0].Equals(arg2))
+		        {
+			        if (innerExpression.Args[1] is Constant power1 && power1.Value == 2)
+			        {
+				        return innerExpression.Args[0];
+			        }
+			        if (innerExpression.Args[1] is Constant power0 && power0.Value == 1)
+			        {
+				        return new Constant(0);
+			        }
+                    if (innerExpression.Args[1] is Constant power && power.Value != 2)
+			        {
+						return new Expression(innerExpression.Action, new []{innerExpression.Args[0], new Constant(power.Value - 1)});
+			        }
+		        }
+	        }
             return MathEval(exp, (a, b) => a / b);
         }
 

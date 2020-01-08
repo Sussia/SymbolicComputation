@@ -307,7 +307,7 @@ namespace SymbolicComputation
 
                 localContext.SymbolRules.Add(symbol.Name, newArg);
                 Console.WriteLine($"{symbol.Name} is initialized by {arg2}");
-                return arg1;
+                return arg2;
             }
 
             throw new Exception("First parameter of Set isn't string symbol");

@@ -34,7 +34,7 @@ namespace SymbolicComputation
 			Expression delExp = Delayed["P1", "t", p1Func];
 			Expression testDelExp = List[delExp, P1[2]];
 
-			Expression exp1 = Pow[5, 3];
+			Expression exp1 = List[Set["x", 6], Sum[5, "z", "c", 3, 2, "x", "y"]];
 			Expression exp2 = Mul[5, exp1];
 
 			Expression exp3 = List[Set["y", 10], Mul["x", Sum["y", 1]]];

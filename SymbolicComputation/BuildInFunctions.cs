@@ -44,7 +44,7 @@ namespace SymbolicComputation
 
 		public static Symbol Evaluate(Expression exp)
 		{
-			Console.WriteLine($"\nEvaluating expression {exp} :");
+			Console.WriteLine($"\nEvaluating expression {exp}:");
 			if (exp.Action.ToString() == "Set")
 			{
 				return Set(exp, context);
@@ -69,14 +69,31 @@ namespace SymbolicComputation
 				}
 			}
 			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
+			Console.WriteLine($"\n  Evaluating expression {newExp}:");
 			Symbol result = functionsDictionary[exp.Action.ToString()](newExp);
-			Console.WriteLine($"The result of {exp} is {result}");
+			Console.WriteLine($"The result of {newExp} is {result}");
 			return result;
 		}
 
 		private static Symbol Sum(Expression exp)
 		{
-			return MathEval(exp, (a, b) => a + b);
+			StringSymbol[] symbols = exp.Args.Select(x => x is StringSymbol symbol ? symbol : null).Where(x => x != null).ToArray();
+			decimal sum = exp.Args.Where(x => x is Constant).Aggregate(0m, (acc, x) => acc + ((Constant)x).Value);
+			Symbol constant = new Constant(sum);
+			if (symbols.Length == 0)
+			{
+				return constant;
+			}
+
+			if (sum == 0)
+			{
+				return new Expression(exp.Action, symbols);
+			}
+			Symbol[] args = new Symbol[symbols.Length + 1];
+			args[0] = constant;
+			Array.Copy(symbols, 0, args, 1, symbols.Length);
+			return new Expression(exp.Action, args);
+
 		}
 
 		private static Symbol Sub(Expression exp)

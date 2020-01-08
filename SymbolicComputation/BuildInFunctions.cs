@@ -103,7 +103,22 @@ namespace SymbolicComputation
 
 		private static Symbol Mul(Expression exp)
 		{
-			return MathEval(exp, (a, b) => a * b);
+			StringSymbol[] symbols = exp.Args.Select(x => x is StringSymbol symbol ? symbol : null).Where(x => x != null).ToArray();
+			decimal sum = exp.Args.Where(x => x is Constant).Aggregate(1m, (acc, x) => acc * ((Constant)x).Value);
+			Symbol constant = new Constant(sum);
+			if (symbols.Length == 0)
+			{
+				return constant;
+			}
+
+			if (sum == 0)
+			{
+				return new Expression(exp.Action, symbols);
+			}
+			Symbol[] args = new Symbol[symbols.Length + 1];
+			args[0] = constant;
+			Array.Copy(symbols, 0, args, 1, symbols.Length);
+			return new Expression(exp.Action, args);
 		}
 
 		private static Symbol Divide(Expression exp)

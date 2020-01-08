@@ -24,7 +24,9 @@ namespace SymbolicComputation
 				{"Divide", Divide},
 				{"Pow", Pow},
 				{"List", List},
-				{"Equal", Equal}
+				{"Equal", Equal},
+				{"Or", Or},
+				{"And", And}
 			};
 
 		private static Dictionary<string, Tuple<StringSymbol, Expression>> customFunctions =
@@ -79,6 +81,28 @@ namespace SymbolicComputation
 		private static Symbol Equal(Expression exp)
 		{
 			return exp.Args[0].Equals(exp.Args[1]) ? new StringSymbol("True") : new StringSymbol("False");
+		}
+
+		private static Symbol Or(Expression exp)
+		{
+			Symbol arg1 = exp.Args[0];
+			Symbol arg2 = exp.Args[1];
+			if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) && (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+			{
+				return arg1.Equals(Boolean.False) && arg2.Equals(Boolean.False) ? Boolean.False : Boolean.True;
+			}
+			throw new Exception("Wrong arguments");
+		}
+
+		private static Symbol And(Expression exp)
+		{
+			Symbol arg1 = exp.Args[0];
+			Symbol arg2 = exp.Args[1];
+			if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) && (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+			{
+				return arg1.Equals(Boolean.True) && arg2.Equals(Boolean.True) ? Boolean.True : Boolean.False;
+			}
+			throw new Exception("Wrong arguments");
 		}
 
 		private static Symbol Sum(Expression exp)

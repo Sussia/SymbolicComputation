@@ -27,6 +27,8 @@ namespace SymbolicComputation
 			Symbol Pow = new StringSymbol("Pow");
 			Symbol Delayed = new StringSymbol("Delayed");
 			Symbol Equal = new StringSymbol("Equal");
+			Symbol Or = new StringSymbol("Or");
+			Symbol And = new StringSymbol("And");
 
 			Expression p1Func = Sum["t", 1];
 
@@ -35,7 +37,7 @@ namespace SymbolicComputation
 			Expression delExp = Delayed["P1", "t", p1Func];
 			Expression testDelExp = List[delExp, P1[2]];
 
-			Expression exp1 = List[Set["x", 2], Equal[2, "x"]];
+			Expression exp1 = And["True", "True"];
 			Expression exp2 = Mul[5, exp1];
 
 			Expression exp3 = List[Set["y", 10], Mul["x", Sum["y", 1]]];

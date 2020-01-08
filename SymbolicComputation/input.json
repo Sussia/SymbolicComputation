@@ -9,7 +9,7 @@
       },
       "Args": [
         {
-          "Value": 5.0
+          "Name": "y"
         },
         {
           "Value": 7.0

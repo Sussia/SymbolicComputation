@@ -18,6 +18,7 @@ namespace SymbolicComputation
 			{
 				Expression asd = (Expression)(Parser.ParseInput(sr.ReadToEnd()));
 				Console.WriteLine($"Got expression: {asd}");
+				Console.WriteLine(asd.Evaluate());
 			}
 
 			Symbol Sum = new StringSymbol("Sum");
@@ -31,8 +32,11 @@ namespace SymbolicComputation
 			Symbol And = new StringSymbol("And");
 			Symbol Xor = new StringSymbol("Xor");
 			Symbol Not = new StringSymbol("Not");
-			Symbol If = new StringSymbol("If");
-
+            Symbol Greater = new StringSymbol("Greater");
+            Symbol GreaterOrEqual = new StringSymbol("GreaterOrEqual");
+            Symbol Less = new StringSymbol("Less");
+            Symbol LessOrEqual = new StringSymbol("LessOrEqual");
+            Symbol If = new StringSymbol("If");
 			Expression p1Func = Sum["t", 1];
 
 			Symbol P1 = new StringSymbol("P1");
@@ -50,6 +54,9 @@ namespace SymbolicComputation
 
 			Console.WriteLine(exp1.Evaluate().ToString());
 
-		}
+
+            Expression testExpression = Greater[4,5];
+			Console.WriteLine(testExpression.Evaluate());
+        }
 	}
 }

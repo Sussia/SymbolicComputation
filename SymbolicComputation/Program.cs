@@ -47,7 +47,7 @@ namespace SymbolicComputation
 
 			Expression exp2 = Mul["y", 2];
 
-			Expression exp1 = Divide[Pow["x", 1], "x"];
+			Expression exp1 = Divide[Mul[Pow["x", 5], Pow["y", 3], 12], "x"];
 
 			Expression exp4 = Sum[5, 2];
 			Expression exp3 = List[Set["y", 10], Mul["x", Sum["y", 1]]];

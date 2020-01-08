@@ -220,7 +220,7 @@ namespace SymbolicComputation
 
         private static Symbol Mul(Expression exp)
         {
-            StringSymbol[] symbols = exp.Args.Select(x => x is StringSymbol symbol ? symbol : null)
+            Symbol[] symbols = exp.Args.Select(x => x !is Constant symbol ? null : x)
                 .Where(x => x != null).ToArray();
             decimal sum = exp.Args.Where(x => x is Constant).Aggregate(1m, (acc, x) => acc * ((Constant) x).Value);
             Symbol constant = new Constant(sum);
@@ -229,7 +229,7 @@ namespace SymbolicComputation
                 return constant;
             }
 
-            if (sum == 0)
+            if (sum == 1)
             {
                 return new Expression(exp.Action, symbols);
             }
@@ -259,6 +259,29 @@ namespace SymbolicComputation
                     if (innerExpression.Args[1] is Constant power && power.Value != 2)
 			        {
 						return new Expression(innerExpression.Action, new []{innerExpression.Args[0], new Constant(power.Value - 1)});
+			        }
+		        }
+		        if (innerExpression.Action.ToString() == "Mul")
+		        {
+                    Symbol divide = new StringSymbol("Divide");
+                    bool dividable = false;
+                    Symbol dividend = null;
+			        foreach (Symbol arg in innerExpression.Args)
+			        {
+				        if (!(divide[arg, arg2].Evaluate() is Expression divideExpression &&
+				            divideExpression.Action.ToString() == "Divide"))
+				        {
+					        dividable = true;
+					        dividend = arg;
+                            break;
+				        }
+			        }
+
+			        if (dividable)
+			        {
+				        Symbol newArg = divide[dividend, arg2].Evaluate();
+				        Symbol[] newArgs = innerExpression.Args.Select(x => x.Equals(dividend) ? newArg : x).ToArray();
+                        return new Expression(innerExpression.Action, newArgs);
 			        }
 		        }
 	        }

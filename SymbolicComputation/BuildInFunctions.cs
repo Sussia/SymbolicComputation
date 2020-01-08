@@ -26,7 +26,9 @@ namespace SymbolicComputation
 				{"List", List},
 				{"Equal", Equal},
 				{"Or", Or},
-				{"And", And}
+				{"And", And},
+				{"Xor", Xor},
+				{"Not", Not}
 			};
 
 		private static Dictionary<string, Tuple<StringSymbol, Expression>> customFunctions =
@@ -101,6 +103,27 @@ namespace SymbolicComputation
 			if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) && (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
 			{
 				return arg1.Equals(Boolean.True) && arg2.Equals(Boolean.True) ? Boolean.True : Boolean.False;
+			}
+			throw new Exception("Wrong arguments");
+		}
+
+		private static Symbol Not(Expression exp)
+		{
+			Symbol arg1 = exp.Args[0];
+			if (arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False))
+			{
+				return arg1.Equals(Boolean.True) ? Boolean.False : Boolean.True;
+			}
+			throw new Exception("Wrong arguments");
+		}
+
+		private static Symbol Xor(Expression exp)
+		{
+			Symbol arg1 = exp.Args[0];
+			Symbol arg2 = exp.Args[1];
+			if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) && (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+			{
+				return arg1.Equals(arg2)? Boolean.False : Boolean.True;
 			}
 			throw new Exception("Wrong arguments");
 		}

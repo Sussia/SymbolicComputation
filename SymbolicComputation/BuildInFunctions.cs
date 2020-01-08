@@ -101,36 +101,58 @@ namespace SymbolicComputation
             return exp.Args[0].Equals(exp.Args[1]) ? new StringSymbol("True") : new StringSymbol("False");
         }
 
-        private static Symbol Greater(Expression exp)
-        {
-            return LogicEval(exp, (a, b) => a > b);
-        }
+		private static Symbol Or(Expression exp)
+		{
+			Symbol arg1 = exp.Args[0];
+			Symbol arg2 = exp.Args[1];
+			if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) && (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+			{
+				return arg1.Equals(Boolean.False) && arg2.Equals(Boolean.False) ? Boolean.False : Boolean.True;
+			}
+			throw new Exception("Wrong arguments");
+		}
 
-        private static Symbol GreaterOrEqual(Expression exp)
-        {
-            return LogicEval(exp, (a, b) => a >= b);
-        }
+		private static Symbol And(Expression exp)
+		{
+			Symbol arg1 = exp.Args[0];
+			Symbol arg2 = exp.Args[1];
+			if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) && (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+			{
+				return arg1.Equals(Boolean.True) && arg2.Equals(Boolean.True) ? Boolean.True : Boolean.False;
+			}
+			throw new Exception("Wrong arguments");
+		}
 
-        private static Symbol LessOrEqual(Expression exp)
-        {
-            return LogicEval(exp, (a, b) => a <= b);
-        }
+		private static Symbol Not(Expression exp)
+		{
+			Symbol arg1 = exp.Args[0];
+			if (arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False))
+			{
+				return arg1.Equals(Boolean.True) ? Boolean.False : Boolean.True;
+			}
+			throw new Exception("Wrong arguments");
+		}
 
-        private static Symbol Less(Expression exp)
-        {
-            return LogicEval(exp, (a, b) => a < b);
-        }
+		private static Symbol Xor(Expression exp)
+		{
+			Symbol arg1 = exp.Args[0];
+			Symbol arg2 = exp.Args[1];
+			if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) && (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+			{
+				return arg1.Equals(arg2)? Boolean.False : Boolean.True;
+			}
+			throw new Exception("Wrong arguments");
+		}
 
-        private static Symbol Sum(Expression exp)
-        {
-            StringSymbol[] symbols = exp.Args.Select(x => x is StringSymbol symbol ? symbol : null)
-                .Where(x => x != null).ToArray();
-            decimal sum = exp.Args.Where(x => x is Constant).Aggregate(0m, (acc, x) => acc + ((Constant) x).Value);
-            Symbol constant = new Constant(sum);
-            if (symbols.Length == 0)
-            {
-                return constant;
-            }
+		private static Symbol Sum(Expression exp)
+		{
+			StringSymbol[] symbols = exp.Args.Select(x => x is StringSymbol symbol ? symbol : null).Where(x => x != null).ToArray();
+			decimal sum = exp.Args.Where(x => x is Constant).Aggregate(0m, (acc, x) => acc + ((Constant)x).Value);
+			Symbol constant = new Constant(sum);
+			if (symbols.Length == 0)
+			{
+				return constant;
+			}
 
             if (sum == 0)
             {

@@ -22,6 +22,7 @@ namespace SymbolicComputation
 				{"Div", Div},
 				{"Rem", Rem},
 				{"Divide", Divide},
+				{"Pow", Pow},
 				{"List", List}
 			};
 
@@ -101,6 +102,11 @@ namespace SymbolicComputation
 		private static Symbol Rem(Expression exp)
 		{
 			return MathEval(exp, (a, b) => a % b);
+		}
+
+		private static Symbol Pow(Expression exp)
+		{
+			return MathEval(exp, (a, b) => (decimal) Math.Pow((double) a, (double) b));
 		}
 
 		private static Symbol List(Expression exp)

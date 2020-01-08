@@ -23,7 +23,8 @@ namespace SymbolicComputation
 				{"Rem", Rem},
 				{"Divide", Divide},
 				{"Pow", Pow},
-				{"List", List}
+				{"List", List},
+				{"Equal", Equal}
 			};
 
 		private static Dictionary<string, Tuple<StringSymbol, Expression>> customFunctions =
@@ -73,6 +74,11 @@ namespace SymbolicComputation
 			Symbol result = functionsDictionary[exp.Action.ToString()](newExp);
 			Console.WriteLine($"The result of {newExp} is {result}");
 			return result;
+		}
+
+		private static Symbol Equal(Expression exp)
+		{
+			return exp.Args[0].Equals(exp.Args[1]) ? new StringSymbol("True") : new StringSymbol("False");
 		}
 
 		private static Symbol Sum(Expression exp)

@@ -17,5 +17,14 @@ namespace SymbolicComputation.Model
 		{
 			return Value.ToString();
 		}
+
+		public override bool Equals(object? obj)
+		{
+			if (obj is Constant constant)
+			{
+				return constant.Value == Value;
+			}
+			return false;
+		}
 	}
 }

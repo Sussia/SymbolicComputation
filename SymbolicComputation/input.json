@@ -1,6 +1,6 @@
 {
   "Action": {
-    "Name": "Sub"
+    "Name": "Sum"
   },
   "Args": [
     {

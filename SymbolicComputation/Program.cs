@@ -14,11 +14,11 @@ namespace SymbolicComputation
 		{
 			string filepath = "../../../input.json";
 
-			using (StreamReader sr = new StreamReader(filepath))
-			{
-				Expression asd = (Expression)(Parser.ParseInput(sr.ReadToEnd()));
-				Console.WriteLine($"Got expression: {asd}");
-			}
+			StreamReader sr = new StreamReader(filepath);
+
+			Expression asd = (Expression)(Parser.ParseInput(sr.ReadToEnd()));
+			sr.Close();
+			Console.WriteLine($"Got expression: {asd}");
 
 			Symbol Sum = new StringSymbol("Sum");
 			Symbol Mul = new StringSymbol("Mul");
@@ -31,11 +31,11 @@ namespace SymbolicComputation
 			Symbol And = new StringSymbol("And");
 			Symbol Xor = new StringSymbol("Xor");
 			Symbol Not = new StringSymbol("Not");
-            Symbol Greater = new StringSymbol("Greater");
-            Symbol GreaterOrEqual = new StringSymbol("GreaterOrEqual");
-            Symbol Less = new StringSymbol("Less");
-            Symbol LessOrEqual = new StringSymbol("LessOrEqual");
-            Symbol If = new StringSymbol("If");
+			Symbol Greater = new StringSymbol("Greater");
+			Symbol GreaterOrEqual = new StringSymbol("GreaterOrEqual");
+			Symbol Less = new StringSymbol("Less");
+			Symbol LessOrEqual = new StringSymbol("LessOrEqual");
+			Symbol If = new StringSymbol("If");
 			Symbol Divide = new StringSymbol("Divide");
 
 			Expression p1Func = Sum["t", 1];
@@ -47,7 +47,9 @@ namespace SymbolicComputation
 
 			Expression exp2 = Mul["y", 2];
 
-			Expression exp1 = Divide[Mul[Pow["x", 5], Pow["y", 3], 12], "x"];
+			Expression exp1 = Divide[Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, "x"]], 6];
+
+			Expression inputExpDivision = Divide[asd, "y"];
 
 			Expression exp4 = Sum[5, 2];
 			Expression exp3 = List[Set["y", 10], Mul["x", Sum["y", 1]]];
@@ -57,6 +59,6 @@ namespace SymbolicComputation
 
 			Console.WriteLine(exp1.Evaluate().ToString());
 
-        }
+		}
 	}
 }

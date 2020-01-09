@@ -194,7 +194,7 @@ namespace SymbolicComputation
 
         private static Symbol Sum(Expression exp)
 		{
-			StringSymbol[] symbols = exp.Args.Select(x => x is StringSymbol symbol ? symbol : null).Where(x => x != null).ToArray();
+			Symbol[] symbols = exp.Args.Select(x => x is Constant symbol ? null : x).Where(x => x != null).ToArray();
 			decimal sum = exp.Args.Where(x => x is Constant).Aggregate(0m, (acc, x) => acc + ((Constant)x).Value);
 			Symbol constant = new Constant(sum);
 			if (symbols.Length == 0)
@@ -231,6 +231,10 @@ namespace SymbolicComputation
 
             if (sum == 1)
             {
+	            if (symbols.Length == 1)
+	            {
+		            return symbols[0];
+	            }
                 return new Expression(exp.Action, symbols);
             }
 
@@ -244,6 +248,7 @@ namespace SymbolicComputation
         {
 	        Symbol arg1 = exp.Args[0];
 	        Symbol arg2 = exp.Args[1];
+			if (arg1.Equals(arg2)) return new Constant(1);
 	        if (arg1 is Expression innerExpression)
 	        {
 		        if (innerExpression.Action.ToString() == "Pow" && innerExpression.Args[0].Equals(arg2))
@@ -279,9 +284,19 @@ namespace SymbolicComputation
 
 			        if (dividable)
 			        {
-				        Symbol newArg = divide[dividend, arg2].Evaluate();
+				        Symbol newArg = Divide(divide[dividend, arg2]);
 				        Symbol[] newArgs = innerExpression.Args.Select(x => x.Equals(dividend) ? newArg : x).ToArray();
-                        return new Expression(innerExpression.Action, newArgs);
+                        return new Expression(innerExpression.Action, newArgs).Evaluate();
+			        }
+		        }
+
+		        if (innerExpression.Action.ToString() == "Sum")
+		        {
+			        Symbol divide = new StringSymbol("Divide");
+			        Symbol[] newArgs = innerExpression.Args.Select(x => Divide(divide[x, arg2])).ToArray();
+			        if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.ToString() == "Divide"))
+			        {
+						return new Expression(innerExpression.Action, newArgs).Evaluate();
 			        }
 		        }
 	        }

@@ -47,7 +47,7 @@ namespace SymbolicComputation
 
 			Expression exp2 = Mul["y", 2];
 
-			Expression exp1 = Divide[Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, "x"]], 6];
+			Expression exp1 = List[Set["y", 0],Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, "x"]]];
 
 			Expression inputExpDivision = Divide[asd, "y"];
 

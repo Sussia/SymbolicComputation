@@ -204,7 +204,11 @@ namespace SymbolicComputation
 
             if (sum == 0)
             {
-                return new Expression(exp.Action, symbols);
+	            if (symbols.Length == 1)
+	            {
+		            return symbols[0];
+	            }
+				return new Expression(exp.Action, symbols);
             }
 
             Symbol[] args = new Symbol[symbols.Length + 1];
@@ -224,7 +228,12 @@ namespace SymbolicComputation
                 .Where(x => x != null).ToArray();
             decimal sum = exp.Args.Where(x => x is Constant).Aggregate(1m, (acc, x) => acc * ((Constant) x).Value);
             Symbol constant = new Constant(sum);
-            if (symbols.Length == 0)
+            if (sum == 0)
+            {
+	            return constant;
+
+            }
+			if (symbols.Length == 0)
             {
                 return constant;
             }

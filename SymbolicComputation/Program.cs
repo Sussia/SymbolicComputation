@@ -103,10 +103,10 @@ namespace SymbolicComputation
             ];
 
 
-            Expression ourList = L[12, 5, 24, 81, 64, 4, 21, 8];
+            Expression ourList = L[15, 35, 50];
 
             Expression minFunc = List[
-                Set["lest", "NASH"], 
+                Set["lest", ourList],
                 Set["minEl", First["lest"]],
                 Set["tempLest", "lest"],
                 While[Not[Equal[First["tempLest"], "null"]],
@@ -124,13 +124,11 @@ namespace SymbolicComputation
                 ],
                 "minEl"
             ];
-            Symbol Min = new StringSymbol("Min");
 
             Expression numAlg = List[
-                Delayed["Min","NASH", minFunc ],
                 Set["lest", ourList], //TODO : Get list before evaluation
                 Set["isFound", "False"],
-                Set["divisor", Min["lest"]],
+                Set["divisor", minFunc],
                 Set["commonDivisor", 1],
                 Set["tempLest", "lest"],
                 While[Not[Equal["divisor", 1]],

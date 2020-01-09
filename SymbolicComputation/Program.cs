@@ -54,7 +54,7 @@ namespace SymbolicComputation
 
             Expression exp2 = Mul["y", 2];
 
-            Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y",2]], "x"];
+            Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y", 2]], "x"];
 
             Expression inputExpDivision = Divide[asd, "y"];
 
@@ -72,32 +72,28 @@ namespace SymbolicComputation
                 Set["lest", L["x", "y"]],
                 Set["firstTerm", 1],
                 Set["ETMP", exp1],
-
                 While[Not[Equal[First["lest"], "null"]],
                     List[
                         Set["cur", First["lest"]],
                         Delayed[f1, "cur", "ETMP"],
-                        Set["PENETRATOR", f1[0]],
+                        Set["zero-checker", f1[0]],
                         Set["power", 0],
-                        While[Equal["PENETRATOR", 0],
+                        While[Equal["zero-checker", 0],
                             List[
                                 Set["ETMP", Divide["ETMP", "cur"]],
                                 Delayed[f1, "cur", "ETMP"],
-                                Set["PENETRATOR", f1[0]],
+                                Set["zero-checker", f1[0]],
                                 Set["power", Sum["power", 1]]
                             ]
                         ],
-
                         If[Equal["power", 1],
                             Set["firstTerm", Mul["firstTerm", "cur"]],
                             List[Boolean.False]
                         ],
-
                         If[Greater["power", 1],
                             Set["firstTerm", Mul["firstTerm", Pow["cur", "power"]]],
                             List[Boolean.False]
                         ],
-
                         Set["lest", Rest["lest"]]
                     ]
                 ],

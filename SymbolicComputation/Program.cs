@@ -101,11 +101,36 @@ namespace SymbolicComputation
                 ],
                 Mul["firstTerm", "ETMP"]
             ];
-            
+
+
+            Expression ourList = L[12, 5, 24, 81, 64, 4, 21, 8];
+
+            Expression minFunc = List[
+                Set["lest", "NASH"], 
+                Set["minEl", First["lest"]],
+                Set["tempLest", "lest"],
+                While[Not[Equal[First["tempLest"], "null"]],
+                    List[
+                        If[Less[First["tempLest"], "minEl"],
+                            List[
+                                Set["minEl", First["tempLest"]]
+                            ],
+                            List[
+                                Boolean.False
+                            ]
+                        ],
+                        Set["tempLest", Rest["tempLest"]]
+                    ]
+                ],
+                "minEl"
+            ];
+            Symbol Min = new StringSymbol("Min");
+
             Expression numAlg = List[
-                Set["lest", L[2, 4, 6]],            //TODO : Get list before evaluation
+                Delayed["Min","NASH", minFunc ],
+                Set["lest", ourList], //TODO : Get list before evaluation
                 Set["isFound", "False"],
-                Set["divisor", 6],                  //TODO : insert max here
+                Set["divisor", Min["lest"]],
                 Set["commonDivisor", 1],
                 Set["tempLest", "lest"],
                 While[Not[Equal["divisor", 1]],
@@ -120,7 +145,7 @@ namespace SymbolicComputation
                         If[Equal["reminder", 0],
                             List[
                                 Set["commonDivisor", Mul["commonDivisor", "divisor"]],
-                                Set["tempLest", Divide["lest", "divisor"]],                       // TODO: Divide on list
+                                Set["tempLest", Divide["lest", "divisor"]], // TODO: Divide on list
                                 Set["divisor", 1]
                             ],
                             List[
@@ -138,7 +163,7 @@ namespace SymbolicComputation
                         Set["x", Sub["x", 1]]
                     ]
                 ];
-            Console.WriteLine(alg.Evaluate(context).ToString());
+            Console.WriteLine(Min.Evaluate(context).ToString());
         }
     }
 }

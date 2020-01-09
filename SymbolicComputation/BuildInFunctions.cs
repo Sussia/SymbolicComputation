@@ -74,7 +74,7 @@ namespace SymbolicComputation
 
             if (exp.Action.ToString() == "Delayed")
             {
-                return Delayed(exp);
+                return Delayed(exp, context);
             }
 
             if (exp.Action.ToString() == "If")
@@ -417,7 +417,7 @@ namespace SymbolicComputation
                     newArg = arg2;
                 }
 
-                localContext.SymbolRules[symbol.Name] =  newArg;
+                localContext.SymbolRules[symbol.Name] = newArg;
                 Console.WriteLine($"{symbol.Name} is initialized by {arg2}");
                 return arg2;
             }
@@ -430,13 +430,26 @@ namespace SymbolicComputation
             return localContext.SymbolRules.TryGetValue(symbol.Name, out var resultSymbol) ? resultSymbol : symbol;
         }
 
-        private static Symbol Delayed(Expression exp)
+        private static Symbol Delayed(Expression exp, Scope localContext)
         {
             Symbol name = exp.Args[0];
-            StringSymbol variable = (StringSymbol) exp.Args[1];
-            Expression function = (Expression) exp.Args[2];
-            functionsDictionary.Add(name.ToString(), ComputeDelayed);
-            customFunctions.Add(name.ToString(), new Tuple<StringSymbol, Expression>(variable, function));
+            StringSymbol variable = (StringSymbol)Substitute((StringSymbol) exp.Args[1], localContext);
+            Expression function;
+            if (exp.Args[2] is Expression ex)
+            {
+                function = ex;
+            }
+            else if (exp.Args[2] is StringSymbol ss)
+            {
+                function = (Expression) Substitute(ss, localContext);
+            }
+            else
+            {
+                throw new Exception("Wrong body");
+            }
+
+            functionsDictionary[name.ToString()] = ComputeDelayed;
+            customFunctions[name.ToString()] = new Tuple<StringSymbol, Expression>(variable, function);
             Console.WriteLine($"{name}({variable}) is defined as {function}");
             return exp;
         }
@@ -495,7 +508,9 @@ namespace SymbolicComputation
                 throw new Exception("Argument is not list");
             }
 
-            return ((Expression) exp.Args[0]).Args[0];
+            return exp.Args[0] is Expression listEx && listEx.Args.Length > 0
+                ? listEx.Args[0]
+                : new StringSymbol("null");
         }
 
         public static Symbol Rest(Expression exp, Scope context)

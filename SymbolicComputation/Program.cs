@@ -54,7 +54,7 @@ namespace SymbolicComputation
 
             Expression exp2 = Mul["y", 2];
 
-            Expression exp1 = List[Set["y", 0], Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, "x"]]];
+            Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y",2]], "x"];
 
             Expression inputExpDivision = Divide[asd, "y"];
 
@@ -67,6 +67,42 @@ namespace SymbolicComputation
 
             Expression restExp = Rest[Rest[L[1, 2, 3, 4, 5]]];
 
+            StringSymbol f1 = new StringSymbol("f1");
+            Expression alg = List[
+                Set["lest", L["x", "y"]],
+                Set["firstTerm", 1],
+                Set["ETMP", exp1],
+
+                While[Not[Equal[First["lest"], "null"]],
+                    List[
+                        Set["cur", First["lest"]],
+                        Delayed[f1, "cur", "ETMP"],
+                        Set["PENETRATOR", f1[0]],
+                        Set["power", 0],
+                        While[Equal["PENETRATOR", 0],
+                            List[
+                                Set["ETMP", Divide["ETMP", "cur"]],
+                                Delayed[f1, "cur", "ETMP"],
+                                Set["PENETRATOR", f1[0]],
+                                Set["power", Sum["power", 1]]
+                            ]
+                        ],
+
+                        If[Equal["power", 1],
+                            Set["firstTerm", Mul["firstTerm", "cur"]],
+                            List[Boolean.False]
+                        ],
+
+                        If[Greater["power", 1],
+                            Set["firstTerm", Mul["firstTerm", Pow["cur", "power"]]],
+                            List[Boolean.False]
+                        ],
+
+                        Set["lest", Rest["lest"]]
+                    ]
+                ],
+                Mul["firstTerm", "ETMP"]
+            ];
             Expression test =
                 List[
                     Set["x", 3],
@@ -74,7 +110,7 @@ namespace SymbolicComputation
                         Set["x", Sub["x", 1]]
                     ]
                 ];
-            Console.WriteLine(test.Evaluate(context).ToString());
+            Console.WriteLine(alg.Evaluate(context).ToString());
         }
     }
 }

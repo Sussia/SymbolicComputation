@@ -31,7 +31,9 @@ namespace SymbolicComputation
                 {"Greater", Greater},
                 {"GreaterOrEqual", GreaterOrEqual},
                 {"Less", Less},
-                {"LessOrEqual", LessOrEqual}
+                {"LessOrEqual", LessOrEqual},
+                {"First", First},
+                {"Rest", Rest}
             };
 
         private static Dictionary<string, Tuple<StringSymbol, Expression>> customFunctions =
@@ -76,6 +78,19 @@ namespace SymbolicComputation
 			{
 				return If(exp, context);
 			}
+
+			if (exp.Action.ToString() == "L")
+			{
+				return L(exp, context);
+			}
+			//if (exp.Action.ToString() == "First")
+			//{
+			//	return First(exp, context);
+			//}
+			//if (exp.Action.ToString() == "Rest")
+			//{
+			//	return Rest(exp, context);
+			//}
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
@@ -416,5 +431,30 @@ namespace SymbolicComputation
             Console.WriteLine($"Result: {newExp}");
             return newExp;
         }
+
+        public static Symbol L(Expression exp, Scope context)
+        {
+	        return exp;
+        }
+
+        public static Symbol First(Expression exp, Scope context)
+        {
+	        if (exp.Args[0] ! is Expression listExp && listExp.Action.ToString() != "L")
+	        {
+				throw new Exception("Argument is not list");
+	        }
+
+	        return ((Expression)exp.Args[0]).Args[0];
+        }
+
+        public static Symbol Rest(Expression exp, Scope context)
+        {
+	        if (exp.Args[0]! is Expression listExp && listExp.Action.ToString() != "L")
+			{
+		        throw new Exception("Argument is not list");
+	        }
+
+	        return new Expression(((Expression)exp.Args[0]).Action, ((Expression)exp.Args[0]).Args.Skip(1).ToArray());
+		}
     }
 }

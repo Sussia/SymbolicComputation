@@ -39,6 +39,9 @@ namespace SymbolicComputation
 			Symbol LessOrEqual = new StringSymbol("LessOrEqual");
 			Symbol If = new StringSymbol("If");
 			Symbol Divide = new StringSymbol("Divide");
+			Symbol L = new StringSymbol("L");
+			Symbol First = new StringSymbol("First");
+			Symbol Rest = new StringSymbol("Rest");
 
 			Expression p1Func = Sum["t", 1];
 
@@ -59,7 +62,10 @@ namespace SymbolicComputation
 			Expression setExp = Set["x", 2];
 			Expression setExp2 = Set["y", Mul["x", 4]];
 
-			Console.WriteLine(exp1.Evaluate(context).ToString());
+
+			Expression restExp = Rest[Rest[L[1,2,3,4,5]]];
+
+			Console.WriteLine(restExp.Evaluate(context).ToString());
 
 		}
 	}

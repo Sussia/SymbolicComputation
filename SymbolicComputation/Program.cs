@@ -105,13 +105,13 @@ namespace SymbolicComputation
             Expression numAlg = List[
                 Set["lest", L[2, 4, 6]],            //TODO : Get list before evaluation
                 Set["isFound", "False"],
-                Set["divisor", 6],                  //TODO : insert max here
+                Set["divisor", 2],                  //TODO : insert max here
                 Set["commonDivisor", 1],
                 Set["tempLest", "lest"],
                 While[Not[Equal["divisor", 1]],
                     List[
                         Set["reminder", 0],
-                        While[Not[Equal[First["tempLest"], null]],
+                        While[Not[Equal[First["tempLest"], "null"]],
                             List[
                                 Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
                                 Set["tempLest", Rest["tempLest"]]
@@ -120,11 +120,12 @@ namespace SymbolicComputation
                         If[Equal["reminder", 0],
                             List[
                                 Set["commonDivisor", Mul["commonDivisor", "divisor"]],
-                                Set["tempLest", Divide["lest", "divisor"]],                       // TODO: Divide on list
+                                Set["tempLest", Divide["lest", "divisor"]],
                                 Set["divisor", 1]
                             ],
                             List[
-                                Set["tempLest", "lest"]
+                                Set["tempLest", "lest"],
+                                Set["divisor", Sub["divisor", 1]]
                             ]
                         ]
                     ]
@@ -138,7 +139,9 @@ namespace SymbolicComputation
                         Set["x", Sub["x", 1]]
                     ]
                 ];
-            Console.WriteLine(alg.Evaluate(context).ToString());
+
+            Expression test1 = Divide[L[2, 4], 2];
+            Console.WriteLine(numAlg.Evaluate(context).ToString());
         }
     }
 }

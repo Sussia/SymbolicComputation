@@ -11,10 +11,9 @@ namespace SymbolicComputation
 {
     public static class BuildInFunctions
     {
-        private static Scope context = new Scope();
 
-        private static Dictionary<string, Func<Expression, Symbol>> functionsDictionary =
-            new Dictionary<string, Func<Expression, Symbol>>
+        private static Dictionary<string, Func<Expression, Scope, Symbol>> functionsDictionary =
+            new Dictionary<string, Func<Expression, Scope, Symbol>>
             {
                 {"Sum", Sum},
                 {"Sub", Sub},
@@ -61,7 +60,7 @@ namespace SymbolicComputation
 
 	        return new StringSymbol("False");
         }
-        public static Symbol Evaluate(Expression exp)
+        public static Symbol Evaluate(Expression exp, Scope context)
 		{
 			Console.WriteLine($"\nEvaluating expression {exp}:");
 			if (exp.Action.ToString() == "Set")
@@ -75,14 +74,14 @@ namespace SymbolicComputation
 
 			if (exp.Action.ToString() == "If")
 			{
-				return If(exp);
+				return If(exp, context);
 			}
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
 				if (arg is Expression argExpression)
 				{
-					newArgs.Add(Evaluate(argExpression));
+					newArgs.Add(Evaluate(argExpression, context));
 				}
 				else if (arg is StringSymbol symbol)
 				{
@@ -97,18 +96,18 @@ namespace SymbolicComputation
 			{
 				Console.WriteLine($"\n  Evaluating expression {newExp}:");
 			}
-			Symbol result = functionsDictionary[exp.Action.ToString()](newExp);
+			Symbol result = functionsDictionary[exp.Action.ToString()](newExp, context);
 			Console.WriteLine($"The result of {newExp} is {result}");
 			return result;
 		}
 
-		private static Symbol If(Expression exp)
+		private static Symbol If(Expression exp, Scope context)
 		{
 			Symbol cond = exp.Args[0];
 			Symbol condResult;
 			if (cond is Expression expression)
 			{
-				condResult = expression.Evaluate();
+				condResult = expression.Evaluate(context);
 			} else if (cond.Equals(Boolean.True) || cond.Equals(Boolean.False))
 			{
 				condResult = cond;
@@ -120,16 +119,16 @@ namespace SymbolicComputation
 
 			if (exp.Args[1] is Expression body1 && exp.Args[2] is Expression body2)
 			{
-				return condResult.Equals(Boolean.True) ? body1.Evaluate() : body2.Evaluate();
+				return condResult.Equals(Boolean.True) ? body1.Evaluate(context) : body2.Evaluate(context);
 			}
 			throw new Exception("Wrong body");
 		}
-		private static Symbol Equal(Expression exp)
+		private static Symbol Equal(Expression exp, Scope scope)
 		{
 			return exp.Args[0].Equals(exp.Args[1]) ? new StringSymbol("True") : new StringSymbol("False");
 		}
 
-		private static Symbol Or(Expression exp)
+		private static Symbol Or(Expression exp, Scope scope)
 		{
 			Symbol arg1 = exp.Args[0];
 			Symbol arg2 = exp.Args[1];
@@ -140,7 +139,7 @@ namespace SymbolicComputation
 			throw new Exception("Wrong arguments");
 		}
 
-		private static Symbol And(Expression exp)
+		private static Symbol And(Expression exp, Scope scope)
 		{
 			Symbol arg1 = exp.Args[0];
 			Symbol arg2 = exp.Args[1];
@@ -151,7 +150,7 @@ namespace SymbolicComputation
 			throw new Exception("Wrong arguments");
 		}
 
-		private static Symbol Not(Expression exp)
+		private static Symbol Not(Expression exp, Scope scope)
 		{
 			Symbol arg1 = exp.Args[0];
 			if (arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False))
@@ -161,7 +160,7 @@ namespace SymbolicComputation
 			throw new Exception("Wrong arguments");
 		}
 
-		private static Symbol Xor(Expression exp)
+		private static Symbol Xor(Expression exp, Scope scope)
 		{
 			Symbol arg1 = exp.Args[0];
 			Symbol arg2 = exp.Args[1];
@@ -172,27 +171,27 @@ namespace SymbolicComputation
 			throw new Exception("Wrong arguments");
 		}
 
-		private static Symbol Greater(Expression exp)
+		private static Symbol Greater(Expression exp, Scope scope)
 		{
 		return LogicEval(exp, (a, b) => a > b);
 		}
 
-		private static Symbol GreaterOrEqual(Expression exp)
+		private static Symbol GreaterOrEqual(Expression exp, Scope scope)
 		{
 		return LogicEval(exp, (a, b) => a >= b);
 		}
 
-		private static Symbol LessOrEqual(Expression exp)
+		private static Symbol LessOrEqual(Expression exp, Scope scope)
 		{
 		return LogicEval(exp, (a, b) => a <= b);
 		}
 
-		private static Symbol Less(Expression exp)
+		private static Symbol Less(Expression exp, Scope scope)
 		{
 		return LogicEval(exp, (a, b) => a < b);
 		}
 
-        private static Symbol Sum(Expression exp)
+        private static Symbol Sum(Expression exp, Scope context)
 		{
 			Symbol[] symbols = exp.Args.Select(x => x is Constant symbol ? null : x).Where(x => x != null).ToArray();
 			decimal sum = exp.Args.Where(x => x is Constant).Aggregate(0m, (acc, x) => acc + ((Constant)x).Value);
@@ -217,12 +216,12 @@ namespace SymbolicComputation
             return new Expression(exp.Action, args);
         }
 
-        private static Symbol Sub(Expression exp)
+        private static Symbol Sub(Expression exp, Scope scope)
         {
             return MathEval(exp, (a, b) => a - b);
         }
 
-        private static Symbol Mul(Expression exp)
+        private static Symbol Mul(Expression exp, Scope scope)
         {
             Symbol[] symbols = exp.Args.Select(x => x !is Constant symbol ? null : x)
                 .Where(x => x != null).ToArray();
@@ -253,7 +252,7 @@ namespace SymbolicComputation
             return new Expression(exp.Action, args);
         }
 
-        private static Symbol Divide(Expression exp)
+        private static Symbol Divide(Expression exp, Scope context)
         {
 	        Symbol arg1 = exp.Args[0];
 	        Symbol arg2 = exp.Args[1];
@@ -282,7 +281,7 @@ namespace SymbolicComputation
                     Symbol dividend = null;
 			        foreach (Symbol arg in innerExpression.Args)
 			        {
-				        if (!(divide[arg, arg2].Evaluate() is Expression divideExpression &&
+				        if (!(divide[arg, arg2].Evaluate(context) is Expression divideExpression &&
 				            divideExpression.Action.ToString() == "Divide"))
 				        {
 					        dividable = true;
@@ -293,41 +292,41 @@ namespace SymbolicComputation
 
 			        if (dividable)
 			        {
-				        Symbol newArg = Divide(divide[dividend, arg2]);
+				        Symbol newArg = Divide(divide[dividend, arg2], context);
 				        Symbol[] newArgs = innerExpression.Args.Select(x => x.Equals(dividend) ? newArg : x).ToArray();
-                        return new Expression(innerExpression.Action, newArgs).Evaluate();
+                        return new Expression(innerExpression.Action, newArgs).Evaluate(context);
 			        }
 		        }
 
 		        if (innerExpression.Action.ToString() == "Sum")
 		        {
 			        Symbol divide = new StringSymbol("Divide");
-			        Symbol[] newArgs = innerExpression.Args.Select(x => Divide(divide[x, arg2])).ToArray();
+			        Symbol[] newArgs = innerExpression.Args.Select(x => Divide(divide[x, arg2], context)).ToArray();
 			        if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.ToString() == "Divide"))
 			        {
-						return new Expression(innerExpression.Action, newArgs).Evaluate();
+						return new Expression(innerExpression.Action, newArgs).Evaluate(context);
 			        }
 		        }
 	        }
             return MathEval(exp, (a, b) => a / b);
         }
 
-        private static Symbol Div(Expression exp)
+        private static Symbol Div(Expression exp, Scope scope)
         {
             return MathEval(exp, (a, b) => (int) (a / b));
         }
 
-        private static Symbol Rem(Expression exp)
+        private static Symbol Rem(Expression exp, Scope scope)
         {
             return MathEval(exp, (a, b) => a % b);
         }
 
-        private static Symbol Pow(Expression exp)
+        private static Symbol Pow(Expression exp, Scope scope)
         {
             return MathEval(exp, (a, b) => (decimal) Math.Pow((double) a, (double) b));
         }
 
-        private static Symbol List(Expression exp)
+        private static Symbol List(Expression exp, Scope scope)
         {
             return exp.Args.Last();
         }
@@ -341,7 +340,7 @@ namespace SymbolicComputation
                 Symbol newArg;
                 if (arg2 is Expression exp2)
                 {
-                    newArg = Evaluate(exp2);
+                    newArg = Evaluate(exp2, localContext);
                 }
                 else if (arg2 is StringSymbol stringSymbol)
                 {
@@ -376,12 +375,12 @@ namespace SymbolicComputation
             return exp;
         }
 
-        private static Symbol ComputeDelayed(Expression exp)
+        private static Symbol ComputeDelayed(Expression exp, Scope context)
         {
             string name = exp.Action.ToString();
             var (variable, function) = customFunctions[name];
             Expression newExpression = ReplaceVariable(function, variable, exp.Args[0]);
-            return Evaluate(newExpression);
+            return Evaluate(newExpression, context);
         }
 
         public static Expression ReplaceVariable(Expression exp, StringSymbol localVariable, Symbol value)

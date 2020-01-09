@@ -16,9 +16,9 @@ namespace SymbolicComputation.Model
 		//	return visitor.Evaluate(this);
 		//}
 
-		public Symbol Evaluate()
+		public Symbol Evaluate(Scope context)
 		{
-			return BuildInFunctions.Evaluate(this);
+			return BuildInFunctions.Evaluate(this, context);
 		}
 
 		public Expression(Symbol action, Symbol[] args)

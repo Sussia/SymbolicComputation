@@ -20,6 +20,8 @@ namespace SymbolicComputation
 			sr.Close();
 			Console.WriteLine($"Got expression: {asd}");
 
+			Scope context = new Scope();
+
 			Symbol Sum = new StringSymbol("Sum");
 			Symbol Mul = new StringSymbol("Mul");
 			Symbol List = new StringSymbol("List");
@@ -57,7 +59,7 @@ namespace SymbolicComputation
 			Expression setExp = Set["x", 2];
 			Expression setExp2 = Set["y", Mul["x", 4]];
 
-			Console.WriteLine(exp1.Evaluate().ToString());
+			Console.WriteLine(exp1.Evaluate(context).ToString());
 
 		}
 	}

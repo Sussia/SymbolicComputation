@@ -136,7 +136,7 @@ namespace SymbolicComputation
                 While[Not[Equal["divisor", 1]],
                     List[
                         Set["reminder", 0],
-                        While[Not[Equal[First["tempLest"], null]],
+                        While[Not[Equal[First["tempLest"], "null"]],
                             List[
                                 Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
                                 Set["tempLest", Rest["tempLest"]]
@@ -145,11 +145,12 @@ namespace SymbolicComputation
                         If[Equal["reminder", 0],
                             List[
                                 Set["commonDivisor", Mul["commonDivisor", "divisor"]],
-                                Set["tempLest", Divide["lest", "divisor"]], // TODO: Divide on list
+                                Set["tempLest", Divide["lest", "divisor"]],
                                 Set["divisor", 1]
                             ],
                             List[
-                                Set["tempLest", "lest"]
+                                Set["tempLest", "lest"],
+                                Set["divisor", Sub["divisor", 1]]
                             ]
                         ]
                     ]
@@ -163,7 +164,9 @@ namespace SymbolicComputation
                         Set["x", Sub["x", 1]]
                     ]
                 ];
-            Console.WriteLine(Min.Evaluate(context).ToString());
+
+            Expression test1 = Divide[L[2, 4], 2];
+            Console.WriteLine(numAlg.Evaluate(context).ToString());
         }
     }
 }

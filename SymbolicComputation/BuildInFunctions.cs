@@ -372,6 +372,16 @@ namespace SymbolicComputation
                         return new Expression(innerExpression.Action, newArgs).Evaluate(context);
                     }
                 }
+
+                if (innerExpression.Action.ToString() == "L")
+                {
+	                Symbol divide = new StringSymbol("Divide");
+	                Symbol[] newArgs = innerExpression.Args.Select(x => Divide(divide[x, arg2], context)).ToArray();
+	                if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.ToString() == "Divide"))
+	                {
+		                return new Expression(innerExpression.Action, newArgs);
+	                }
+                }
             }
 
             return MathEval(exp, (a, b) => a / b);

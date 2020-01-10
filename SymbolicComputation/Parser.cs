@@ -9,7 +9,7 @@ namespace SymbolicComputation
 {
     public static class Parser
     {
-        public static object ParseInput(string jsonInput)
+        public static object ParseInput(string jsonInput, Scope context)
         {
             dynamic a = JsonConvert.DeserializeObject<dynamic>(jsonInput);
             // Check if it is an Expression
@@ -25,6 +25,7 @@ namespace SymbolicComputation
                 }
                 catch (RuntimeBinderException ex)
                 {
+                    context.IndeterminateList.Add(new StringSymbol(a.Name.ToString()));
                     return new StringSymbol(a.Name.ToString());
                 }
             }
@@ -36,7 +37,7 @@ namespace SymbolicComputation
             {
                 try
                 {
-                    argumentList.Add(ParseInput(a.Args[i].ToString()));
+                    argumentList.Add(ParseInput(a.Args[i].ToString(), context));
                 }
                 catch (ArgumentOutOfRangeException e)
                 {

@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SymbolicComputation", "Symb
 		{A439311F-82BE-46F7-98C6-1F4CFBE7B1AC} = {A439311F-82BE-46F7-98C6-1F4CFBE7B1AC}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymbolicComputationPlots", "SymbolicComputationPlots\SymbolicComputationPlots.csproj", "{A8EA72D5-0C4B-461E-9767-359A87B76488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SymbolicComputationPlots", "SymbolicComputationPlots\SymbolicComputationPlots.csproj", "{A8EA72D5-0C4B-461E-9767-359A87B76488}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymbolicComputationModel", "SymbolicComputationModel\SymbolicComputationModel.csproj", "{A439311F-82BE-46F7-98C6-1F4CFBE7B1AC}"
 EndProject

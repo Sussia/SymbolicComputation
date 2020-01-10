@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SymbolicComputationModel;
+using SymbolicComputationPlots;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,9 +16,14 @@ namespace SymbolicComputation
 {
     class Program
     {
+        [STAThread]
         private static void Main(string[] args)
         {
-	        //Test delayed functions
+	        SymbolicComputationPlots.ExpressionHolder.expression =
+		        L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 1], L[6, 3]]];
+	        var window = new SymbolicComputationPlots.MainWindow();
+	        window.ShowDialog();
+            //Test delayed functions
             Expression p1Func = Sum["t", 1];
             Symbol P1 = new StringSymbol("P1");
             Expression delExp = Delayed[P1, "t", p1Func];

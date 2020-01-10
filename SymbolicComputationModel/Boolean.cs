@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SymbolicComputation.Model;
-
-namespace SymbolicComputation
+﻿namespace SymbolicComputationModel
 {
 	public static class Boolean
 	{

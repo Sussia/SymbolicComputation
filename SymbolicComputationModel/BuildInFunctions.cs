@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using SymbolicComputation.Model;
-using Expression = SymbolicComputation.Model.Expression;
+using System.Linq; 
 
-namespace SymbolicComputation
+namespace SymbolicComputationModel
 {
     public static class BuildInFunctions
     {

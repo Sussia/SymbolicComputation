@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AssemblyName>SymbolicComputationPlots</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SymbolicComputation\SymbolicComputation.csproj" />
+    <ProjectReference Include="..\SymbolicComputationModel\SymbolicComputationModel.csproj" />
   </ItemGroup>
 
 </Project>

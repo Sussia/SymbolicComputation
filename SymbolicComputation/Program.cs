@@ -1,20 +1,17 @@
-﻿using System;
+﻿using SymbolicComputationModel;
+using SymbolicComputationPlots;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
-using SymbolicComputation.Model;
 
 namespace SymbolicComputation
 {
     class Program
     {
+        [STAThread]
         private static void Main(string[] args)
         {
             string filepath = "../../../input.json";
-
             Symbol Sum = new StringSymbol("Sum");
             Symbol Sub = new StringSymbol("Sub");
             Symbol Mul = new StringSymbol("Mul");
@@ -42,6 +39,12 @@ namespace SymbolicComputation
             Symbol GetIndeterminateList = new StringSymbol("GetIndeterminateList");
 
 
+            SymbolicComputationPlots.ExpressionHolder.expression =
+                L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 1], L[6, 3]]];
+            var app = new App();
+            var window = new SymbolicComputationPlots.MainWindow();
+            app.Run();
+
             Expression p1Func = Sum["t", 1];
 
             Symbol P1 = new StringSymbol("P1");
@@ -68,7 +71,7 @@ namespace SymbolicComputation
 
             Console.WriteLine($"Got expression: {exp1}");
 
-            Expression ourList = (Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
+            Expression ourList = (Expression) GetPolynomialCoefficients[exp1].Evaluate(context);
 
             Expression minFunc = List[
                 Set["lest", ourList],
@@ -81,7 +84,7 @@ namespace SymbolicComputation
                                 Set["minEl", First["tempLest"]]
                             ],
                             List[
-                                Boolean.False
+                                SymbolicComputationModel.Boolean.False
                             ]
                         ],
                         Set["tempLest", Rest["tempLest"]]
@@ -111,11 +114,11 @@ namespace SymbolicComputation
                         ],
                         If[Equal["power", 1],
                             Set["firstTerm", Mul["firstTerm", "cur"]],
-                            List[Boolean.False]
+                            List[SymbolicComputationModel.Boolean.False]
                         ],
                         If[Greater["power", 1],
                             Set["firstTerm", Mul["firstTerm", Pow["cur", "power"]]],
-                            List[Boolean.False]
+                            List[SymbolicComputationModel.Boolean.False]
                         ],
                         Set["lest", Rest["lest"]]
                     ]

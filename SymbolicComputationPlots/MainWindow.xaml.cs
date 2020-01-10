@@ -14,11 +14,12 @@ namespace SymbolicComputationPlots
 	public partial class MainWindow : Window
 	{
 		public Expression PlotExpression { get; private set; }
-        public MainWindow(Expression expression)
+        public MainWindow(Expression expression, decimal width, decimal height)
         {
 
 			InitializeComponent();
-
+			Width = (double) width;
+			Height = (double) height;
 			Plot.Model = new PlotModel
 			{
 				Title = "Plot"

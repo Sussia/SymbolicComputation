@@ -33,5 +33,6 @@ namespace SymbolicComputationLib
 		public static readonly Symbol False = new StringSymbol("False");
 		public static readonly Symbol Ok = new StringSymbol("Ok");
 		public static readonly Symbol Null = new StringSymbol("null");
+		public static readonly Symbol Plot = new StringSymbol("Plot");
 	}
 }

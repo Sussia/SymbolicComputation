@@ -68,7 +68,7 @@ namespace SymbolicComputation
 
             Console.WriteLine($"Got expression: {exp1}");
 
-            Expression ourList = L[12, 6, 3]; //(Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
+            Expression ourList = (Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
 
             Expression minFunc = List[
                 Set["lest", ourList],
@@ -184,7 +184,7 @@ namespace SymbolicComputation
             //];
 
             List<Symbol> b = new List<Symbol>() {new StringSymbol("a"), new StringSymbol("q")};
-            Expression a = GetIndeterminateList[exp1];
+            Expression a = GetPolynomialCoefficients[exp1];
             Console.WriteLine(alg.Evaluate(context).ToString());
         }
     }

@@ -34,7 +34,8 @@ namespace SymbolicComputation
                 {"LessOrEqual", LessOrEqual},
                 {"First", First},
                 {"Rest", Rest},
-                {"GetIndeterminateList", GetIndeterminateList}
+                {"GetIndeterminateList", GetIndeterminateList},
+                {"GetPolynomialCoefficients", GetPolynomialCoefficients}
             };
 
         private static Dictionary<string, Tuple<StringSymbol, Expression>> customFunctions =
@@ -530,6 +531,38 @@ namespace SymbolicComputation
             }
 
             throw new Exception("Argument is not list");
+        }
+
+        public static Symbol GetPolynomialCoefficients(Expression exp, Scope context)
+        {
+	        if (exp.Args.Length == 1 && exp.Args[0] is Expression sumExp && sumExp.Action.ToString() == "Sum")
+	        {
+		        if (sumExp.Args.Any(x => x is Constant))
+		        {
+                    throw new Exception("Unable to factor out: Polynomial has free term");
+		        }
+                List<Constant> coefficients = new List<Constant>();
+                foreach (var term in sumExp.Args)
+                {
+	                if (term is Expression powExp && powExp.Action.ToString() == "Pow")
+	                {
+						coefficients.Add(new Constant(1));
+	                }
+
+	                if (term is Expression mulExp && mulExp.Action.ToString() == "Mul")
+	                {
+		                Constant coef = (Constant) mulExp.Args.SingleOrDefault(x => x is Constant);
+                        coef ??= new Constant(1);
+                        coefficients.Add(coef);
+                    }
+                }
+
+                if (coefficients.Count > 0)
+                {
+	                return new Expression(new StringSymbol("L"), coefficients.ToArray());
+                }
+	        }
+            throw new Exception("Argument is not polynomial");
         }
     }
 }

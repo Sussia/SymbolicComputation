@@ -15,15 +15,6 @@ namespace SymbolicComputation
         {
             string filepath = "../../../input.json";
 
-            Scope context = new Scope();
-
-            StreamReader sr = new StreamReader(filepath);
-
-            Expression asd = (Expression) (Parser.ParseInput(sr.ReadToEnd(),context));
-            sr.Close();
-            Console.WriteLine($"Got expression: {asd}");
-
-
             Symbol Sum = new StringSymbol("Sum");
             Symbol Sub = new StringSymbol("Sub");
             Symbol Mul = new StringSymbol("Mul");
@@ -59,15 +50,8 @@ namespace SymbolicComputation
             Expression testDelExp = List[delExp, P1[2]];
 
             Expression exp2 = Mul["y", 2];
-
-            // Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y", 2]], Mul[Pow["x", 3], 3]];
-            Expression exp1 = asd;
-            Console.WriteLine(JsonConvert.SerializeObject(exp1));
-            Expression inputExpDivision = Divide[asd, "y"];
-
             Expression exp4 = Sum[5, 2];
             Expression exp3 = List[Set["y", 10], Mul["x", Sum["y", 1]]];
-
             Expression setExp = Set["x", 2];
             Expression setExp2 = Set["y", Mul["x", 4]];
 
@@ -75,26 +59,35 @@ namespace SymbolicComputation
             Expression restExp = Rest[Rest[L[1, 2, 3, 4, 5]]];
 
 
-            Expression ourList = L[12,6,3];//(Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
+            Scope context = new Scope();
+            StreamReader sr = new StreamReader(filepath);
+
+            // Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y", 2]], Mul[Pow["x", 3], 3]];
+            Expression exp1 = (Expression) (Parser.ParseInput(sr.ReadToEnd(), context));
+            sr.Close();
+
+            Console.WriteLine($"Got expression: {exp1}");
+
+            Expression ourList = L[12, 6, 3]; //(Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
 
             Expression minFunc = List[
-	            Set["lest", ourList],
-	            Set["minEl", First["lest"]],
-	            Set["tempLest", "lest"],
-	            While[Not[Equal[First["tempLest"], "null"]],
-		            List[
-			            If[Less[First["tempLest"], "minEl"],
-				            List[
-					            Set["minEl", First["tempLest"]]
-				            ],
-				            List[
-					            Boolean.False
-				            ]
-			            ],
-			            Set["tempLest", Rest["tempLest"]]
-		            ]
-	            ],
-	            "minEl"
+                Set["lest", ourList],
+                Set["minEl", First["lest"]],
+                Set["tempLest", "lest"],
+                While[Not[Equal[First["tempLest"], "null"]],
+                    List[
+                        If[Less[First["tempLest"], "minEl"],
+                            List[
+                                Set["minEl", First["tempLest"]]
+                            ],
+                            List[
+                                Boolean.False
+                            ]
+                        ],
+                        Set["tempLest", Rest["tempLest"]]
+                    ]
+                ],
+                "minEl"
             ];
 
             StringSymbol f1 = new StringSymbol("f1");
@@ -133,31 +126,30 @@ namespace SymbolicComputation
                 Set["commonDivisor", 1],
                 Set["tempLest", "lest"],
                 While[Not[Equal["divisor", 1]],
-	                List[
-		                Set["reminder", 0],
-		                While[Not[Equal[First["tempLest"], "null"]],
-			                List[
-				                Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
-				                Set["tempLest", Rest["tempLest"]]
-			                ]
-		                ],
-		                If[Equal["reminder", 0],
-			                List[
-				                Set["commonDivisor", Mul["commonDivisor", "divisor"]],
-				                Set["tempLest", Divide["lest", "divisor"]],
-				                Set["divisor", 1]
-			                ],
-			                List[
-				                Set["tempLest", "lest"],
-				                Set["divisor", Sub["divisor", 1]]
-			                ]
-		                ]
-	                ]
+                    List[
+                        Set["reminder", 0],
+                        While[Not[Equal[First["tempLest"], "null"]],
+                            List[
+                                Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
+                                Set["tempLest", Rest["tempLest"]]
+                            ]
+                        ],
+                        If[Equal["reminder", 0],
+                            List[
+                                Set["commonDivisor", Mul["commonDivisor", "divisor"]],
+                                Set["tempLest", Divide["lest", "divisor"]],
+                                Set["divisor", 1]
+                            ],
+                            List[
+                                Set["tempLest", "lest"],
+                                Set["divisor", Sub["divisor", 1]]
+                            ]
+                        ]
+                    ]
                 ],
                 "commonDivisor",
                 Mul[Mul["firstTerm", "commonDivisor"], Divide["ETMP", "commonDivisor"]]
             ];
-
 
 
             //Expression numAlg = List[
@@ -191,8 +183,8 @@ namespace SymbolicComputation
             //    "commonDivisor"
             //];
 
-            List<Symbol> b = new List<Symbol>() { new StringSymbol("a"), new StringSymbol("q") };
-            Expression a = GetIndeterminateList[exp1]; 
+            List<Symbol> b = new List<Symbol>() {new StringSymbol("a"), new StringSymbol("q")};
+            Expression a = GetIndeterminateList[exp1];
             Console.WriteLine(alg.Evaluate(context).ToString());
         }
     }

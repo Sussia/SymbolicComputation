@@ -45,6 +45,7 @@ namespace SymbolicComputation
             Symbol First = new StringSymbol("First");
             Symbol Rest = new StringSymbol("Rest");
             Symbol Rem = new StringSymbol("Rem");
+            Symbol GetPolynomialCoefficients = new StringSymbol("GetPolynomialCoefficients");
 
 
             Expression p1Func = Sum["t", 1];
@@ -56,7 +57,7 @@ namespace SymbolicComputation
 
             Expression exp2 = Mul["y", 2];
 
-            Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y", 2]], "x"];
+            Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y", 2]], Mul[Pow["x", 3], 3]];
 
             Expression inputExpDivision = Divide[asd, "y"];
 
@@ -68,6 +69,29 @@ namespace SymbolicComputation
 
 
             Expression restExp = Rest[Rest[L[1, 2, 3, 4, 5]]];
+
+
+            Expression ourList = (Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
+
+            Expression minFunc = List[
+	            Set["lest", ourList],
+	            Set["minEl", First["lest"]],
+	            Set["tempLest", "lest"],
+	            While[Not[Equal[First["tempLest"], "null"]],
+		            List[
+			            If[Less[First["tempLest"], "minEl"],
+				            List[
+					            Set["minEl", First["tempLest"]]
+				            ],
+				            List[
+					            Boolean.False
+				            ]
+			            ],
+			            Set["tempLest", Rest["tempLest"]]
+		            ]
+	            ],
+	            "minEl"
+            ];
 
             StringSymbol f1 = new StringSymbol("f1");
             Expression alg = List[
@@ -99,72 +123,71 @@ namespace SymbolicComputation
                         Set["lest", Rest["lest"]]
                     ]
                 ],
-                Mul["firstTerm", "ETMP"]
-            ];
-
-
-            Expression ourList = L[15, 35, 50];
-
-            Expression minFunc = List[
-                Set["lest", ourList],
-                Set["minEl", First["lest"]],
-                Set["tempLest", "lest"],
-                While[Not[Equal[First["tempLest"], "null"]],
-                    List[
-                        If[Less[First["tempLest"], "minEl"],
-                            List[
-                                Set["minEl", First["tempLest"]]
-                            ],
-                            List[
-                                Boolean.False
-                            ]
-                        ],
-                        Set["tempLest", Rest["tempLest"]]
-                    ]
-                ],
-                "minEl"
-            ];
-
-            Expression numAlg = List[
                 Set["lest", ourList], //TODO : Get list before evaluation
                 Set["isFound", "False"],
                 Set["divisor", minFunc],
                 Set["commonDivisor", 1],
                 Set["tempLest", "lest"],
                 While[Not[Equal["divisor", 1]],
-                    List[
-                        Set["reminder", 0],
-                        While[Not[Equal[First["tempLest"], "null"]],
-                            List[
-                                Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
-                                Set["tempLest", Rest["tempLest"]]
-                            ]
-                        ],
-                        If[Equal["reminder", 0],
-                            List[
-                                Set["commonDivisor", Mul["commonDivisor", "divisor"]],
-                                Set["tempLest", Divide["lest", "divisor"]],
-                                Set["divisor", 1]
-                            ],
-                            List[
-                                Set["tempLest", "lest"],
-                                Set["divisor", Sub["divisor", 1]]
-                            ]
-                        ]
-                    ]
+	                List[
+		                Set["reminder", 0],
+		                While[Not[Equal[First["tempLest"], "null"]],
+			                List[
+				                Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
+				                Set["tempLest", Rest["tempLest"]]
+			                ]
+		                ],
+		                If[Equal["reminder", 0],
+			                List[
+				                Set["commonDivisor", Mul["commonDivisor", "divisor"]],
+				                Set["tempLest", Divide["lest", "divisor"]],
+				                Set["divisor", 1]
+			                ],
+			                List[
+				                Set["tempLest", "lest"],
+				                Set["divisor", Sub["divisor", 1]]
+			                ]
+		                ]
+	                ]
                 ],
-                "commonDivisor"
+                "commonDivisor",
+                Mul[Mul["firstTerm", "commonDivisor"], Divide["ETMP", "commonDivisor"]]
             ];
-            Expression test =
-                List[
-                    Set["x", 3],
-                    While[Not[Equal["x", 0]],
-                        Set["x", Sub["x", 1]]
-                    ]
-                ];
 
-            Expression test1 = Divide[L[2, 4], 2];
-            Console.WriteLine(numAlg.Evaluate(context).ToString());
+
+
+            //Expression numAlg = List[
+            //    Set["lest", ourList],
+            //    Set["isFound", "False"],
+            //    Set["divisor", minFunc],
+            //    Set["commonDivisor", 1],
+            //    Set["tempLest", "lest"],
+            //    While[Not[Equal["divisor", 1]],
+            //        List[
+            //            Set["reminder", 0],
+            //            While[Not[Equal[First["tempLest"], "null"]],
+            //                List[
+            //                    Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
+            //                    Set["tempLest", Rest["tempLest"]]
+            //                ]
+            //            ],
+            //            If[Equal["reminder", 0],
+            //                List[
+            //                    Set["commonDivisor", Mul["commonDivisor", "divisor"]],
+            //                    Set["tempLest", Divide["lest", "divisor"]],
+            //                    Set["divisor", 1]
+            //                ],
+            //                List[
+            //                    Set["tempLest", "lest"],
+            //                    Set["divisor", Sub["divisor", 1]]
+            //                ]
+            //            ]
+            //        ]
+            //    ],
+            //    "commonDivisor"
+            //];
+            Expression test = GetPolynomialCoefficients[exp1];
+            Console.WriteLine(alg.Evaluate(context).ToString());
         }
     }
 }

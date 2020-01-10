@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
@@ -14,13 +15,14 @@ namespace SymbolicComputation
         {
             string filepath = "../../../input.json";
 
+            Scope context = new Scope();
+
             StreamReader sr = new StreamReader(filepath);
 
-            Expression asd = (Expression) (Parser.ParseInput(sr.ReadToEnd()));
+            Expression asd = (Expression) (Parser.ParseInput(sr.ReadToEnd(),context));
             sr.Close();
             Console.WriteLine($"Got expression: {asd}");
 
-            Scope context = new Scope();
 
             Symbol Sum = new StringSymbol("Sum");
             Symbol Sub = new StringSymbol("Sub");
@@ -46,6 +48,7 @@ namespace SymbolicComputation
             Symbol Rest = new StringSymbol("Rest");
             Symbol Rem = new StringSymbol("Rem");
             Symbol GetPolynomialCoefficients = new StringSymbol("GetPolynomialCoefficients");
+            Symbol GetIndeterminateList = new StringSymbol("GetIndeterminateList");
 
 
             Expression p1Func = Sum["t", 1];
@@ -71,7 +74,9 @@ namespace SymbolicComputation
             Expression restExp = Rest[Rest[L[1, 2, 3, 4, 5]]];
 
 
-            Expression ourList = (Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
+            // Expression ourList = (Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
+            Expression ourList = L[12,6,3];
+        
 
             Expression minFunc = List[
 	            Set["lest", ourList],
@@ -95,7 +100,7 @@ namespace SymbolicComputation
 
             StringSymbol f1 = new StringSymbol("f1");
             Expression alg = List[
-                Set["lest", L["x", "y"]],
+                Set["lest", GetIndeterminateList[exp1]],
                 Set["firstTerm", 1],
                 Set["ETMP", exp1],
                 While[Not[Equal[First["lest"], "null"]],
@@ -186,7 +191,9 @@ namespace SymbolicComputation
             //    ],
             //    "commonDivisor"
             //];
-            Expression test = GetPolynomialCoefficients[exp1];
+
+            List<Symbol> b = new List<Symbol>() { new StringSymbol("a"), new StringSymbol("q") };
+            Expression a = GetIndeterminateList[exp1]; 
             Console.WriteLine(alg.Evaluate(context).ToString());
         }
     }

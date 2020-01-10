@@ -34,6 +34,7 @@ namespace SymbolicComputation
                 {"LessOrEqual", LessOrEqual},
                 {"First", First},
                 {"Rest", Rest},
+                {"GetIndeterminateList", GetIndeterminateList}
             };
 
         private static Dictionary<string, Tuple<StringSymbol, Expression>> customFunctions =
@@ -367,12 +368,12 @@ namespace SymbolicComputation
 
                 if (innerExpression.Action.ToString() == "L")
                 {
-	                Symbol divide = new StringSymbol("Divide");
-	                Symbol[] newArgs = innerExpression.Args.Select(x => Divide(divide[x, arg2], context)).ToArray();
-	                if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.ToString() == "Divide"))
-	                {
-		                return new Expression(innerExpression.Action, newArgs);
-	                }
+                    Symbol divide = new StringSymbol("Divide");
+                    Symbol[] newArgs = innerExpression.Args.Select(x => Divide(divide[x, arg2], context)).ToArray();
+                    if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.ToString() == "Divide"))
+                    {
+                        return new Expression(innerExpression.Action, newArgs);
+                    }
                 }
             }
 
@@ -435,7 +436,7 @@ namespace SymbolicComputation
         private static Symbol Delayed(Expression exp, Scope localContext)
         {
             Symbol name = exp.Args[0];
-            StringSymbol variable = (StringSymbol)Substitute((StringSymbol) exp.Args[1], localContext);
+            StringSymbol variable = (StringSymbol) Substitute((StringSymbol) exp.Args[1], localContext);
             Expression function;
             if (exp.Args[2] is Expression ex)
             {
@@ -498,6 +499,11 @@ namespace SymbolicComputation
             return newExp;
         }
 
+        private static Symbol GetIndeterminateList(Expression exp, Scope scope)
+        {
+            return new Expression(new StringSymbol("L"), scope.IndeterminateList.ToArray());
+        }
+
         public static Symbol L(Expression exp, Scope context)
         {
             return exp;
@@ -507,7 +513,7 @@ namespace SymbolicComputation
         {
             if (exp.Args[0] is Expression listExp && listExp.Action.ToString() == "L")
             {
-	            return listExp.Args.Length > 0 ? listExp.Args[0] : new StringSymbol("null");
+                return listExp.Args.Length > 0 ? listExp.Args[0] : new StringSymbol("null");
             }
 
             throw new Exception("Argument is not list");
@@ -517,9 +523,9 @@ namespace SymbolicComputation
         {
             if (exp.Args[0] is Expression listExp && listExp.Action.ToString() == "L")
             {
-	            return listExp.Args.Length < 2
-		            ? (Symbol) new StringSymbol("null")
-		            : new Expression(listExp.Action, listExp.Args.Skip(1).ToArray());
+                return listExp.Args.Length < 2
+                    ? (Symbol) new StringSymbol("null")
+                    : new Expression(listExp.Action, listExp.Args.Skip(1).ToArray());
             }
 
             throw new Exception("Argument is not list");

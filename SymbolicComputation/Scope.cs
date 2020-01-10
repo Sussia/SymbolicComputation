@@ -7,6 +7,7 @@ namespace SymbolicComputation
 {
 	public class Scope
 	{
+		public List<Symbol> IndeterminateList = new List<Symbol>();
 		public Dictionary<string, Symbol> SymbolRules;
 
 		public Scope()

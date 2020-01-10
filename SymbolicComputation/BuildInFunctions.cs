@@ -92,14 +92,6 @@ namespace SymbolicComputation
                 return L(exp, context);
             }
 
-            //if (exp.Action.ToString() == "First")
-            //{
-            //	return First(exp, context);
-            //}
-            //if (exp.Action.ToString() == "Rest")
-            //{
-            //	return Rest(exp, context);
-            //}
             List<Symbol> newArgs = new List<Symbol>();
             foreach (var arg in exp.Args)
             {

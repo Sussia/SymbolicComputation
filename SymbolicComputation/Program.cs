@@ -60,8 +60,9 @@ namespace SymbolicComputation
 
             Expression exp2 = Mul["y", 2];
 
-            Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y", 2]], Mul[Pow["x", 3], 3]];
-
+            // Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y", 2]], Mul[Pow["x", 3], 3]];
+            Expression exp1 = asd;
+            Console.WriteLine(JsonConvert.SerializeObject(exp1));
             Expression inputExpDivision = Divide[asd, "y"];
 
             Expression exp4 = Sum[5, 2];
@@ -74,7 +75,7 @@ namespace SymbolicComputation
             Expression restExp = Rest[Rest[L[1, 2, 3, 4, 5]]];
 
 
-            Expression ourList = L[12, 6, 3];//(Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
+            Expression ourList = L[12,6,3];//(Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
 
             Expression minFunc = List[
 	            Set["lest", ourList],

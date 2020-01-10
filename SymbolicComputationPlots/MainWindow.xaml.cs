@@ -1,6 +1,5 @@
 ﻿using System.Windows; 
 using SymbolicComputationModel;
-using Expression = SymbolicComputationModel.Expression;
 
 namespace SymbolicComputationPlots
 {

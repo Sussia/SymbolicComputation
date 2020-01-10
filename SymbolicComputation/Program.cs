@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using SymbolicComputationModel;
 using SymbolicComputationModel.Model;
 using static SymbolicComputationModel.PredefinedSymbols;
 
@@ -19,10 +18,10 @@ namespace SymbolicComputation
         [STAThread]
         private static void Main(string[] args)
         {
-	        SymbolicComputationPlots.ExpressionHolder.expression =
-		        L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 1], L[6, 3]]];
-	        var window = new SymbolicComputationPlots.MainWindow();
-	        window.ShowDialog();
+            SymbolicComputationPlots.ExpressionHolder.expression =
+                L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 1], L[6, 3]]];
+            var window = new SymbolicComputationPlots.MainWindow();
+            window.ShowDialog();
             //Test delayed functions
             Expression p1Func = Sum["t", 1];
             Symbol P1 = new StringSymbol("P1");

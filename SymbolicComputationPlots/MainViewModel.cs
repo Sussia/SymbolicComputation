@@ -2,6 +2,7 @@
 using OxyPlot.Series;
 using SymbolicComputationModel;
 using System;
+using SymbolicComputationModel.Model;
 
 
 namespace SymbolicComputationPlots

@@ -1,4 +1,5 @@
 ﻿using SymbolicComputationModel;
+using SymbolicComputationModel.Model;
 
 namespace SymbolicComputationPlots
 {

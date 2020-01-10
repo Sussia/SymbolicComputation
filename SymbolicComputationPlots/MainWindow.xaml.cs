@@ -1,5 +1,4 @@
-﻿using System.Windows; 
-using SymbolicComputationModel;
+﻿using System.Windows;
 
 namespace SymbolicComputationPlots
 {

@@ -1,8 +1,7 @@
 ﻿using OxyPlot;
 using OxyPlot.Series;
-using SymbolicComputationModel;
 using System;
-using SymbolicComputationModel.Model;
+using SymbolicComputationLib.Model;
 
 
 namespace SymbolicComputationPlots

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PolynomialFactorizator.NewtonsoftModels;
+using PolynomialFactorizator.SymbolicModels;
 
 namespace PolynomialFactorizator
 {

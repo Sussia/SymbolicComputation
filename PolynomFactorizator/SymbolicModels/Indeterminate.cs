@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PolynomialFactorizator
+﻿namespace PolynomialFactorizator.SymbolicModels
 {
     public class Indeterminate
     {

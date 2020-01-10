@@ -1,6 +1,6 @@
-﻿using SymbolicComputationModel.Model;
+﻿using SymbolicComputationLib.Model;
 
-namespace SymbolicComputationModel
+namespace SymbolicComputationLib
 {
 	public static class PredefinedSymbols
 	{

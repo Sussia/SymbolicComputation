@@ -1,9 +1,6 @@
-﻿using PolynomialFactorizator.NewtonsoftModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace PolynomialFactorizator
+namespace PolynomialFactorizator.NewtonsoftModels
 {
     class NewtonsoftPolynomial
     {

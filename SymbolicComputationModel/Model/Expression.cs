@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SymbolicComputationModel.Model
+namespace SymbolicComputationLib.Model
 {
 	public class Expression : Symbol
 	{

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SymbolicComputationModel.Model;
-using static SymbolicComputationModel.PredefinedSymbols;
+using SymbolicComputationLib.Model;
+using static SymbolicComputationLib.PredefinedSymbols;
 
-namespace SymbolicComputationModel
+namespace SymbolicComputationLib
 {
     public static class BuildInFunctions
     {

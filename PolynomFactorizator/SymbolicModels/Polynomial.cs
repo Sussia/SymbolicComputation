@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
-using Newtonsoft.Json;
 
-namespace PolynomialFactorizator
+namespace PolynomialFactorizator.SymbolicModels
 {
     public class Polynomial
     {

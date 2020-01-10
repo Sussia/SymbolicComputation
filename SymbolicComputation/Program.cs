@@ -1,5 +1,4 @@
-﻿using SymbolicComputationModel;
-using SymbolicComputationPlots;
+﻿using SymbolicComputationPlots;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,8 +6,9 @@ using System.Linq;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using SymbolicComputationModel.Model;
-using static SymbolicComputationModel.PredefinedSymbols;
+using SymbolicComputationLib;
+using SymbolicComputationLib.Model;
+using static SymbolicComputationLib.PredefinedSymbols;
 
 
 namespace SymbolicComputation

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SymbolicComputationModel\SymbolicComputationModel.csproj" />
+    <ProjectReference Include="..\SymbolicComputationModel\SymbolicComputationLib.csproj" />
   </ItemGroup>
 
 </Project>

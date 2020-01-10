@@ -1,4 +1,4 @@
-﻿namespace SymbolicComputationModel.Model
+﻿namespace SymbolicComputationLib.Model
 {
 	public class StringSymbol : Symbol
 	{

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using SymbolicComputation.Model;
 using Expression = SymbolicComputation.Model.Expression;
+using static SymbolicComputation.PredefinedSymbols;
 
 namespace SymbolicComputation
 {
@@ -60,36 +61,37 @@ namespace SymbolicComputation
             var arg2 = exp.Args[1];
             if (arg1 is Constant constant1 && arg2 is Constant constant2)
             {
-                return (func(constant1.Value, constant2.Value)) ? new StringSymbol("True") : new StringSymbol("False");
+                return (func(constant1.Value, constant2.Value)) ? True : False;
             }
 
-            return new StringSymbol("False");
+            return False;
         }
 
         public static Symbol Evaluate(Expression exp, Scope context)
         {
             Console.WriteLine($"\nEvaluating expression {exp}:");
-            if (exp.Action.ToString() == "Set")
+
+            if (exp.Action.Equals(PredefinedSymbols.Set))
             {
                 return Set(exp, context);
             }
 
-            if (exp.Action.ToString() == "Delayed")
+            if (exp.Action.Equals(PredefinedSymbols.Delayed))
             {
                 return Delayed(exp, context);
             }
 
-            if (exp.Action.ToString() == "If")
+            if (exp.Action.Equals(PredefinedSymbols.If))
             {
                 return If(exp, context);
             }
 
-            if (exp.Action.ToString() == "While")
+            if (exp.Action.Equals(PredefinedSymbols.While))
             {
                 return While(exp, context);
             }
 
-            if (exp.Action.ToString() == "L")
+            if (exp.Action.Equals(PredefinedSymbols.L))
             {
                 return L(exp, context);
             }
@@ -130,7 +132,7 @@ namespace SymbolicComputation
             {
                 condResult = expression.Evaluate(context);
             }
-            else if (cond.Equals(Boolean.True) || cond.Equals(Boolean.False))
+            else if (cond.Equals(True) || cond.Equals(False))
             {
                 condResult = cond;
             }
@@ -141,7 +143,7 @@ namespace SymbolicComputation
 
             if (exp.Args[1] is Expression body1 && exp.Args[2] is Expression body2)
             {
-                return condResult.Equals(Boolean.True) ? body1.Evaluate(context) : body2.Evaluate(context);
+                return condResult.Equals(True) ? body1.Evaluate(context) : body2.Evaluate(context);
             }
 
             throw new Exception("Wrong body");
@@ -150,12 +152,10 @@ namespace SymbolicComputation
         private static Symbol While(Expression exp, Scope context)
         {
             Symbol cond = exp.Args[0];
-            Symbol List = new StringSymbol("List");
-            Symbol condResult = new Expression(new StringSymbol("If"),
-                new[] {cond, List[Boolean.True], List[Boolean.False]}).Evaluate(context);
-            if (condResult.Equals(Boolean.False))
+            Symbol condResult = PredefinedSymbols.If[cond, PredefinedSymbols.List[True], PredefinedSymbols.List[False]].Evaluate(context);
+            if (condResult.Equals(False))
             {
-                return new StringSymbol("Ok");
+                return Ok;
             }
 
             Symbol body = exp.Args[1];
@@ -163,7 +163,7 @@ namespace SymbolicComputation
             {
                 bodyExp.Evaluate(context);
                 While(exp, context);
-                return new StringSymbol("Ok");
+                return Ok;
             }
 
             throw new Exception("Wrong body");
@@ -171,17 +171,17 @@ namespace SymbolicComputation
 
         private static Symbol Equal(Expression exp, Scope scope)
         {
-            return exp.Args[0].Equals(exp.Args[1]) ? new StringSymbol("True") : new StringSymbol("False");
+            return exp.Args[0].Equals(exp.Args[1]) ? True : False;
         }
 
         private static Symbol Or(Expression exp, Scope scope)
         {
             Symbol arg1 = exp.Args[0];
             Symbol arg2 = exp.Args[1];
-            if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) &&
-                (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+            if ((arg1.Equals(True) || arg1.Equals(False)) &&
+                (arg2.Equals(True) || arg2.Equals(False)))
             {
-                return arg1.Equals(Boolean.False) && arg2.Equals(Boolean.False) ? Boolean.False : Boolean.True;
+                return arg1.Equals(False) && arg2.Equals(False) ? False : True;
             }
 
             throw new Exception("Wrong arguments");
@@ -191,10 +191,10 @@ namespace SymbolicComputation
         {
             Symbol arg1 = exp.Args[0];
             Symbol arg2 = exp.Args[1];
-            if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) &&
-                (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+            if ((arg1.Equals(True) || arg1.Equals(False)) &&
+                (arg2.Equals(True) || arg2.Equals(False)))
             {
-                return arg1.Equals(Boolean.True) && arg2.Equals(Boolean.True) ? Boolean.True : Boolean.False;
+                return arg1.Equals(True) && arg2.Equals(True) ? True : False;
             }
 
             throw new Exception("Wrong arguments");
@@ -203,9 +203,9 @@ namespace SymbolicComputation
         private static Symbol Not(Expression exp, Scope scope)
         {
             Symbol arg1 = exp.Args[0];
-            if (arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False))
+            if (arg1.Equals(True) || arg1.Equals(False))
             {
-                return arg1.Equals(Boolean.True) ? Boolean.False : Boolean.True;
+                return arg1.Equals(True) ? False : True;
             }
 
             throw new Exception("Wrong arguments");
@@ -215,10 +215,10 @@ namespace SymbolicComputation
         {
             Symbol arg1 = exp.Args[0];
             Symbol arg2 = exp.Args[1];
-            if ((arg1.Equals(Boolean.True) || arg1.Equals(Boolean.False)) &&
-                (arg2.Equals(Boolean.True) || arg2.Equals(Boolean.False)))
+            if ((arg1.Equals(True) || arg1.Equals(False)) &&
+                (arg2.Equals(True) || arg2.Equals(False)))
             {
-                return arg1.Equals(arg2) ? Boolean.False : Boolean.True;
+                return arg1.Equals(arg2) ? False : True;
             }
 
             throw new Exception("Wrong arguments");
@@ -314,7 +314,7 @@ namespace SymbolicComputation
             if (arg1.Equals(arg2)) return new Constant(1);
             if (arg1 is Expression innerExpression)
             {
-                if (innerExpression.Action.ToString() == "Pow" && innerExpression.Args[0].Equals(arg2))
+                if (innerExpression.Action.Equals(PredefinedSymbols.Pow) && innerExpression.Args[0].Equals(arg2))
                 {
                     if (innerExpression.Args[1] is Constant power1 && power1.Value == 2)
                     {
@@ -328,20 +328,18 @@ namespace SymbolicComputation
 
                     if (innerExpression.Args[1] is Constant power && power.Value != 2)
                     {
-                        return new Expression(innerExpression.Action,
-                            new[] {innerExpression.Args[0], new Constant(power.Value - 1)});
+	                    return PredefinedSymbols.Pow[innerExpression.Args[0], new Constant(power.Value - 1)];
                     }
                 }
 
-                if (innerExpression.Action.ToString() == "Mul")
+                if (innerExpression.Action.Equals(PredefinedSymbols.Mul))
                 {
-                    Symbol divide = new StringSymbol("Divide");
                     bool dividable = false;
                     Symbol dividend = null;
                     foreach (Symbol arg in innerExpression.Args)
                     {
-                        if (!(divide[arg, arg2].Evaluate(context) is Expression divideExpression &&
-                              divideExpression.Action.ToString() == "Divide"))
+                        if (!(PredefinedSymbols.Divide[arg, arg2].Evaluate(context) is Expression divideExpression &&
+                              divideExpression.Action.Equals(PredefinedSymbols.Divide)))
                         {
                             dividable = true;
                             dividend = arg;
@@ -351,27 +349,25 @@ namespace SymbolicComputation
 
                     if (dividable)
                     {
-                        Symbol newArg = Divide(divide[dividend, arg2], context);
+                        Symbol newArg = Divide(PredefinedSymbols.Divide[dividend, arg2], context);
                         Symbol[] newArgs = innerExpression.Args.Select(x => x.Equals(dividend) ? newArg : x).ToArray();
                         return new Expression(innerExpression.Action, newArgs).Evaluate(context);
                     }
                 }
 
-                if (innerExpression.Action.ToString() == "Sum")
+                if (innerExpression.Action.Equals(PredefinedSymbols.Sum))
                 {
-                    Symbol divide = new StringSymbol("Divide");
-                    Symbol[] newArgs = innerExpression.Args.Select(x => Divide(divide[x, arg2], context)).ToArray();
-                    if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.ToString() == "Divide"))
+                    Symbol[] newArgs = innerExpression.Args.Select(x => Divide(PredefinedSymbols.Divide[x, arg2], context)).ToArray();
+                    if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.Equals(PredefinedSymbols.Divide)))
                     {
                         return new Expression(innerExpression.Action, newArgs).Evaluate(context);
                     }
                 }
 
-                if (innerExpression.Action.ToString() == "L")
+                if (innerExpression.Action.Equals(PredefinedSymbols.L))
                 {
-                    Symbol divide = new StringSymbol("Divide");
-                    Symbol[] newArgs = innerExpression.Args.Select(x => Divide(divide[x, arg2], context)).ToArray();
-                    if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.ToString() == "Divide"))
+                    Symbol[] newArgs = innerExpression.Args.Select(x => Divide(PredefinedSymbols.Divide[x, arg2], context)).ToArray();
+                    if (!newArgs.Any(x => x is Expression divisionExp && divisionExp.Action.Equals(PredefinedSymbols.Divide)))
                     {
                         return new Expression(innerExpression.Action, newArgs);
                     }
@@ -476,7 +472,7 @@ namespace SymbolicComputation
             {
                 if (arg is Expression argExp)
                 {
-                    if (argExp.Action.ToString() == "Set")
+                    if (argExp.Action.Equals(PredefinedSymbols.Set))
                     {
                         newArgs.Add(argExp);
                     }
@@ -502,7 +498,7 @@ namespace SymbolicComputation
 
         private static Symbol GetIndeterminateList(Expression exp, Scope scope)
         {
-            return new Expression(new StringSymbol("L"), scope.IndeterminateList.ToArray());
+            return new Expression(PredefinedSymbols.L, scope.IndeterminateList.ToArray());
         }
 
         public static Symbol L(Expression exp, Scope context)
@@ -512,21 +508,21 @@ namespace SymbolicComputation
 
         public static Symbol First(Expression exp, Scope context)
         {
-	        if (exp.Args[0] is Expression listExp && listExp.Action.ToString() == "L")
+	        if (exp.Args[0] is Expression listExp && listExp.Action.Equals(PredefinedSymbols.L))
             {
-                return listExp.Args.Length > 0 ? listExp.Args[0] : new StringSymbol("null");
+                return listExp.Args.Length > 0 ? listExp.Args[0] : Null;
             }
-	        if (exp.Args[0].ToString() == "null") return exp.Args[0];
+	        if (exp.Args[0].Equals(Null)) return exp.Args[0];
 
             throw new Exception("Argument is not list");
         }
 
         public static Symbol Rest(Expression exp, Scope context)
         {
-            if (exp.Args[0] is Expression listExp && listExp.Action.ToString() == "L")
+            if (exp.Args[0] is Expression listExp && listExp.Action.Equals(PredefinedSymbols.L))
             {
                 return listExp.Args.Length < 2
-                    ? (Symbol) new StringSymbol("null")
+                    ? Null
                     : new Expression(listExp.Action, listExp.Args.Skip(1).ToArray());
             }
 
@@ -535,7 +531,7 @@ namespace SymbolicComputation
 
         public static Symbol GetPolynomialCoefficients(Expression exp, Scope context)
         {
-	        if (exp.Args.Length == 1 && exp.Args[0] is Expression sumExp && sumExp.Action.ToString() == "Sum")
+	        if (exp.Args.Length == 1 && exp.Args[0] is Expression sumExp && sumExp.Action.Equals(PredefinedSymbols.Sum))
 	        {
 		        if (sumExp.Args.Any(x => x is Constant))
 		        {
@@ -544,12 +540,12 @@ namespace SymbolicComputation
                 List<Constant> coefficients = new List<Constant>();
                 foreach (var term in sumExp.Args)
                 {
-	                if (term is Expression powExp && powExp.Action.ToString() == "Pow")
+	                if (term is Expression powExp && powExp.Action.Equals(PredefinedSymbols.Pow))
 	                {
 						coefficients.Add(new Constant(1));
 	                }
 
-	                if (term is Expression mulExp && mulExp.Action.ToString() == "Mul")
+	                if (term is Expression mulExp && mulExp.Action.Equals(PredefinedSymbols.Mul))
 	                {
 		                Constant coef = (Constant) mulExp.Args.SingleOrDefault(x => x is Constant);
                         coef ??= new Constant(1);
@@ -559,7 +555,7 @@ namespace SymbolicComputation
 
                 if (coefficients.Count > 0)
                 {
-	                return new Expression(new StringSymbol("L"), coefficients.ToArray());
+	                return new Expression(PredefinedSymbols.L, coefficients.ToArray());
                 }
 	        }
             throw new Exception("Argument is not polynomial");

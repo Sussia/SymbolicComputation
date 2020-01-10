@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
+using System.Windows;
 using Newtonsoft.Json;
 using SymbolicComputationLib;
 using SymbolicComputationLib.Model;
 using static SymbolicComputationLib.PredefinedSymbols;
+using Expression = SymbolicComputationLib.Model.Expression;
 
 
 namespace SymbolicComputation
@@ -18,10 +20,11 @@ namespace SymbolicComputation
         [STAThread]
         private static void Main(string[] args)
         {
-            SymbolicComputationPlots.ExpressionHolder.expression =
-                L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 1], L[6, 3]]];
-            var window = new SymbolicComputationPlots.MainWindow();
-            window.ShowDialog();
+            Expression plotExpression = L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 5], L[6, 3]]];
+            var app = new Application();
+            var window = new MainWindow(plotExpression);
+            app.Run(window);
+
             //Test delayed functions
             Expression p1Func = Sum["t", 1];
             Symbol P1 = new StringSymbol("P1");

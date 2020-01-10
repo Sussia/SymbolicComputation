@@ -6,11 +6,8 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:SymbolicComputationPlots"
         mc:Ignorable="d"
-        Title="Example 1 (WPF)" Height="350" Width="525">
-    <Window.DataContext>
-        <local:MainViewModel/>
-    </Window.DataContext>
+        Title="Example 1 (WPF)" Height="500" Width="800">
     <Grid>
-        <oxy:PlotView Model="{Binding MyModel}"/>
+        <oxy:PlotView Name="Plot"/>
     </Grid>
 </Window>

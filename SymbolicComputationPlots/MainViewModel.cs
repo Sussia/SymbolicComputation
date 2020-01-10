@@ -3,73 +3,38 @@ using System.Collections.Generic;
 using System.Text;
 using OxyPlot;
 using OxyPlot.Series;
+using SymbolicComputation;
+using SymbolicComputation.Model;
 
 namespace SymbolicComputationPlots
 {
-	public class MainViewModel
-	{
-		public MainViewModel()
-		{
-			this.MyModel = new PlotModel { Title = "Example 1" };
-			LineSeries lineL = new LineSeries();
-			lineL.Points.AddRange(new[]
-			{
-				new DataPoint(1,2),
-				new DataPoint(2,6),
-				new DataPoint(3,2),
-			});
-			lineL.Title = "Л";
-			this.MyModel.Series.Add(lineL);
+    public class MainViewModel
+    {
+        public MainViewModel()
+        {
+            this.MyModel = new PlotModel { Title = "Example 1" };
 
-			LineSeries lineO = new LineSeries();
-			lineO.Points.AddRange(new[]
-			{
-				new DataPoint(4,2),
-				new DataPoint(4,6),
-				new DataPoint(5,6),
-				new DataPoint(5,2),
-				new DataPoint(4,2)
-			});
-			lineO.Title = "O";
-			this.MyModel.Series.Add(lineO);
+            Symbol L = new StringSymbol("L");
 
-			LineSeries lineX1 = new LineSeries();
-			lineX1.Points.AddRange(new[]
-			{
-				new DataPoint(6,2),
-				new DataPoint(7,6)
-			});
-			lineX1.Title = "Х1";
-			this.MyModel.Series.Add(lineX1);
+            Expression exp = L[L[L[1, 2], L[3, 4],L[4,-1]], L[L[4, 1], L[6, 3]]];
 
-			LineSeries lineX2 = new LineSeries();
-			lineX2.Points.AddRange(new[]
-			{
-				new DataPoint(6,6),
-				new DataPoint(7,2)
-			});
-			lineX2.Title = "Х2";
-			this.MyModel.Series.Add(lineX2);
+            if (exp.Action.ToString() == "L")
+            {
+                Symbol[] lines = exp.Args;
+                foreach (var brokenLine in lines)
+                {
+                    LineSeries newLine = new LineSeries(); 
+                    foreach (Expression point in ((Expression)brokenLine).Args)
+                    {
+                        newLine.Points.Add(new DataPoint(Convert.ToDouble(point.Args[0].ToString()),
+                            Convert.ToDouble(point.Args[1].ToString())));
+                    }
+                    this.MyModel.Series.Add(newLine);
 
-			LineSeries line = new LineSeries();
-			line.Points.AddRange(new[]
-			{
-				new DataPoint(-1,1),
-				new DataPoint(9,1)
-			});
-			line.Title = "line";
-			this.MyModel.Series.Add(line);
+                }
+            }
+        }
 
-			LineSeries line1 = new LineSeries();
-			line1.Points.AddRange(new[]
-			{
-				new DataPoint(-1,8),
-				new DataPoint(9,8)
-			});
-			line1.Title = "line1";
-			this.MyModel.Series.Add(line1);
-		}
-
-		public PlotModel MyModel { get; private set; }
-	}
+        public PlotModel MyModel { get; private set; }
+    }
 }

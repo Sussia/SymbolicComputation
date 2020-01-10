@@ -505,24 +505,24 @@ namespace SymbolicComputation
 
         public static Symbol First(Expression exp, Scope context)
         {
-            if (exp.Args[0] ! is Expression listExp && listExp.Action.ToString() != "L")
+            if (exp.Args[0] is Expression listExp && listExp.Action.ToString() == "L")
             {
-                throw new Exception("Argument is not list");
+	            return listExp.Args.Length > 0 ? listExp.Args[0] : new StringSymbol("null");
             }
 
-            return exp.Args[0] is Expression listEx && listEx.Args.Length > 0
-                ? listEx.Args[0]
-                : new StringSymbol("null");
+            throw new Exception("Argument is not list");
         }
 
         public static Symbol Rest(Expression exp, Scope context)
         {
-            if (exp.Args[0]! is Expression listExp && listExp.Action.ToString() != "L")
+            if (exp.Args[0] is Expression listExp && listExp.Action.ToString() == "L")
             {
-                throw new Exception("Argument is not list");
+	            return listExp.Args.Length < 2
+		            ? (Symbol) new StringSymbol("null")
+		            : new Expression(listExp.Action, listExp.Args.Skip(1).ToArray());
             }
 
-            return new Expression(((Expression) exp.Args[0]).Action, ((Expression) exp.Args[0]).Args.Skip(1).ToArray());
+            throw new Exception("Argument is not list");
         }
     }
 }

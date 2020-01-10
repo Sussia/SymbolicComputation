@@ -40,10 +40,9 @@ namespace SymbolicComputation
 
 
             SymbolicComputationPlots.ExpressionHolder.expression =
-                L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 1], L[6, 3]]];
-            var app = new App();
+                L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 1], L[6, 3]]]; 
             var window = new SymbolicComputationPlots.MainWindow();
-            app.Run();
+            window.ShowDialog();
 
             Expression p1Func = Sum["t", 1];
 

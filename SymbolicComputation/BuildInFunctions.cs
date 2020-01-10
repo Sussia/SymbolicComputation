@@ -505,10 +505,11 @@ namespace SymbolicComputation
 
         public static Symbol First(Expression exp, Scope context)
         {
-            if (exp.Args[0] is Expression listExp && listExp.Action.ToString() == "L")
+	        if (exp.Args[0] is Expression listExp && listExp.Action.ToString() == "L")
             {
 	            return listExp.Args.Length > 0 ? listExp.Args[0] : new StringSymbol("null");
             }
+	        if (exp.Args[0].ToString() == "null") return exp.Args[0];
 
             throw new Exception("Argument is not list");
         }

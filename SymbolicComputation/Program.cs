@@ -71,7 +71,7 @@ namespace SymbolicComputation
             Expression restExp = Rest[Rest[L[1, 2, 3, 4, 5]]];
 
 
-            Expression ourList = (Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
+            Expression ourList = L[12, 6, 3];//(Expression)GetPolynomialCoefficients[exp1].Evaluate(context);
 
             Expression minFunc = List[
 	            Set["lest", ourList],

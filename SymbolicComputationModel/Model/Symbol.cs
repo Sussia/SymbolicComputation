@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Text;
-
-namespace SymbolicComputation.Model
+﻿namespace SymbolicComputationModel.Model
 {
 	public abstract class Symbol
 	{

@@ -5,8 +5,10 @@ using System.Linq;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using SymbolicComputation.Model;
-using static SymbolicComputation.PredefinedSymbols;
+using SymbolicComputationModel;
+using SymbolicComputationModel.Model;
+using static SymbolicComputationModel.PredefinedSymbols;
+
 
 namespace SymbolicComputation
 {

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json;
-using SymbolicComputation.Model;
+using SymbolicComputationModel.Model;
 
-namespace SymbolicComputation
+namespace SymbolicComputationModel
 {
     public static class Parser
     {

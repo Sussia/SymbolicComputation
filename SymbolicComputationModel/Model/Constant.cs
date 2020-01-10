@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SymbolicComputation.Model
+﻿namespace SymbolicComputationModel.Model
 {
 	public class Constant : Symbol
 	{

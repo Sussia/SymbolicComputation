@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SymbolicComputation.Model;
+﻿using System.Collections.Generic;
+using SymbolicComputationModel.Model;
 
-namespace SymbolicComputation
+namespace SymbolicComputationModel
 {
 	public class Scope
 	{

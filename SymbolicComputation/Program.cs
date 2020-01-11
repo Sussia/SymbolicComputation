@@ -20,7 +20,7 @@ namespace SymbolicComputation
 		[STAThread]
 		private static void Main(string[] args)
 		{
-			string filepath = "../../../input.json";
+			string filepath = "../../../inputPlot1.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);
 			Expression exp1 = (Expression)(Parser.ParseInput(sr.ReadToEnd(), context));
@@ -33,9 +33,8 @@ namespace SymbolicComputation
 				Expression plotExpression = (Expression)exp1.Args[0];
 				Constant width = (Constant) exp1.Args[1];
 				Constant height = (Constant) exp1.Args[2];
-				var app = new Application();
 				var window = new MainWindow(plotExpression, width.Value, height.Value);
-				app.Run(window);
+				window.ShowDialog();
 			}
 			else
 			{

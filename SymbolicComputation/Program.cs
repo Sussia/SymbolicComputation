@@ -20,7 +20,7 @@ namespace SymbolicComputation
 		[STAThread]
 		private static void Main(string[] args)
 		{
-			string filepath = "../../../inputSimple2.json";
+			string filepath = "../../../input.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);
 			Expression inputExp = (Expression)(Parser.ParseInput(sr.ReadToEnd(), context));
@@ -157,8 +157,12 @@ namespace SymbolicComputation
 				//    ],
 				//    "commonDivisor"
 				//];
-
-				Console.WriteLine($"\n{exp1} = {alg.Evaluate(context)}");
+				Expression resultExpression = (Expression) alg.Evaluate(context);
+				Expression beautifiedExp = (Expression) exp1.Evaluate(context);
+				string link = "http://fred-wang.github.io/mathml.css/mspace.js";
+				string script = $"<script src=\"{link}\"></script>\r\n";
+				System.IO.File.WriteAllText("C:\\Users\\User\\Desktop\\index.html", script + Parser.ToMathML(Equal[beautifiedExp, resultExpression]));
+				Console.WriteLine($"\n{exp1} = {resultExpression}");
 			}
 			else
 			{

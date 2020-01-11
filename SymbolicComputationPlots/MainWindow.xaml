@@ -17,6 +17,7 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <oxy:PlotView Name="Plot" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Path=Json}" TextWrapping="Wrap"></TextBox>
         <Button Content="Redraw" Click="ButtonBase_OnClick" Grid.Row="1" Grid.Column="0"></Button>
     </Grid>
 </Window>

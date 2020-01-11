@@ -1,12 +1,6 @@
 ﻿using SymbolicComputationPlots;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Text.Json.Serialization;
-using System.Windows;
-using Newtonsoft.Json;
 using SymbolicComputationLib;
 using SymbolicComputationLib.Model;
 using static SymbolicComputationLib.PredefinedSymbols;
@@ -20,33 +14,28 @@ namespace SymbolicComputation
         [STAThread]
         private static void Main(string[] args)
         {
-            string filepath = "../../../input2.json";
+            string filepath = "../../../inputPlot.json";
             Scope context = new Scope();
             StreamReader sr = new StreamReader(filepath);
             string inputJson = sr.ReadToEnd();
             Expression inputExp = (Expression) (Parser.ParseInput(inputJson, context));
-            // Console.WriteLine(JsonConvert.SerializeObject(Plot[L[L[L[0, 0], L[1, 0]], L[L[0, 1], L[2, 1]], L[L[1, 2], L[2, 2]], L[L[0, 1], L[0, 2]], L[L[1, 0], L[1, 2]], L[L[2, 0], L[2, 1]]], 800, 500]));
             
             sr.Close();
             Console.WriteLine($"Got expression: {inputExp}");
 
+            //If we got Plot() operator -----------------------------------------------------
             if (inputExp.Action.Equals(Plot))
             {
-                //Expression plotExpression = Plot[L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 5], L[6, 3]]], 800, 500];
                 Expression plotExpression = (Expression) inputExp.Args[0];
                 Constant width = (Constant) inputExp.Args[1];
                 Constant height = (Constant) inputExp.Args[2];
                 var window = new MainWindow(plotExpression, inputJson, width.Value, height.Value);
                 window.ShowDialog();
             }
+            //If we got Gcd() operator ------------------------------------------------------
             else if (inputExp.Action.Equals(Gcd))
             { 
                 Expression exp1 = (Expression) inputExp.Args[0];
-                //Test delayed functions
-                Expression p1Func = Sum["t", 1];
-                Symbol P1 = new StringSymbol("P1");
-                Expression delExp = Delayed[P1, "t", p1Func];
-                Expression testDelExp = List[delExp, P1[2]];
 
                 Expression minFunc = List[
                     Set["lest", GetPolynomialCoefficients[exp1]],
@@ -70,6 +59,7 @@ namespace SymbolicComputation
 
                 StringSymbol f1 = new StringSymbol("f1");
                 Expression alg = List[
+                    //This part finds common symbol divisor
                     Set["lest", GetIndeterminateList[exp1]],
                     Set["firstTerm", 1],
                     Set["ETMP", exp1],
@@ -98,7 +88,8 @@ namespace SymbolicComputation
                             Set["lest", Rest["lest"]]
                         ]
                     ],
-                    Set["lest", GetPolynomialCoefficients[exp1]], //TODO : Get list before evaluation
+                    //This part computes common number divisor
+                    Set["lest", GetPolynomialCoefficients[exp1]],
                     Set["divisor", minFunc],
                     Set["commonDivisor", 1],
                     Set["tempLest", "lest"],
@@ -128,46 +119,16 @@ namespace SymbolicComputation
                     Mul[Mul["firstTerm", "commonDivisor"], Divide["ETMP", "commonDivisor"]]
                 ];
 
-
-				//Expression numAlg = List[
-				//    Set["lest", ourList],
-				//    Set["isFound", "False"],
-				//    Set["divisor", minFunc],
-				//    Set["commonDivisor", 1],
-				//    Set["tempLest", "lest"],
-				//    While[Not[Equal["divisor", 1]],
-				//        List[
-				//            Set["reminder", 0],
-				//            While[Not[Equal[First["tempLest"], "null"]],
-				//                List[
-				//                    Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
-				//                    Set["tempLest", Rest["tempLest"]]
-				//                ]
-				//            ],
-				//            If[Equal["reminder", 0],
-				//                List[
-				//                    Set["commonDivisor", Mul["commonDivisor", "divisor"]],
-				//                    Set["tempLest", Divide["lest", "divisor"]],
-				//                    Set["divisor", 1]
-				//                ],
-				//                List[
-				//                    Set["tempLest", "lest"],
-				//                    Set["divisor", Sub["divisor", 1]]
-				//                ]
-				//            ]
-				//        ]
-				//    ],
-				//    "commonDivisor"
-				//];
 				Expression resultExpression = (Expression) alg.Evaluate(context);
 				Expression beautifiedExp = (Expression) exp1.Evaluate(context);
 				string link = "http://fred-wang.github.io/mathml.css/mspace.js";
 				string script = $"<script src=\"{link}\"></script>\r\n";
-				System.IO.File.WriteAllText($"C:\\Users\\{Environment.UserName}\\Desktop\\index.html", script + Parser.ToMathML(Equal[beautifiedExp, resultExpression]));
+				System.IO.File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\index.html", script + Parser.ToMathML(Equal[beautifiedExp, resultExpression]));
 				Console.WriteLine($"\n{exp1} = {resultExpression}");
 			}
-			else
-			{
+            //Otherwise ------------------------------------------------------------------
+            else
+            {
 				Console.WriteLine($"\nThe result of {inputExp}: {inputExp.Evaluate(context)}");
 			}
 		}

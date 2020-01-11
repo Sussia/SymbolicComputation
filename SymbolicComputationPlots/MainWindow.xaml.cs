@@ -24,10 +24,7 @@ namespace SymbolicComputationPlots
 
             Width = (double) width < MinWidth ? MinWidth : (double) width;
             Height = (double) height < MinHeight ? MinHeight : (double) height;
-            Plot.Model = new PlotModel
-            {
-                Title = "Plot"
-            };
+            Plot.Model = new PlotModel();
             PlotExpression = expression;
             Json = jsonInput;
             DrawPlot(PlotExpression);

@@ -6,15 +6,15 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:SymbolicComputationPlots"
         mc:Ignorable="d"
-        Title="Example 1 (WPF)" MinWidth="800" MinHeight="450">
+        Title="Plot" MinWidth="800" MinHeight="450">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="2*" MinHeight="30"/>
         </Grid.RowDefinitions>
         <oxy:PlotView Name="Plot" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
         <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Path=Json}" TextWrapping="Wrap"></TextBox>

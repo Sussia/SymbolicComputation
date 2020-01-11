@@ -1,0 +1,20 @@
+﻿{
+  "Action": { "Name": "Mul" },
+  "Args": [
+    { "Value": 6.0 },
+    {
+      "Action": { "Name": "Pow" },
+      "Args": [
+        { "Value": 3.0 },
+        { "Value": 3.0 }
+      ]
+    },
+    {
+      "Action": { "Name": "Pow" },
+      "Args": [
+        { "Value": 4.0 },
+        { "Value": 2.0 }
+      ]
+    }
+  ]
+}

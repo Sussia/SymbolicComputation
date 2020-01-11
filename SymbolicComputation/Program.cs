@@ -20,26 +20,26 @@ namespace SymbolicComputation
 		[STAThread]
 		private static void Main(string[] args)
 		{
-			string filepath = "../../../inputPlot1.json";
+			string filepath = "../../../inputSimple1.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);
-			Expression exp1 = (Expression)(Parser.ParseInput(sr.ReadToEnd(), context));
+			Expression inputExp = (Expression)(Parser.ParseInput(sr.ReadToEnd(), context));
 			sr.Close();
-			Console.WriteLine($"Got expression: {exp1}");
+			Console.WriteLine($"Got expression: {inputExp}");
 
-			if (exp1.Action.Equals(Plot))
+			if (inputExp.Action.Equals(Plot))
 			{
 				//Expression plotExpression = Plot[L[L[L[1, 2], L[3, 4], L[4, -1]], L[L[4, 5], L[6, 3]]], 800, 500];
-				Expression plotExpression = (Expression)exp1.Args[0];
-				Constant width = (Constant) exp1.Args[1];
-				Constant height = (Constant) exp1.Args[2];
+				Expression plotExpression = (Expression) inputExp.Args[0];
+				Constant width = (Constant) inputExp.Args[1];
+				Constant height = (Constant) inputExp.Args[2];
 				var window = new MainWindow(plotExpression, width.Value, height.Value);
 				window.ShowDialog();
 			}
-			else
+			else if (inputExp.Action.Equals(Gcd))
 			{
 				// Expression exp1 = Sum[Mul[Pow["x", 2], Pow["y", 3], 12], Mul[6, Pow["x", 7], Pow["y", 2]], Mul[Pow["x", 3], 3]];
-
+				Expression exp1 = (Expression) inputExp.Args[0];
 				//Test delayed functions
 				Expression p1Func = Sum["t", 1];
 				Symbol P1 = new StringSymbol("P1");
@@ -159,6 +159,10 @@ namespace SymbolicComputation
 				//];
 
 				Console.WriteLine($"\n{exp1} = {alg.Evaluate(context)}");
+			}
+			else
+			{
+				Console.WriteLine($"\nThe result of {inputExp}: {inputExp.Evaluate(context)}");
 			}
 		}
 	}

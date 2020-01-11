@@ -20,7 +20,7 @@ namespace SymbolicComputation
         [STAThread]
         private static void Main(string[] args)
         {
-            string filepath = "../../../inputPlot2.json";
+            string filepath = "../../../input2.json";
             Scope context = new Scope();
             StreamReader sr = new StreamReader(filepath);
             string inputJson = sr.ReadToEnd();
@@ -163,7 +163,7 @@ namespace SymbolicComputation
 				Expression beautifiedExp = (Expression) exp1.Evaluate(context);
 				string link = "http://fred-wang.github.io/mathml.css/mspace.js";
 				string script = $"<script src=\"{link}\"></script>\r\n";
-				System.IO.File.WriteAllText("C:\\Users\\User\\Desktop\\index.html", script + Parser.ToMathML(Equal[beautifiedExp, resultExpression]));
+				System.IO.File.WriteAllText($"C:\\Users\\{Environment.UserName}\\Desktop\\index.html", script + Parser.ToMathML(Equal[beautifiedExp, resultExpression]));
 				Console.WriteLine($"\n{exp1} = {resultExpression}");
 			}
 			else

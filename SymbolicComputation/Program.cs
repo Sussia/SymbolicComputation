@@ -20,7 +20,7 @@ namespace SymbolicComputation
 		[STAThread]
 		private static void Main(string[] args)
 		{
-			string filepath = "../../../inputSimple1.json";
+			string filepath = "../../../inputSimple2.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);
 			Expression inputExp = (Expression)(Parser.ParseInput(sr.ReadToEnd(), context));

@@ -15,7 +15,7 @@ namespace SymbolicComputation
 		[STAThread]
 		private static void Main(string[] args)
 		{
-			string filepath = "../../../testAlg.json";
+			string filepath = "../../../TaskExamples/input1.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);
 			string inputJson = sr.ReadToEnd();

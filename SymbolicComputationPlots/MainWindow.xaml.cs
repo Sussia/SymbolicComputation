@@ -18,8 +18,9 @@ namespace SymbolicComputationPlots
         {
 
 			InitializeComponent();
-			Width = (double) width;
-			Height = (double) height;
+
+			Width = (double) width < MinWidth ? MinWidth : (double) width;
+			Height = (double) height < MinHeight ? MinHeight : (double) height;
 			Plot.Model = new PlotModel
 			{
 				Title = "Plot"
@@ -30,6 +31,7 @@ namespace SymbolicComputationPlots
 
         public void DrawPlot(Expression expression)
         {
+	        Plot.Model.Series.Clear();
 	        if (expression.Action.Equals(L))
 	        {
 		        Symbol[] lines = expression.Args;
@@ -44,8 +46,13 @@ namespace SymbolicComputationPlots
 
 			        Plot.Model.Series.Add(newLine);
 		        }
-				Plot.Model.InvalidatePlot(true);
+		        Plot.Model.InvalidatePlot(true);
 	        }
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+	        DrawPlot(L[L[L[1,2], L[10,5]]]);
         }
 	}
 }

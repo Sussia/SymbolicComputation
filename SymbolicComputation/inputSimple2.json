@@ -1,0 +1,25 @@
+﻿{
+  "Action": { "Name": "List" },
+  "Args": [
+    {
+      "Action": { "Name": "Delayed" },
+      "Args": [
+        { "Name": "Sqr" },
+        { "Name": "x" },
+        {
+          "Action": {"Name": "Mul" },
+          "Args": [
+            { "Name": "x" },
+            { "Name": "x" }
+          ] 
+        }
+      ] 
+    },
+    {
+      "Action": { "Name": "Sqr" },
+      "Args": [
+        { "Value": 3.0 }
+      ]
+    }
+  ]
+}

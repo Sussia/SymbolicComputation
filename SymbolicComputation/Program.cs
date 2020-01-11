@@ -25,7 +25,7 @@ namespace SymbolicComputation
             StreamReader sr = new StreamReader(filepath);
             string inputJson = sr.ReadToEnd();
             Expression inputExp = (Expression) (Parser.ParseInput(inputJson, context));
-            Console.WriteLine(JsonConvert.SerializeObject(Plot[L[L[L[0, 0], L[1, 0]], L[L[0, 1], L[2, 1]], L[L[1, 2], L[2, 2]], L[L[0, 1], L[0, 2]], L[L[1, 0], L[1, 2]], L[L[2, 0], L[2, 1]]], 800, 500]));
+            // Console.WriteLine(JsonConvert.SerializeObject(Plot[L[L[L[0, 0], L[1, 0]], L[L[0, 1], L[2, 1]], L[L[1, 2], L[2, 2]], L[L[0, 1], L[0, 2]], L[L[1, 0], L[1, 2]], L[L[2, 0], L[2, 1]]], 800, 500]));
             
             sr.Close();
             Console.WriteLine($"Got expression: {inputExp}");
@@ -129,43 +129,47 @@ namespace SymbolicComputation
                 ];
 
 
-                //Expression numAlg = List[
-                //    Set["lest", ourList],
-                //    Set["isFound", "False"],
-                //    Set["divisor", minFunc],
-                //    Set["commonDivisor", 1],
-                //    Set["tempLest", "lest"],
-                //    While[Not[Equal["divisor", 1]],
-                //        List[
-                //            Set["reminder", 0],
-                //            While[Not[Equal[First["tempLest"], "null"]],
-                //                List[
-                //                    Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
-                //                    Set["tempLest", Rest["tempLest"]]
-                //                ]
-                //            ],
-                //            If[Equal["reminder", 0],
-                //                List[
-                //                    Set["commonDivisor", Mul["commonDivisor", "divisor"]],
-                //                    Set["tempLest", Divide["lest", "divisor"]],
-                //                    Set["divisor", 1]
-                //                ],
-                //                List[
-                //                    Set["tempLest", "lest"],
-                //                    Set["divisor", Sub["divisor", 1]]
-                //                ]
-                //            ]
-                //        ]
-                //    ],
-                //    "commonDivisor"
-                //];
-
-                Console.WriteLine($"\n{exp1} = {alg.Evaluate(context)}");
-            }
-            else
-            {
-                Console.WriteLine($"\nThe result of {inputExp}: {inputExp.Evaluate(context)}");
-            }
-        }
-    }
+				//Expression numAlg = List[
+				//    Set["lest", ourList],
+				//    Set["isFound", "False"],
+				//    Set["divisor", minFunc],
+				//    Set["commonDivisor", 1],
+				//    Set["tempLest", "lest"],
+				//    While[Not[Equal["divisor", 1]],
+				//        List[
+				//            Set["reminder", 0],
+				//            While[Not[Equal[First["tempLest"], "null"]],
+				//                List[
+				//                    Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
+				//                    Set["tempLest", Rest["tempLest"]]
+				//                ]
+				//            ],
+				//            If[Equal["reminder", 0],
+				//                List[
+				//                    Set["commonDivisor", Mul["commonDivisor", "divisor"]],
+				//                    Set["tempLest", Divide["lest", "divisor"]],
+				//                    Set["divisor", 1]
+				//                ],
+				//                List[
+				//                    Set["tempLest", "lest"],
+				//                    Set["divisor", Sub["divisor", 1]]
+				//                ]
+				//            ]
+				//        ]
+				//    ],
+				//    "commonDivisor"
+				//];
+				Expression resultExpression = (Expression) alg.Evaluate(context);
+				Expression beautifiedExp = (Expression) exp1.Evaluate(context);
+				string link = "http://fred-wang.github.io/mathml.css/mspace.js";
+				string script = $"<script src=\"{link}\"></script>\r\n";
+				System.IO.File.WriteAllText("C:\\Users\\User\\Desktop\\index.html", script + Parser.ToMathML(Equal[beautifiedExp, resultExpression]));
+				Console.WriteLine($"\n{exp1} = {resultExpression}");
+			}
+			else
+			{
+				Console.WriteLine($"\nThe result of {inputExp}: {inputExp.Evaluate(context)}");
+			}
+		}
+	}
 }

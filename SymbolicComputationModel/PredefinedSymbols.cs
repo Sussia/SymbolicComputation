@@ -37,5 +37,9 @@ namespace SymbolicComputationLib
 		public static readonly Symbol Gcd = new StringSymbol("Gcd");
 		public static readonly Symbol SetDelayed = new StringSymbol("SetDelayed");
 		public static readonly Symbol Prepend = new StringSymbol("Prepend");
+		public static readonly Symbol HoldRest = new StringSymbol("HoldRest");
+		public static readonly Symbol HoldAll = new StringSymbol("HoldAll");
+		public static readonly Symbol HoldFirst = new StringSymbol("HoldFirst");
+		public static readonly Symbol SetAttribute = new StringSymbol("SetAttribute");
 	}
 }

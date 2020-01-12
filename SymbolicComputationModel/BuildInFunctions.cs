@@ -30,10 +30,13 @@ namespace SymbolicComputationLib
 				{"LessOrEqual", LessOrEqual},
 				{"First", First},
 				{"Rest", Rest},
-				{"GetIndeterminateList", GetIndeterminateList},
 				{"GetPolynomialCoefficients", GetPolynomialCoefficients},
 				{"GetPolynomialIndeterminates", GetPolynomialIndeterminates},
-				{"Prepend", Prepend}
+				{"Prepend", Prepend},
+				{"Set", Set},
+				{"SetDelayed", SetDelayed},
+				{"SetAttribute", SetAttribute},
+				{"Delayed", Delayed}
 			};
 
 		private static Dictionary<string, Tuple<Symbol[], Symbol>> customFunctions =
@@ -67,29 +70,32 @@ namespace SymbolicComputationLib
 		public static Symbol EvaluateExpression(Expression exp, Scope context)
 		{
 			Console.WriteLine($"\nEvaluating {exp}:");
-			if (exp.Action.Equals(PredefinedSymbols.Set))
-			{
-				return Set(exp, context);
-			}
 
-            if (exp.Action.Equals(PredefinedSymbols.Delayed))
-            {
-                return Delayed(exp, context);
-            }
-
-            if (exp.Action.Equals(PredefinedSymbols.SetDelayed))
-            {
-	            return SetDelayed(exp, context);
-            }
-
-            if (exp.Action.Equals(PredefinedSymbols.Prepend))
-            {
-	            return Prepend(exp, context);
-            }
 			List<Symbol> newArgs = new List<Symbol>();
-			foreach (var arg in exp.Args)
+
+			if (context.AttributeDictionary.ContainsKey(exp.Action.ToString()))
+            {
+	            if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldFirst))
+	            {
+		            newArgs.Add(exp.Args[0]);
+		            newArgs.AddRange(exp.Args.Skip(1).Select(symbol => symbol.Evaluate(context)));
+	            }
+	            if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldAll))
+	            {
+		            newArgs.AddRange(exp.Args);
+	            }
+	            if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldRest))
+	            {
+					newArgs.Add(exp.Args[0].Evaluate(context));
+					newArgs.AddRange(exp.Args.Skip(1));
+				}
+			}
+			else
 			{
-				newArgs.Add(arg.Evaluate(context));
+				foreach (var arg in exp.Args)
+				{
+					newArgs.Add(arg.Evaluate(context));
+				}
 			}
 
 			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
@@ -107,7 +113,7 @@ namespace SymbolicComputationLib
 
 			if (context.SymbolRules.ContainsKey(exp.ToString()))
 			{
-				Symbol result = context.SymbolRules[exp.ToString()];
+				Symbol result = context.SymbolRules[exp.ToString()].Evaluate(context);
 				Console.WriteLine($"The result of {exp} is {result}");
 				return result;
 			}
@@ -392,9 +398,7 @@ namespace SymbolicComputationLib
 			var arg1 = exp.Args[0];
 			var arg2 = exp.Args[1];
 
-			Symbol newArg = arg2.Evaluate(localContext);
-
-			localContext.SymbolRules[arg1.ToString()] = newArg;
+			localContext.SymbolRules[arg1.ToString()] = arg2;
 			Console.WriteLine($"{arg1} is initialized by {arg2}");
 			return arg2;
 		}
@@ -469,10 +473,6 @@ namespace SymbolicComputationLib
 			return newExp;
 		}
 
-		private static Symbol GetIndeterminateList(Expression exp, Scope scope)
-		{
-			return new Expression(PredefinedSymbols.L, scope.IndeterminateList.ToArray());
-		}
 
 		public static Symbol L(Expression exp, Scope context)
 		{
@@ -589,6 +589,12 @@ namespace SymbolicComputationLib
 		public static Symbol EvaluateConstant(Constant constant, Scope context)
 		{
 			return constant;
+		}
+
+		public static Symbol SetAttribute(Expression exp, Scope context)
+		{
+			context.AttributeDictionary.Add(exp.Args[0].ToString(), exp.Args[1]);
+			return exp.Args[0];
 		}
 	}
 }

@@ -26,7 +26,6 @@ namespace SymbolicComputationLib
 				}
 				catch (RuntimeBinderException ex)
 				{
-					context.IndeterminateList.Add(new StringSymbol(a.Name.ToString()));
 					return new StringSymbol(a.Name.ToString());
 				}
 			}

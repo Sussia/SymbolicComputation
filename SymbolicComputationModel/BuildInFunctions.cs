@@ -34,7 +34,7 @@ namespace SymbolicComputationLib
 				{"GetPolynomialIndeterminates", GetPolynomialIndeterminates},
 				{"Prepend", Prepend},
 				{"Set", Set},
-				{"SetDelayed", SetDelayed},
+				{"SetDelayed", Set},
 				{"SetAttribute", SetAttribute},
 				{"Delayed", Delayed}
 			};
@@ -99,10 +99,6 @@ namespace SymbolicComputationLib
 			}
 
 			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
-			if (!newExp.Equals(exp))
-			{
-				Console.WriteLine($"\n  Evaluating expression {newExp}:");
-			}
 
 			if (functionsDictionary.ContainsKey(exp.Action.ToString()))
 			{
@@ -400,16 +396,7 @@ namespace SymbolicComputationLib
 
 			localContext.SymbolRules[arg1.ToString()] = arg2;
 			Console.WriteLine($"{arg1} is initialized by {arg2}");
-			return arg2;
-		}
-		private static Symbol SetDelayed(Expression exp, Scope localContext)
-		{
-			var arg1 = exp.Args[0];
-			var arg2 = exp.Args[1];
-
-			localContext.SymbolRules[arg1.ToString()] = arg2;
-			Console.WriteLine($"{arg1} is initialized by {arg2}");
-			return arg2;
+			return Ok;
 		}
 
 		private static Symbol Substitute(StringSymbol symbol, Scope localContext)
@@ -429,7 +416,7 @@ namespace SymbolicComputationLib
 			functionsDictionary[name.ToString()] = ComputeDelayed;
 			customFunctions[name.ToString()] = new Tuple<Symbol[], Symbol>(localArgs, function);
 			Console.WriteLine($"{name}({localArgs}) is defined as {function}");
-			return exp;
+			return Ok;
 		}
 
 		private static Symbol ComputeDelayed(Expression exp, Scope context)
@@ -441,12 +428,10 @@ namespace SymbolicComputationLib
             foreach (StringSymbol variable in variables)
             {
 	            Symbol value = exp.Args[counter];
-				Console.Write($"Replacing {variable} with {value}... ");
 				Scope localContext = new Scope();
 				localContext.SymbolRules.Add(variable.Name, value);
 			    newExpression = ReplaceVariable(newExpression, localContext);
                 counter++;
-                Console.WriteLine($"Result: {newExpression}");
 			}
 			return newExpression.Evaluate(context);
 		}
@@ -594,7 +579,7 @@ namespace SymbolicComputationLib
 		public static Symbol SetAttribute(Expression exp, Scope context)
 		{
 			context.AttributeDictionary.Add(exp.Args[0].ToString(), exp.Args[1]);
-			return exp.Args[0];
+			return Ok;
 		}
 	}
 }

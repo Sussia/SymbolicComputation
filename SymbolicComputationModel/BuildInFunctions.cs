@@ -137,9 +137,9 @@ namespace SymbolicComputationLib
                 return result;
             }
 
-			if (context.SymbolRules.ContainsKey(exp.ToString()))
+			if (context.SymbolRules.ContainsKey(newExp.ToString()))
 			{
-				Symbol result = context.SymbolRules[exp.ToString()].Evaluate(context);
+				Symbol result = context.SymbolRules[newExp.ToString()].Evaluate(context);
 				Console.WriteLine($"The result of {exp} is {result}");
 				return result;
 			}

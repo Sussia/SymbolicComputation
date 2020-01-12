@@ -35,5 +35,6 @@ namespace SymbolicComputationLib
 		public static readonly Symbol Null = new StringSymbol("null");
 		public static readonly Symbol Plot = new StringSymbol("Plot");
 		public static readonly Symbol Gcd = new StringSymbol("Gcd");
+		public static readonly Symbol SetDelayed = new StringSymbol("SetDelayed");
 	}
 }

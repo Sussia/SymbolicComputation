@@ -23,8 +23,8 @@ namespace SymbolicComputation
                 StringSymbol localIf = new StringSymbol("localIf");
                 Expression testExpression = List[
                     Delayed[If, List[
-                        Set[localIf[True], "then"],
-                        Set[localIf[False], "else"],
+                        SetDelayed[localIf[True], "then"],
+                        SetDelayed[localIf[False], "else"],
                         localIf["expression"]
                     ],"expression", "then", "else"],
                     If[Equal[2,0], Mul[3, 4], Mul[3,5]]

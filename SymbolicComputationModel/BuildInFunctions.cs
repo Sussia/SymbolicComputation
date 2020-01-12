@@ -75,6 +75,11 @@ namespace SymbolicComputationLib
             {
                 return Delayed(exp, context);
             }
+
+            if (exp.Action.Equals(PredefinedSymbols.SetDelayed))
+            {
+	            return SetDelayed(exp, context);
+            }
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
@@ -384,6 +389,15 @@ namespace SymbolicComputationLib
 			Symbol newArg = arg2.Evaluate(localContext);
 
 			localContext.SymbolRules[arg1.ToString()] = newArg;
+			Console.WriteLine($"{arg1} is initialized by {arg2}");
+			return arg2;
+		}
+		private static Symbol SetDelayed(Expression exp, Scope localContext)
+		{
+			var arg1 = exp.Args[0];
+			var arg2 = exp.Args[1];
+
+			localContext.SymbolRules[arg1.ToString()] = arg2;
 			Console.WriteLine($"{arg1} is initialized by {arg2}");
 			return arg2;
 		}

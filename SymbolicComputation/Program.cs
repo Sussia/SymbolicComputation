@@ -20,32 +20,18 @@ namespace SymbolicComputation
 			if (true)
 			{
 				//    Test zone    \\
-				StringSymbol localIf = new StringSymbol("localIf");
-				Expression testExpression = List[
-					Delayed[If, List[
-						SetDelayed[localIf[True], "then"],
-						SetDelayed[localIf[False], "else"],
-						localIf["expression"]
-					], "expression", "then", "else"],
-					SetAttribute[If, HoldRest],
-					If[Equal[2, 0], Mul[3, 4], Mul[3, 5]]
-				];
+				Expression testExpression = Rest[Mul[4,3]];
 				Console.WriteLine(testExpression.Evaluate(new Scope()));
 				return;
 			}
+			//	If implementation:
+			//Delayed[If, List[
+			//	SetDelayed[localIf[True], "then"],
+			//	SetDelayed[localIf[False], "else"],
+			//	localIf["expression"]
+			//], "expression", "then", "else"],
+			//SetAttribute[If, HoldRest]
 
-			{
-				//    Test zone    \\ 
-				Expression testExpression = List[
-					Set["then", L[1, 2]],
-					Set["else", L[3, 4]],
-					Set[If[True], "then"],
-					Set[If[False], "else"],
-					Or[True, True]
-				];
-				Console.WriteLine(testExpression.Evaluate(new Scope()));
-				return;
-			}
 			string filepath = "../../../TaskExamples/inputSimple1.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);

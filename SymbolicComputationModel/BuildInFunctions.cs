@@ -74,18 +74,18 @@ namespace SymbolicComputationLib
 			List<Symbol> newArgs = new List<Symbol>();
 
 			if (context.AttributeDictionary.ContainsKey(exp.Action.ToString()))
-            {
-	            if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldFirst))
-	            {
-		            newArgs.Add(exp.Args[0]);
-		            newArgs.AddRange(exp.Args.Skip(1).Select(symbol => symbol.Evaluate(context)));
-	            }
-	            if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldAll))
-	            {
-		            newArgs.AddRange(exp.Args);
-	            }
-	            if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldRest))
-	            {
+			{
+				if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldFirst))
+				{
+					newArgs.Add(exp.Args[0]);
+					newArgs.AddRange(exp.Args.Skip(1).Select(symbol => symbol.Evaluate(context)));
+				}
+				if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldAll))
+				{
+					newArgs.AddRange(exp.Args);
+				}
+				if (context.AttributeDictionary[exp.Action.ToString()].Equals(HoldRest))
+				{
 					newArgs.Add(exp.Args[0].Evaluate(context));
 					newArgs.AddRange(exp.Args.Skip(1));
 				}
@@ -409,7 +409,7 @@ namespace SymbolicComputationLib
 			Symbol name = exp.Args[0];
 			Symbol function = exp.Args[1];
 
-            Symbol[] localArgs = exp.Args.Skip(2).ToArray();
+			Symbol[] localArgs = exp.Args.Skip(2).ToArray();
 
 
 
@@ -423,15 +423,15 @@ namespace SymbolicComputationLib
 		{
 			string name = exp.Action.ToString();
 			var (variables, function) = customFunctions[name];
-            Expression newExpression = (Expression)function;
-            int counter = 0;
-            foreach (StringSymbol variable in variables)
-            {
-	            Symbol value = exp.Args[counter];
+			Expression newExpression = (Expression)function;
+			int counter = 0;
+			foreach (StringSymbol variable in variables)
+			{
+				Symbol value = exp.Args[counter];
 				Scope localContext = new Scope();
 				localContext.SymbolRules.Add(variable.Name, value);
-			    newExpression = ReplaceVariable(newExpression, localContext);
-                counter++;
+				newExpression = ReplaceVariable(newExpression, localContext);
+				counter++;
 			}
 			return newExpression.Evaluate(context);
 		}
@@ -458,39 +458,20 @@ namespace SymbolicComputationLib
 			return newExp;
 		}
 
-
-		public static Symbol L(Expression exp, Scope context)
-		{
-			return exp;
-		}
-
 		public static Symbol First(Expression exp, Scope context)
 		{
-			if (exp.Args[0] is Expression listExp && listExp.Action.Equals(PredefinedSymbols.L))
-			{
-				return listExp.Args.Length > 0 ? listExp.Args[0] : Null;
-			}
-			if (exp.Args[0].Equals(Null)) return exp.Args[0];
-
-			throw new Exception("Argument is not list");
+			return ((Expression)exp.Args[0]).Args.Length > 0 ? ((Expression)exp.Args[0]).Args[0] : Null;
 		}
 
 		public static Symbol Rest(Expression exp, Scope context)
 		{
-			if (exp.Args[0] is Expression listExp && listExp.Action.Equals(PredefinedSymbols.L))
-			{
-				return listExp.Args.Length < 2
-					? Null
-					: new Expression(listExp.Action, listExp.Args.Skip(1).ToArray());
-			}
-
-			throw new Exception("Argument is not list");
+			return ((Expression)exp.Args[0]).Args.Length < 2 ? Null : new Expression(((Expression)exp.Args[0]).Action, ((Expression)exp.Args[0]).Args.Skip(1).ToArray());
 		}
 
 		public static Symbol Prepend(Expression exp, Scope context)
 		{
 			Symbol prependedSymbol = exp.Args[1];
-			Expression listHolder = (Expression) exp.Args[0];
+			Expression listHolder = (Expression)exp.Args[0];
 			return new Expression(listHolder.Action, listHolder.Args.Prepend(prependedSymbol).ToArray());
 		}
 

@@ -41,5 +41,7 @@ namespace SymbolicComputationLib
 		public static readonly Symbol HoldAll = new StringSymbol("HoldAll");
 		public static readonly Symbol HoldFirst = new StringSymbol("HoldFirst");
 		public static readonly Symbol SetAttribute = new StringSymbol("SetAttribute");
+		public static readonly Symbol Sin = new StringSymbol("Sin");
+		public static readonly Symbol Cos = new StringSymbol("Cos");
 	}
 }

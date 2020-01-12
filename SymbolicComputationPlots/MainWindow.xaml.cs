@@ -14,20 +14,24 @@ namespace SymbolicComputationPlots
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Expression PlotExpression { get; private set; }
-        public string Json { get; set; }
 
-        public MainWindow(Expression expression, string jsonInput, decimal width, decimal height)
+        public MainWindow(Expression expression, decimal width, decimal height)
         {
             InitializeComponent();
             DataContext = this;
 
-            Width = (double) width < MinWidth ? MinWidth : (double) width;
-            Height = (double) height < MinHeight ? MinHeight : (double) height;
+            Width = (double)width < MinWidth ? MinWidth : (double)width;
+            Height = (double)height < MinHeight ? MinHeight : (double)height;
             Plot.Model = new PlotModel();
-            PlotExpression = expression;
-            Json = jsonInput;
-            DrawPlot(PlotExpression);
+            DrawPlot(expression);
+        }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            Plot.Model = new PlotModel();
+            int a = 5;
+            Plot.Model.Series.Add(new FunctionSeries(x =>a++*Math.Cos(x), y => a * Math.Sin(y), -4 * Math.PI, 0, 0.001));
         }
 
         public void DrawPlot(Expression expression)
@@ -50,13 +54,6 @@ namespace SymbolicComputationPlots
 
                 Plot.Model.InvalidatePlot(true);
             }
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            Expression exp = (Expression) Parser.ParseInput(Json, new Scope());
-            PlotExpression = (Expression) exp.Args[0];
-            DrawPlot(PlotExpression);
         }
     }
 }

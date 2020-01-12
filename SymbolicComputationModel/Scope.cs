@@ -15,7 +15,7 @@ namespace SymbolicComputationLib
 			AttributeDictionary = new Dictionary<string, Symbol>()
 			{
 				{Set.ToString(), HoldFirst},
-				{Prepend.ToString(), HoldAll},
+				//{Prepend.ToString(), HoldAll},
 				{First.ToString(), HoldAll},
 				{Rest.ToString(), HoldAll},
 				{SetDelayed.ToString(), HoldAll},

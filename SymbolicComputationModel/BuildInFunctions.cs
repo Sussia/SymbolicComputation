@@ -36,7 +36,9 @@ namespace SymbolicComputationLib
 				{"Set", Set},
 				{"SetDelayed", Set},
 				{"SetAttribute", SetAttribute},
-				{"Delayed", Delayed}
+				{"Delayed", Delayed},
+				{"Sin", Sin},
+				{"Cos", Cos}
 			};
 
 		private static Dictionary<string, Tuple<Symbol[], Symbol>> customFunctions =
@@ -53,6 +55,28 @@ namespace SymbolicComputationLib
 			}
 
 			return exp;
+		}
+
+		private static Symbol MathEval(Expression exp, Func<decimal, decimal> func)
+		{
+			var arg1 = exp.Args[0];
+
+			if (arg1 is Constant constant1)
+			{
+				return new Constant(func(constant1.Value));
+			}
+
+			return exp;
+		}
+
+		public static Symbol Sin(Expression exp, Scope context)
+		{
+			return MathEval(exp, x => (decimal)Math.Sin((double)x));
+		}
+
+		public static Symbol Cos(Expression exp, Scope context)
+		{
+			return MathEval(exp, x => (decimal)Math.Cos((double)x));
 		}
 
 		private static Symbol LogicEval(Expression exp, Func<decimal, decimal, bool> func)
@@ -113,7 +137,10 @@ namespace SymbolicComputationLib
 				Console.WriteLine($"The result of {exp} is {result}");
 				return result;
 			}
-			throw new Exception("There is no such function");
+
+			Console.WriteLine(
+				$"----------------------------------\n\n\t\tThere is no such function     {newExp}\n\n----------------------------------");
+			return newExp;
 		}
 
 		//private static Symbol If(Expression exp, Scope context)

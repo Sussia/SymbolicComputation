@@ -20,7 +20,21 @@ namespace SymbolicComputation
 			if (true)
 			{
 				//    Test zone    \\
-				Expression testExpression = Rest[Mul[4,3]];
+				Expression testExpression = List[
+					Set["fi", Mul[-4, 3.14m]],
+					Set["line", L[L[0, 0]]],
+					Set["a", 0.1m],
+					While[Less["fi", 1],
+						List[
+							Set["x", Mul["a", Sin["fi"]]],
+							Set["y", Mul["a", Cos["fi"]]],
+							Set["a", Sum["a", 0.1m]],
+							Set["fi", Sum["fi", 0.01m]],
+							Prepend["line", L["x","y"]]
+						]
+					],
+					"line"
+				];
 				Console.WriteLine(testExpression.Evaluate(new Scope()));
 				return;
 			}
@@ -32,7 +46,7 @@ namespace SymbolicComputation
 			//], "expression", "then", "else"],
 			//SetAttribute[If, HoldRest]
 
-			string filepath = "../../../TaskExamples/inputSimple1.json";
+			string filepath = "../../../TaskExamples/inputPlot.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);
 			string inputJson = sr.ReadToEnd();
@@ -47,7 +61,7 @@ namespace SymbolicComputation
 				Expression plotExpression = (Expression)inputExp.Args[0];
 				Constant width = (Constant)inputExp.Args[1];
 				Constant height = (Constant)inputExp.Args[2];
-				var window = new MainWindow(plotExpression, inputJson, width.Value, height.Value);
+				var window = new MainWindow(plotExpression, width.Value, height.Value);
 				window.ShowDialog();
 			}
 			//If we got Gcd() operator ------------------------------------------------------

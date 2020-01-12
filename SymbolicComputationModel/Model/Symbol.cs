@@ -10,5 +10,7 @@
 
 		public static implicit operator Symbol(string name) =>
 			new StringSymbol(name);
+
+		public abstract Symbol Evaluate(Scope context);
 	}
 }

@@ -10,12 +10,12 @@ namespace SymbolicComputationLib.Model
 
 		//public Symbol Visit(Visitor visitor)
 		//{
-		//	return visitor.Evaluate(this);
+		//	return visitor.EvaluateExpression(this);
 		//}
 
-		public Symbol Evaluate(Scope context)
+		public override Symbol Evaluate(Scope context)
 		{
-			return BuildInFunctions.Evaluate(this, context);
+			return BuildInFunctions.EvaluateExpression(this, context);
 		}
 
 		public Expression(Symbol action, Symbol[] args)

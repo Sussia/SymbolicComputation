@@ -21,5 +21,10 @@
 			}
 			return false;
 		}
+
+		public override Symbol Evaluate(Scope context)
+		{
+			return BuildInFunctions.EvaluateStringSymbol(this, context);
+		}
 	}
 }

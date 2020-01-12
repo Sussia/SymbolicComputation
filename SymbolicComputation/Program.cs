@@ -16,6 +16,16 @@ namespace SymbolicComputation
 		[STAThread]
 		private static void Main(string[] args)
 		{
+			if (true)
+			{
+				//    Test zone    \\
+				Expression testExpression = List[
+					Set[Or[True, True], True],
+					Or[True, True]
+					];
+				Console.WriteLine(testExpression.Evaluate(new Scope()));
+				return;
+			}
 			string filepath = "../../../TaskExamples/inputSimple1.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);
@@ -120,7 +130,7 @@ namespace SymbolicComputation
 				//	"commonDivisor",
 				//	Mul[Mul["firstTerm", "commonDivisor"], Divide["ETMP", "commonDivisor"]]
 				//];
-
+				Expression alg = null;
 				Expression resultExpression = (Expression)alg.Evaluate(context);
 				Expression beautifiedExp = (Expression)exp1.Evaluate(context);
 				string link = "http://fred-wang.github.io/mathml.css/mspace.js";

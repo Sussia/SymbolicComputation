@@ -35,8 +35,8 @@ namespace SymbolicComputationLib
 				{"GetPolynomialIndeterminates", GetPolynomialIndeterminates}
 			};
 
-		private static Dictionary<string, Tuple<StringSymbol, Expression>> customFunctions =
-			new Dictionary<string, Tuple<StringSymbol, Expression>>();
+		private static Dictionary<string, Tuple<StringSymbol, Symbol>> customFunctions =
+			new Dictionary<string, Tuple<StringSymbol, Symbol>>();
 
 		private static Symbol MathEval(Expression exp, Func<decimal, decimal, decimal> func)
 		{
@@ -63,50 +63,17 @@ namespace SymbolicComputationLib
 			return False;
 		}
 
-		public static Symbol Evaluate(Expression exp, Scope context)
+		public static Symbol EvaluateExpression(Expression exp, Scope context)
 		{
-			Console.WriteLine($"\nEvaluating expression {exp}:");
-
+			Console.WriteLine($"\nEvaluating {exp}:");
 			if (exp.Action.Equals(PredefinedSymbols.Set))
 			{
 				return Set(exp, context);
 			}
-
-			if (exp.Action.Equals(PredefinedSymbols.Delayed))
-			{
-				return Delayed(exp, context);
-			}
-
-			//if (exp.Action.Equals(PredefinedSymbols.If))
-			//{
-			//	return If(exp, context);
-			//}
-
-			//if (exp.Action.Equals(PredefinedSymbols.While))
-			//{
-			//	return While(exp, context);
-			//}
-
-			if (exp.Action.Equals(PredefinedSymbols.L))
-			{
-				return L(exp, context);
-			}
-
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
-				if (arg is Expression argExpression)
-				{
-					newArgs.Add(Evaluate(argExpression, context));
-				}
-				else if (arg is StringSymbol symbol) // ?????
-				{
-					newArgs.Add(Substitute(symbol, context));
-				}
-				else
-				{
-					newArgs.Add(arg);
-				}
+				newArgs.Add(arg.Evaluate(context));
 			}
 
 			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
@@ -115,9 +82,20 @@ namespace SymbolicComputationLib
 				Console.WriteLine($"\n  Evaluating expression {newExp}:");
 			}
 
-			Symbol result = functionsDictionary[exp.Action.ToString()](newExp, context);
-			Console.WriteLine($"The result of {newExp} is {result}");
-			return result;
+			if (functionsDictionary.ContainsKey(exp.Action.ToString()))
+			{
+				Symbol result = functionsDictionary[exp.Action.ToString()](newExp, context);
+				Console.WriteLine($"The result of {newExp} is {result}");
+				return result;
+			}
+
+			if (context.SymbolRules.ContainsKey(exp.ToString()))
+			{
+				Symbol result = context.SymbolRules[exp.ToString()];
+				Console.WriteLine($"The result of {exp} is {result}");
+				return result;
+			}
+			throw new Exception("There is no such function");
 		}
 
 		//private static Symbol If(Expression exp, Scope context)
@@ -126,7 +104,7 @@ namespace SymbolicComputationLib
 		//	Symbol condResult;
 		//	if (cond is Expression expression)
 		//	{
-		//		condResult = expression.Evaluate(context);
+		//		condResult = expression.EvaluateExpression(context);
 		//	}
 		//	else if (cond.Equals(True) || cond.Equals(False))
 		//	{
@@ -139,7 +117,7 @@ namespace SymbolicComputationLib
 
 		//	if (exp.Args[1] is Expression body1 && exp.Args[2] is Expression body2)
 		//	{
-		//		return condResult.Equals(True) ? body1.Evaluate(context) : body2.Evaluate(context);
+		//		return condResult.Equals(True) ? body1.EvaluateExpression(context) : body2.EvaluateExpression(context);
 		//	}
 
 		//	throw new Exception("Wrong body");
@@ -148,7 +126,7 @@ namespace SymbolicComputationLib
 		//private static Symbol While(Expression exp, Scope context)
 		//{
 		//	Symbol cond = exp.Args[0];
-		//	Symbol condResult = PredefinedSymbols.If[cond, PredefinedSymbols.List[True], PredefinedSymbols.List[False]].Evaluate(context);
+		//	Symbol condResult = PredefinedSymbols.If[cond, PredefinedSymbols.List[True], PredefinedSymbols.List[False]].EvaluateExpression(context);
 		//	if (condResult.Equals(False))
 		//	{
 		//		return Ok;
@@ -157,7 +135,7 @@ namespace SymbolicComputationLib
 		//	Symbol body = exp.Args[1];
 		//	if (body is Expression bodyExp)
 		//	{
-		//		bodyExp.Evaluate(context);
+		//		bodyExp.EvaluateExpression(context);
 		//		While(exp, context);
 		//		return Ok;
 		//	}
@@ -397,28 +375,12 @@ namespace SymbolicComputationLib
 		{
 			var arg1 = exp.Args[0];
 			var arg2 = exp.Args[1];
-			if (arg1 is StringSymbol symbol)
-			{
-				Symbol newArg;
-				if (arg2 is Expression exp2)
-				{
-					newArg = Evaluate(exp2, localContext);
-				}
-				else if (arg2 is StringSymbol stringSymbol)
-				{
-					newArg = Substitute(stringSymbol, localContext);
-				}
-				else
-				{
-					newArg = arg2;
-				}
 
-				localContext.SymbolRules[symbol.Name] = newArg;
-				Console.WriteLine($"{symbol.Name} is initialized by {arg2}");
-				return arg2;
-			}
+			Symbol newArg = arg2.Evaluate(localContext);
 
-			throw new Exception("First parameter of Set isn't string symbol");
+			localContext.SymbolRules[arg1.ToString()] = newArg;
+			Console.WriteLine($"{arg1} is initialized by {arg2}");
+			return arg2;
 		}
 
 		private static Symbol Substitute(StringSymbol symbol, Scope localContext)
@@ -443,7 +405,7 @@ namespace SymbolicComputationLib
 					temp = Substitute((StringSymbol)temp, localContext);
 				}
 
-				function = (Expression) temp;
+				function = (Expression)temp;
 			}
 			else
 			{
@@ -451,7 +413,7 @@ namespace SymbolicComputationLib
 			}
 
 			functionsDictionary[name.ToString()] = ComputeDelayed;
-			customFunctions[name.ToString()] = new Tuple<StringSymbol, Expression>(variable, function);
+			customFunctions[name.ToString()] = new Tuple<StringSymbol, Symbol>(variable, function);
 			Console.WriteLine($"{name}({variable}) is defined as {function}");
 			return exp;
 		}
@@ -460,8 +422,8 @@ namespace SymbolicComputationLib
 		{
 			string name = exp.Action.ToString();
 			var (variable, function) = customFunctions[name];
-			Expression newExpression = ReplaceVariable(function, variable, exp.Args[0]);
-			return Evaluate(newExpression, context);
+			Expression newExpression = ReplaceVariable((Expression) function, variable, exp.Args[0]);
+			return EvaluateExpression(newExpression, context);
 		}
 
 		public static Expression ReplaceVariable(Expression exp, StringSymbol localVariable, Symbol value)
@@ -480,7 +442,7 @@ namespace SymbolicComputationLib
 					//}
 					//else
 					//{
-						newArgs.Add(ReplaceVariable(argExp, localVariable, value));
+					newArgs.Add(ReplaceVariable(argExp, localVariable, value));
 					//}
 				}
 				else if (arg is StringSymbol symbol)
@@ -601,6 +563,16 @@ namespace SymbolicComputationLib
 				}
 			}
 			throw new Exception("Argument is not polynomial");
+		}
+
+		public static Symbol EvaluateStringSymbol(StringSymbol stringSymbol, Scope context)
+		{
+			return Substitute(stringSymbol, context);
+		}
+
+		public static Symbol EvaluateConstant(Constant constant, Scope context)
+		{
+			return constant;
 		}
 	}
 }

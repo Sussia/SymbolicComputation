@@ -32,7 +32,8 @@ namespace SymbolicComputationLib
 				{"Rest", Rest},
 				{"GetIndeterminateList", GetIndeterminateList},
 				{"GetPolynomialCoefficients", GetPolynomialCoefficients},
-				{"GetPolynomialIndeterminates", GetPolynomialIndeterminates}
+				{"GetPolynomialIndeterminates", GetPolynomialIndeterminates},
+				{"Prepend", Prepend}
 			};
 
 		private static Dictionary<string, Tuple<Symbol[], Symbol>> customFunctions =
@@ -79,6 +80,11 @@ namespace SymbolicComputationLib
             if (exp.Action.Equals(PredefinedSymbols.SetDelayed))
             {
 	            return SetDelayed(exp, context);
+            }
+
+            if (exp.Action.Equals(PredefinedSymbols.Prepend))
+            {
+	            return Prepend(exp, context);
             }
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
@@ -428,38 +434,38 @@ namespace SymbolicComputationLib
 			var (variables, function) = customFunctions[name];
             Expression newExpression = (Expression)function;
             int counter = 0;
-            foreach (var variable in variables)
+            foreach (StringSymbol variable in variables)
             {
-			    newExpression = ReplaceVariable(newExpression, (StringSymbol)variable, exp.Args[counter]);
+	            Symbol value = exp.Args[counter];
+				Console.Write($"Replacing {variable} with {value}... ");
+				Scope localContext = new Scope();
+				localContext.SymbolRules.Add(variable.Name, value);
+			    newExpression = ReplaceVariable(newExpression, localContext);
                 counter++;
-            }
+                Console.WriteLine($"Result: {newExpression}");
+			}
 			return newExpression.Evaluate(context);
 		}
 
-		public static Expression ReplaceVariable(Expression exp, StringSymbol localVariable, Symbol value)
+		public static Expression ReplaceVariable(Expression exp, Scope context)
 		{
-			Console.Write($"Replacing {localVariable} with {value}... ");
-			Scope localScope = new Scope();
-			localScope.SymbolRules.Add(localVariable.Name, value);
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
 				if (arg is Expression argExp)
-				{ 
-					newArgs.Add(ReplaceVariable(argExp, localVariable, value));  
+				{
+					newArgs.Add(ReplaceVariable(argExp, context));
 				}
 				else if (arg is StringSymbol symbol)
 				{
-					newArgs.Add(Substitute(symbol, localScope));
+					newArgs.Add(Substitute(symbol, context));
 				}
 				else
 				{
 					newArgs.Add(arg);
 				}
 			}
-
 			Expression newExp = new Expression(exp.Action, newArgs.ToArray());
-			Console.WriteLine($"Result: {newExp}");
 			return newExp;
 		}
 
@@ -494,6 +500,13 @@ namespace SymbolicComputationLib
 			}
 
 			throw new Exception("Argument is not list");
+		}
+
+		public static Symbol Prepend(Expression exp, Scope context)
+		{
+			Symbol prependedSymbol = exp.Args[1];
+			Expression listHolder = (Expression) exp.Args[0];
+			return new Expression(listHolder.Action, listHolder.Args.Prepend(prependedSymbol).ToArray());
 		}
 
 		public static Symbol GetPolynomialCoefficients(Expression exp, Scope context)

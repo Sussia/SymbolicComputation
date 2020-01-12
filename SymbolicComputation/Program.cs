@@ -118,8 +118,8 @@ namespace SymbolicComputation
                         localIf["expression"]
                     ], "expression", "then", "else"],
                     SetAttribute[If, HoldRest],
-
-
+                
+                
                     Delayed[While, List[
                         SetDelayed[localIf[True], List[
                                 "body",
@@ -190,8 +190,20 @@ namespace SymbolicComputation
                 	"commonDivisor",
                 	Mul[Mul["firstTerm", "commonDivisor"], Divide["ETMP", "commonDivisor"]]
                 ];
+
+
+
+                 // filepath = "../../../TaskExamples/Alg.json";
+                // sr = new StreamReader(filepath);
+                // inputJson = sr.ReadToEnd();
+                // Expression alg = (Expression) (Parser.ParseInput(inputJson, context));
+                // sr.Close();
+
+
+
                 Expression resultExpression = (Expression) alg.Evaluate(context);
                 Expression beautifiedExp = (Expression) exp1.Evaluate(context);
+                Console.WriteLine($"\n\n\n------------------------------------------------{JsonConvert.SerializeObject(alg)}");
                 string link = "http://fred-wang.github.io/mathml.css/mspace.js";
                 string script = $"<script src=\"{link}\"></script>\r\n";
                 System.IO.File.WriteAllText(

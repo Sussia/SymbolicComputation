@@ -4,9 +4,9 @@
     },
     "Args": [
         {
-            "Action": {
-                "Name": "Set"
-            },
+          "Action": {
+            "Name": "Set",
+          },
             "Args": [
                 {
                     "Name": "input"

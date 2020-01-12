@@ -20,10 +20,10 @@ namespace SymbolicComputationLib
 				{"Pow", Pow},
 				{"List", List},
 				{"Equal", Equal},
-				{"Or", Or},
-				{"And", And},
-				{"Xor", Xor},
-				{"Not", Not},
+				//{"Or", Or},
+				//{"And", And},
+				//{"Xor", Xor},
+				//{"Not", Not},
 				{"Greater", Greater},
 				{"GreaterOrEqual", GreaterOrEqual},
 				{"Less", Less},
@@ -77,15 +77,15 @@ namespace SymbolicComputationLib
 				return Delayed(exp, context);
 			}
 
-			if (exp.Action.Equals(PredefinedSymbols.If))
-			{
-				return If(exp, context);
-			}
+			//if (exp.Action.Equals(PredefinedSymbols.If))
+			//{
+			//	return If(exp, context);
+			//}
 
-			if (exp.Action.Equals(PredefinedSymbols.While))
-			{
-				return While(exp, context);
-			}
+			//if (exp.Action.Equals(PredefinedSymbols.While))
+			//{
+			//	return While(exp, context);
+			//}
 
 			if (exp.Action.Equals(PredefinedSymbols.L))
 			{
@@ -99,7 +99,7 @@ namespace SymbolicComputationLib
 				{
 					newArgs.Add(Evaluate(argExpression, context));
 				}
-				else if (arg is StringSymbol symbol)
+				else if (arg is StringSymbol symbol) // ?????
 				{
 					newArgs.Add(Substitute(symbol, context));
 				}
@@ -120,105 +120,105 @@ namespace SymbolicComputationLib
 			return result;
 		}
 
-		private static Symbol If(Expression exp, Scope context)
-		{
-			Symbol cond = exp.Args[0];
-			Symbol condResult;
-			if (cond is Expression expression)
-			{
-				condResult = expression.Evaluate(context);
-			}
-			else if (cond.Equals(True) || cond.Equals(False))
-			{
-				condResult = cond;
-			}
-			else
-			{
-				throw new Exception("Wrong condition");
-			}
+		//private static Symbol If(Expression exp, Scope context)
+		//{
+		//	Symbol cond = exp.Args[0];
+		//	Symbol condResult;
+		//	if (cond is Expression expression)
+		//	{
+		//		condResult = expression.Evaluate(context);
+		//	}
+		//	else if (cond.Equals(True) || cond.Equals(False))
+		//	{
+		//		condResult = cond;
+		//	}
+		//	else
+		//	{
+		//		throw new Exception("Wrong condition");
+		//	}
 
-			if (exp.Args[1] is Expression body1 && exp.Args[2] is Expression body2)
-			{
-				return condResult.Equals(True) ? body1.Evaluate(context) : body2.Evaluate(context);
-			}
+		//	if (exp.Args[1] is Expression body1 && exp.Args[2] is Expression body2)
+		//	{
+		//		return condResult.Equals(True) ? body1.Evaluate(context) : body2.Evaluate(context);
+		//	}
 
-			throw new Exception("Wrong body");
-		}
+		//	throw new Exception("Wrong body");
+		//}
 
-		private static Symbol While(Expression exp, Scope context)
-		{
-			Symbol cond = exp.Args[0];
-			Symbol condResult = PredefinedSymbols.If[cond, PredefinedSymbols.List[True], PredefinedSymbols.List[False]].Evaluate(context);
-			if (condResult.Equals(False))
-			{
-				return Ok;
-			}
+		//private static Symbol While(Expression exp, Scope context)
+		//{
+		//	Symbol cond = exp.Args[0];
+		//	Symbol condResult = PredefinedSymbols.If[cond, PredefinedSymbols.List[True], PredefinedSymbols.List[False]].Evaluate(context);
+		//	if (condResult.Equals(False))
+		//	{
+		//		return Ok;
+		//	}
 
-			Symbol body = exp.Args[1];
-			if (body is Expression bodyExp)
-			{
-				bodyExp.Evaluate(context);
-				While(exp, context);
-				return Ok;
-			}
+		//	Symbol body = exp.Args[1];
+		//	if (body is Expression bodyExp)
+		//	{
+		//		bodyExp.Evaluate(context);
+		//		While(exp, context);
+		//		return Ok;
+		//	}
 
-			throw new Exception("Wrong body");
-		}
+		//	throw new Exception("Wrong body");
+		//}
 
 		private static Symbol Equal(Expression exp, Scope scope)
 		{
 			return exp.Args[0].Equals(exp.Args[1]) ? True : False;
 		}
 
-		private static Symbol Or(Expression exp, Scope scope)
-		{
-			Symbol arg1 = exp.Args[0];
-			Symbol arg2 = exp.Args[1];
-			if ((arg1.Equals(True) || arg1.Equals(False)) &&
-				(arg2.Equals(True) || arg2.Equals(False)))
-			{
-				return arg1.Equals(False) && arg2.Equals(False) ? False : True;
-			}
+		//private static Symbol Or(Expression exp, Scope scope)
+		//{
+		//	Symbol arg1 = exp.Args[0];
+		//	Symbol arg2 = exp.Args[1];
+		//	if ((arg1.Equals(True) || arg1.Equals(False)) &&
+		//		(arg2.Equals(True) || arg2.Equals(False)))
+		//	{
+		//		return arg1.Equals(False) && arg2.Equals(False) ? False : True;
+		//	}
 
-			throw new Exception("Wrong arguments");
-		}
+		//	throw new Exception("Wrong arguments");
+		//}
 
-		private static Symbol And(Expression exp, Scope scope)
-		{
-			Symbol arg1 = exp.Args[0];
-			Symbol arg2 = exp.Args[1];
-			if ((arg1.Equals(True) || arg1.Equals(False)) &&
-				(arg2.Equals(True) || arg2.Equals(False)))
-			{
-				return arg1.Equals(True) && arg2.Equals(True) ? True : False;
-			}
+		//private static Symbol And(Expression exp, Scope scope)
+		//{
+		//	Symbol arg1 = exp.Args[0];
+		//	Symbol arg2 = exp.Args[1];
+		//	if ((arg1.Equals(True) || arg1.Equals(False)) &&
+		//		(arg2.Equals(True) || arg2.Equals(False)))
+		//	{
+		//		return arg1.Equals(True) && arg2.Equals(True) ? True : False;
+		//	}
 
-			throw new Exception("Wrong arguments");
-		}
+		//	throw new Exception("Wrong arguments");
+		//}
 
-		private static Symbol Not(Expression exp, Scope scope)
-		{
-			Symbol arg1 = exp.Args[0];
-			if (arg1.Equals(True) || arg1.Equals(False))
-			{
-				return arg1.Equals(True) ? False : True;
-			}
+		//private static Symbol Not(Expression exp, Scope scope)
+		//{
+		//	Symbol arg1 = exp.Args[0];
+		//	if (arg1.Equals(True) || arg1.Equals(False))
+		//	{
+		//		return arg1.Equals(True) ? False : True;
+		//	}
 
-			throw new Exception("Wrong arguments");
-		}
+		//	throw new Exception("Wrong arguments");
+		//}
 
-		private static Symbol Xor(Expression exp, Scope scope)
-		{
-			Symbol arg1 = exp.Args[0];
-			Symbol arg2 = exp.Args[1];
-			if ((arg1.Equals(True) || arg1.Equals(False)) &&
-				(arg2.Equals(True) || arg2.Equals(False)))
-			{
-				return arg1.Equals(arg2) ? False : True;
-			}
+		//private static Symbol Xor(Expression exp, Scope scope)
+		//{
+		//	Symbol arg1 = exp.Args[0];
+		//	Symbol arg2 = exp.Args[1];
+		//	if ((arg1.Equals(True) || arg1.Equals(False)) &&
+		//		(arg2.Equals(True) || arg2.Equals(False)))
+		//	{
+		//		return arg1.Equals(arg2) ? False : True;
+		//	}
 
-			throw new Exception("Wrong arguments");
-		}
+		//	throw new Exception("Wrong arguments");
+		//}
 
 		private static Symbol Greater(Expression exp, Scope scope)
 		{

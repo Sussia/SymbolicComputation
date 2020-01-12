@@ -9,13 +9,14 @@ using Expression = SymbolicComputationLib.Model.Expression;
 
 
 namespace SymbolicComputation
+
 {
 	class Program
 	{
 		[STAThread]
 		private static void Main(string[] args)
 		{
-			string filepath = "../../../TaskExamples/input1.json";
+			string filepath = "../../../TaskExamples/inputSimple1.json";
 			Scope context = new Scope();
 			StreamReader sr = new StreamReader(filepath);
 			string inputJson = sr.ReadToEnd();
@@ -38,87 +39,87 @@ namespace SymbolicComputation
 			{
 				Expression exp1 = (Expression)inputExp.Args[0];
 
-				Expression minFunc = List[
-					Set["lest", GetPolynomialCoefficients[exp1]],
-					Set["minEl", First["lest"]],
-					Set["tempLest", "lest"],
-					While[Not[Equal[First["tempLest"], "null"]],
-						List[
-							If[Less[First["tempLest"], "minEl"],
-								List[
-									Set["minEl", First["tempLest"]]
-								],
-								List[
-									False
-								]
-							],
-							Set["tempLest", Rest["tempLest"]]
-						]
-					],
-					"minEl"
-				];
+				//Expression minFunc = List[
+				//	Set["lest", GetPolynomialCoefficients[exp1]],
+				//	Set["minEl", First["lest"]],
+				//	Set["tempLest", "lest"],
+				//	While[Not[Equal[First["tempLest"], "null"]],
+				//		List[
+				//			If[Less[First["tempLest"], "minEl"],
+				//				List[
+				//					Set["minEl", First["tempLest"]]
+				//				],
+				//				List[
+				//					False
+				//				]
+				//			],
+				//			Set["tempLest", Rest["tempLest"]]
+				//		]
+				//	],
+				//	"minEl"
+				//];
 
-				StringSymbol f1 = new StringSymbol("f1");
-				Expression alg = List[
-					//This part finds common symbol divisor
-					Set["lest", GetIndeterminateList[exp1]],
-					Set["firstTerm", 1],
-					Set["ETMP", exp1],
-					While[Not[Equal[First["lest"], "null"]],
-						List[
-							Set["cur", First["lest"]],
-							Delayed[f1, "cur", "ETMP"],
-							Set["zero-checker", f1[0]],
-							Set["power", 0],
-							While[Equal["zero-checker", 0],
-								List[
-									Set["ETMP", Divide["ETMP", "cur"]],
-									Delayed[f1, "cur", "ETMP"],
-									Set["zero-checker", f1[0]],
-									Set["power", Sum["power", 1]]
-								]
-							],
-							If[Equal["power", 1],
-								Set["firstTerm", Mul["firstTerm", "cur"]],
-								List[False]
-							],
-							If[Greater["power", 1],
-								Set["firstTerm", Mul["firstTerm", Pow["cur", "power"]]],
-								List[False]
-							],
-							Set["lest", Rest["lest"]]
-						]
-					],
-					//This part computes common number divisor
-					Set["lest", GetPolynomialCoefficients[exp1]],
-					Set["divisor", minFunc],
-					Set["commonDivisor", 1],
-					Set["tempLest", "lest"],
-					While[Not[Equal["divisor", 1]],
-						List[
-							Set["reminder", 0],
-							While[Not[Equal[First["tempLest"], "null"]],
-								List[
-									Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
-									Set["tempLest", Rest["tempLest"]]
-								]
-							],
-							If[Equal["reminder", 0],
-								List[
-									Set["commonDivisor", Mul["commonDivisor", "divisor"]],
-									Set["tempLest", Divide["lest", "divisor"]],
-									Set["divisor", 1]
-								],
-								List[
-									Set["tempLest", "lest"],
-									Set["divisor", Sub["divisor", 1]]
-								]
-							]
-						]
-					],
-					"commonDivisor",
-					Mul[Mul["firstTerm", "commonDivisor"], Divide["ETMP", "commonDivisor"]]
-				];
+				//StringSymbol f1 = new StringSymbol("f1");
+				//Expression alg = List[
+				//	//This part finds common symbol divisor
+				//	Set["lest", GetIndeterminateList[exp1]],
+				//	Set["firstTerm", 1],
+				//	Set["ETMP", exp1],
+				//	While[Not[Equal[First["lest"], "null"]],
+				//		List[
+				//			Set["cur", First["lest"]],
+				//			Delayed[f1, "cur", "ETMP"],
+				//			Set["zero-checker", f1[0]],
+				//			Set["power", 0],
+				//			While[Equal["zero-checker", 0],
+				//				List[
+				//					Set["ETMP", Divide["ETMP", "cur"]],
+				//					Delayed[f1, "cur", "ETMP"],
+				//					Set["zero-checker", f1[0]],
+				//					Set["power", Sum["power", 1]]
+				//				]
+				//			],
+				//			If[Equal["power", 1],
+				//				Set["firstTerm", Mul["firstTerm", "cur"]],
+				//				List[False]
+				//			],
+				//			If[Greater["power", 1],
+				//				Set["firstTerm", Mul["firstTerm", Pow["cur", "power"]]],
+				//				List[False]
+				//			],
+				//			Set["lest", Rest["lest"]]
+				//		]
+				//	],
+				//	//This part computes common number divisor
+				//	Set["lest", GetPolynomialCoefficients[exp1]],
+				//	Set["divisor", minFunc],
+				//	Set["commonDivisor", 1],
+				//	Set["tempLest", "lest"],
+				//	While[Not[Equal["divisor", 1]],
+				//		List[
+				//			Set["reminder", 0],
+				//			While[Not[Equal[First["tempLest"], "null"]],
+				//				List[
+				//					Set["reminder", Sum[Rem[First["tempLest"], "divisor"], "reminder"]],
+				//					Set["tempLest", Rest["tempLest"]]
+				//				]
+				//			],
+				//			If[Equal["reminder", 0],
+				//				List[
+				//					Set["commonDivisor", Mul["commonDivisor", "divisor"]],
+				//					Set["tempLest", Divide["lest", "divisor"]],
+				//					Set["divisor", 1]
+				//				],
+				//				List[
+				//					Set["tempLest", "lest"],
+				//					Set["divisor", Sub["divisor", 1]]
+				//				]
+				//			]
+				//		]
+				//	],
+				//	"commonDivisor",
+				//	Mul[Mul["firstTerm", "commonDivisor"], Divide["ETMP", "commonDivisor"]]
+				//];
 
 				Expression resultExpression = (Expression)alg.Evaluate(context);
 				Expression beautifiedExp = (Expression)exp1.Evaluate(context);

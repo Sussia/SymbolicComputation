@@ -35,8 +35,8 @@ namespace SymbolicComputationLib
 				{"GetPolynomialIndeterminates", GetPolynomialIndeterminates}
 			};
 
-		private static Dictionary<string, Tuple<StringSymbol, Symbol>> customFunctions =
-			new Dictionary<string, Tuple<StringSymbol, Symbol>>();
+		private static Dictionary<string, Tuple<Symbol[], Symbol>> customFunctions =
+			new Dictionary<string, Tuple<Symbol[], Symbol>>();
 
 		private static Symbol MathEval(Expression exp, Func<decimal, decimal, decimal> func)
 		{
@@ -70,6 +70,11 @@ namespace SymbolicComputationLib
 			{
 				return Set(exp, context);
 			}
+
+            if (exp.Action.Equals(PredefinedSymbols.Delayed))
+            {
+                return Delayed(exp, context);
+            }
 			List<Symbol> newArgs = new List<Symbol>();
 			foreach (var arg in exp.Args)
 			{
@@ -391,39 +396,30 @@ namespace SymbolicComputationLib
 		private static Symbol Delayed(Expression exp, Scope localContext)
 		{
 			Symbol name = exp.Args[0];
-			StringSymbol variable = (StringSymbol)Substitute((StringSymbol)exp.Args[1], localContext);
-			Expression function;
-			if (exp.Args[2] is Expression ex)
-			{
-				function = ex;
-			}
-			else if (exp.Args[2] is StringSymbol ss)
-			{
-				Symbol temp = ss;
-				while (temp is StringSymbol)
-				{
-					temp = Substitute((StringSymbol)temp, localContext);
-				}
+			Symbol function = exp.Args[1];
 
-				function = (Expression)temp;
-			}
-			else
-			{
-				throw new Exception("Wrong body");
-			}
+            Symbol[] localArgs = exp.Args.Skip(2).ToArray();
+
+
 
 			functionsDictionary[name.ToString()] = ComputeDelayed;
-			customFunctions[name.ToString()] = new Tuple<StringSymbol, Symbol>(variable, function);
-			Console.WriteLine($"{name}({variable}) is defined as {function}");
+			customFunctions[name.ToString()] = new Tuple<Symbol[], Symbol>(localArgs, function);
+			Console.WriteLine($"{name}({localArgs}) is defined as {function}");
 			return exp;
 		}
 
 		private static Symbol ComputeDelayed(Expression exp, Scope context)
 		{
 			string name = exp.Action.ToString();
-			var (variable, function) = customFunctions[name];
-			Expression newExpression = ReplaceVariable((Expression) function, variable, exp.Args[0]);
-			return EvaluateExpression(newExpression, context);
+			var (variables, function) = customFunctions[name];
+            Expression newExpression = (Expression)function;
+            int counter = 0;
+            foreach (var variable in variables)
+            {
+			    newExpression = ReplaceVariable(newExpression, (StringSymbol)variable, exp.Args[counter]);
+                counter++;
+            }
+			return newExpression.Evaluate(context);
 		}
 
 		public static Expression ReplaceVariable(Expression exp, StringSymbol localVariable, Symbol value)
@@ -435,15 +431,8 @@ namespace SymbolicComputationLib
 			foreach (var arg in exp.Args)
 			{
 				if (arg is Expression argExp)
-				{
-					//if (argExp.Action.Equals(PredefinedSymbols.Set))
-					//{
-					//	newArgs.Add(argExp);
-					//}
-					//else
-					//{
-					newArgs.Add(ReplaceVariable(argExp, localVariable, value));
-					//}
+				{ 
+					newArgs.Add(ReplaceVariable(argExp, localVariable, value));  
 				}
 				else if (arg is StringSymbol symbol)
 				{

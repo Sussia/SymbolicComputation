@@ -16,8 +16,8 @@ namespace SymbolicComputationLib
 			{
 				{Set.ToString(), HoldFirst},
 				//{Prepend.ToString(), HoldAll},
-				{First.ToString(), HoldAll},
-				{Rest.ToString(), HoldAll},
+				// {First.ToString(), HoldAll},
+				// {Rest.ToString(), HoldAll},
 				{SetDelayed.ToString(), HoldAll},
 				{SetAttribute.ToString(), HoldAll},
 				{Delayed.ToString(), HoldAll},

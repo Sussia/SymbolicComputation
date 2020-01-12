@@ -1,5 +1,5 @@
 {
-  "Action": {"Name": "Gcd" }, 
+  "Action": { "Name": "Gcd" },
   "Args": [
     {
       "Action": { "Name": "Sum" },

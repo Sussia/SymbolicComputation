@@ -28,7 +28,7 @@ namespace SymbolicComputationLib
 		public static readonly Symbol First = new StringSymbol("First");
 		public static readonly Symbol Rest = new StringSymbol("Rest");
 		public static readonly Symbol GetPolynomialCoefficients = new StringSymbol("GetPolynomialCoefficients");
-		public static readonly Symbol GetIndeterminateList = new StringSymbol("GetIndeterminateList");
+		public static readonly Symbol GetPolynomialIndeterminates = new StringSymbol("GetPolynomialIndeterminates");
 		public static readonly Symbol True = new StringSymbol("True");
 		public static readonly Symbol False = new StringSymbol("False");
 		public static readonly Symbol Ok = new StringSymbol("Ok");

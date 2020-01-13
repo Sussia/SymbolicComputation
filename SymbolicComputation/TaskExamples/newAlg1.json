@@ -1,0 +1,1455 @@
+{
+    "Action": {
+        "Name": "gcdAlg"
+    },
+    "Args": [
+        {
+            "Action": {
+                "Name": "Sum"
+            },
+            "Args": [
+                {
+                    "Action": {
+                        "Name": "Mul"
+                    },
+                    "Args": [
+                        {
+                            "Action": {
+                                "Name": "Pow"
+                            },
+                            "Args": [
+                                {
+                                    "Name": "x"
+                                },
+                                {
+                                    "Value": 3.0
+                                }
+                            ]
+                        },
+                        {
+                            "Action": {
+                                "Name": "Pow"
+                            },
+                            "Args": [
+                                {
+                                    "Name": "y"
+                                },
+                                {
+                                    "Value": 2.0
+                                }
+                            ]
+                        },
+                        {
+                            "Value": 3.0
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "Mul"
+                    },
+                    "Args": [
+                        {
+                            "Value": 2.0
+                        },
+                        {
+                            "Action": {
+                                "Name": "Pow"
+                            },
+                            "Args": [
+                                {
+                                    "Name": "x"
+                                },
+                                {
+                                    "Value": 4.0
+                                }
+                            ]
+                        },
+                        {
+                            "Action": {
+                                "Name": "Pow"
+                            },
+                            "Args": [
+                                {
+                                    "Name": "y"
+                                },
+                                {
+                                    "Value": 2.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "Mul"
+                    },
+                    "Args": [
+                        {
+                            "Action": {
+                                "Name": "Pow"
+                            },
+                            "Args": [
+                                {
+                                    "Name": "x"
+                                },
+                                {
+                                    "Value": 2.0
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "y"
+                        },
+                        {
+                            "Value": 2.0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Action": {
+                "Name": "List"
+            },
+            "Args": [
+                {
+                    "Action": {
+                        "Name": "Delayed"
+                    },
+                    "Args": [
+                        {
+                            "Name": "Gcd"
+                        },
+                        {
+                            "Action": {
+                                "Name": "List"
+                            },
+                            "Args": [
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "exp1"
+                                        },
+                                        {
+                                            "Name": "polynomial"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "Not"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "True"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Name": "False"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "Not"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "False"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Name": "True"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Delayed"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "If"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "List"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Action": {
+                                                        "Name": "SetDelayed"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "localIf"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "True"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Name": "then"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "SetDelayed"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "localIf"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "False"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Name": "else"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "localIf"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "expression"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Name": "expression"
+                                        },
+                                        {
+                                            "Name": "then"
+                                        },
+                                        {
+                                            "Name": "else"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "SetAttribute"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "If"
+                                        },
+                                        {
+                                            "Name": "HoldRest"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Delayed"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "While"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "List"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Action": {
+                                                        "Name": "SetDelayed"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "localIf"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "True"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "List"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "body"
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "While"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "condition"
+                                                                        },
+                                                                        {
+                                                                            "Name": "body"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "SetDelayed"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "localIf"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "False"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Name": "False"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "localIf"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "condition"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Name": "condition"
+                                        },
+                                        {
+                                            "Name": "body"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "SetAttribute"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "While"
+                                        },
+                                        {
+                                            "Name": "HoldAll"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "lest"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "GetPolynomialIndeterminates"
+                                            },
+                                            "Args": [
+                                                { "Name":"exp1"}
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "firstTerm"
+                                        },
+                                        {
+                                            "Value": 1.0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "ETMP"
+                                        },
+                                        {
+                                            "Name": "exp1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "While"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "Not"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Action": {
+                                                        "Name": "Equal"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "First"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "lest"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Name": "null"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "List"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Action": {
+                                                        "Name": "Set"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "cur"
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "First"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "lest"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "Delayed"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "f1"
+                                                        },
+                                                        {
+                                                            "Name": "ETMP"
+                                                        },
+                                                        {
+                                                            "Name": "cur"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "Set"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "zero-checker"
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "f1"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Value": 0.0
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "Set"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "power"
+                                                        },
+                                                        {
+                                                            "Value": 0.0
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "While"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Equal"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "zero-checker"
+                                                                },
+                                                                {
+                                                                    "Value": 0.0
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "List"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "ETMP"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Divide"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "ETMP"
+                                                                                },
+                                                                                {
+                                                                                    "Name": "cur"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Delayed"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "f1"
+                                                                        },
+                                                                        {
+                                                                            "Name": "ETMP"
+                                                                        },
+                                                                        {
+                                                                            "Name": "cur"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "zero-checker"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "f1"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Value": 0.0
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "power"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Sum"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "power"
+                                                                                },
+                                                                                {
+                                                                                    "Value": 1.0
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "If"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Equal"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "power"
+                                                                },
+                                                                {
+                                                                    "Value": 1.0
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Set"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "firstTerm"
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Mul"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "firstTerm"
+                                                                        },
+                                                                        {
+                                                                            "Name": "cur"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "List"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "False"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "If"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Greater"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "power"
+                                                                },
+                                                                {
+                                                                    "Value": 1.0
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Set"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "firstTerm"
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Mul"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "firstTerm"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Pow"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "cur"
+                                                                                },
+                                                                                {
+                                                                                    "Name": "power"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "List"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "False"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "Set"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "lest"
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Rest"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "lest"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "lest"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "GetPolynomialCoefficients"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "exp1"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "divisor"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "List"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Action": {
+                                                        "Name": "Set"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "lest"
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "GetPolynomialCoefficients"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "exp1"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "Set"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "minEl"
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "First"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "lest"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "Set"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "tempLest"
+                                                        },
+                                                        {
+                                                            "Name": "lest"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "While"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Not"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Equal"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "First"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "tempLest"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "Name": "null"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "List"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "If"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Less"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Action": {
+                                                                                        "Name": "First"
+                                                                                    },
+                                                                                    "Args": [
+                                                                                        {
+                                                                                            "Name": "tempLest"
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "Name": "minEl"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "List"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Action": {
+                                                                                        "Name": "Set"
+                                                                                    },
+                                                                                    "Args": [
+                                                                                        {
+                                                                                            "Name": "minEl"
+                                                                                        },
+                                                                                        {
+                                                                                            "Action": {
+                                                                                                "Name": "First"
+                                                                                            },
+                                                                                            "Args": [
+                                                                                                {
+                                                                                                    "Name": "tempLest"
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "List"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "False"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "tempLest"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Rest"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "tempLest"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Name": "minEl"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "commonDivisor"
+                                        },
+                                        {
+                                            "Value": 1.0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "tempLest"
+                                        },
+                                        {
+                                            "Name": "lest"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "While"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "Not"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Action": {
+                                                        "Name": "Equal"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "divisor"
+                                                        },
+                                                        {
+                                                            "Value": 1.0
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "List"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Action": {
+                                                        "Name": "Set"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "reminder"
+                                                        },
+                                                        {
+                                                            "Value": 0.0
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "While"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Not"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Equal"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "First"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "tempLest"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "Name": "null"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "List"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "reminder"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Sum"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Action": {
+                                                                                        "Name": "Rem"
+                                                                                    },
+                                                                                    "Args": [
+                                                                                        {
+                                                                                            "Action": {
+                                                                                                "Name": "First"
+                                                                                            },
+                                                                                            "Args": [
+                                                                                                {
+                                                                                                    "Name": "tempLest"
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "Name": "divisor"
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "Name": "reminder"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "tempLest"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Rest"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "tempLest"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "If"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Action": {
+                                                                "Name": "Equal"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Name": "reminder"
+                                                                },
+                                                                {
+                                                                    "Value": 0.0
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "List"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "commonDivisor"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Mul"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "commonDivisor"
+                                                                                },
+                                                                                {
+                                                                                    "Name": "divisor"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "tempLest"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Divide"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "lest"
+                                                                                },
+                                                                                {
+                                                                                    "Name": "divisor"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "divisor"
+                                                                        },
+                                                                        {
+                                                                            "Value": 1.0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Action": {
+                                                                "Name": "List"
+                                                            },
+                                                            "Args": [
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "tempLest"
+                                                                        },
+                                                                        {
+                                                                            "Name": "lest"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Action": {
+                                                                        "Name": "Set"
+                                                                    },
+                                                                    "Args": [
+                                                                        {
+                                                                            "Name": "divisor"
+                                                                        },
+                                                                        {
+                                                                            "Action": {
+                                                                                "Name": "Sub"
+                                                                            },
+                                                                            "Args": [
+                                                                                {
+                                                                                    "Name": "divisor"
+                                                                                },
+                                                                                {
+                                                                                    "Value": 1.0
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Name": "commonDivisor"
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Mul"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "Mul"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "firstTerm"
+                                                },
+                                                {
+                                                    "Name": "commonDivisor"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Divide"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "ETMP"
+                                                },
+                                                {
+                                                    "Name": "commonDivisor"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "polynomial"
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "Gcd"
+                    },
+                    "Args": [
+                        {
+                            "Action": {
+                                "Name": "Sum"
+                            },
+                            "Args": [
+                                {
+                                    "Action": {
+                                        "Name": "Mul"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "Pow"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "x"
+                                                },
+                                                {
+                                                    "Value": 3.0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Pow"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "y"
+                                                },
+                                                {
+                                                    "Value": 2.0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Value": 3.0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Mul"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Value": 2.0
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Pow"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "x"
+                                                },
+                                                {
+                                                    "Value": 4.0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Pow"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "y"
+                                                },
+                                                {
+                                                    "Value": 2.0
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Mul"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "Pow"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "x"
+                                                },
+                                                {
+                                                    "Value": 2.0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Name": "y"
+                                        },
+                                        {
+                                            "Value": 2.0
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

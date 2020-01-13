@@ -1,0 +1,450 @@
+{
+    "Action": {
+        "Name": "Plot"
+    },
+    "Args": [
+        {
+            "Action": {
+                "Name": "List"
+            },
+            "Args": [
+                {
+                    "Action": {
+                        "Name": "Delayed"
+                    },
+                    "Args": [
+                        {
+                            "Name": "If"
+                        },
+                        {
+                            "Action": {
+                                "Name": "List"
+                            },
+                            "Args": [
+                                {
+                                    "Action": {
+                                        "Name": "SetDelayed"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "localIf"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "True"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Name": "then"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "SetDelayed"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "localIf"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "False"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Name": "else"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "localIf"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "expression"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "expression"
+                        },
+                        {
+                            "Name": "then"
+                        },
+                        {
+                            "Name": "else"
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "SetAttribute"
+                    },
+                    "Args": [
+                        {
+                            "Name": "If"
+                        },
+                        {
+                            "Name": "HoldRest"
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "Delayed"
+                    },
+                    "Args": [
+                        {
+                            "Name": "While"
+                        },
+                        {
+                            "Action": {
+                                "Name": "List"
+                            },
+                            "Args": [
+                                {
+                                    "Action": {
+                                        "Name": "SetDelayed"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "localIf"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "True"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "List"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "body"
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "While"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "condition"
+                                                        },
+                                                        {
+                                                            "Name": "body"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "SetDelayed"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Action": {
+                                                "Name": "localIf"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "False"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Name": "False"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "localIf"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "condition"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "condition"
+                        },
+                        {
+                            "Name": "body"
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "SetAttribute"
+                    },
+                    "Args": [
+                        {
+                            "Name": "While"
+                        },
+                        {
+                            "Name": "HoldAll"
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "Set"
+                    },
+                    "Args": [
+                        {
+                            "Name": "fi"
+                        },
+                        {
+                            "Action": {
+                                "Name": "Mul"
+                            },
+                            "Args": [
+                                {
+                                    "Value": -4.0
+                                },
+                                {
+                                    "Value": 3.14
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "Set"
+                    },
+                    "Args": [
+                        {
+                            "Name": "line"
+                        },
+                        {
+                            "Action": {
+                                "Name": "L"
+                            },
+                            "Args": [
+                                {
+                                    "Action": {
+                                        "Name": "L"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Value": 0.0
+                                        },
+                                        {
+                                            "Value": 0.0
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "Set"
+                    },
+                    "Args": [
+                        {
+                            "Name": "a"
+                        },
+                        {
+                            "Value": 0.1
+                        }
+                    ]
+                },
+                {
+                    "Action": {
+                        "Name": "While"
+                    },
+                    "Args": [
+                        {
+                            "Action": {
+                                "Name": "Less"
+                            },
+                            "Args": [
+                                {
+                                    "Name": "fi"
+                                },
+                                {
+                                    "Value": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "Action": {
+                                "Name": "List"
+                            },
+                            "Args": [
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "x"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Mul"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "a"
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "Sin"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "fi"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "y"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Mul"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "a"
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "Cos"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "fi"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "a"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Sum"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "a"
+                                                },
+                                                {
+                                                    "Value": 0.1
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "fi"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Sum"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "fi"
+                                                },
+                                                {
+                                                    "Value": 0.1
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Action": {
+                                        "Name": "Set"
+                                    },
+                                    "Args": [
+                                        {
+                                            "Name": "line"
+                                        },
+                                        {
+                                            "Action": {
+                                                "Name": "Prepend"
+                                            },
+                                            "Args": [
+                                                {
+                                                    "Name": "line"
+                                                },
+                                                {
+                                                    "Action": {
+                                                        "Name": "L"
+                                                    },
+                                                    "Args": [
+                                                        {
+                                                            "Name": "x"
+                                                        },
+                                                        {
+                                                            "Name": "y"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Name": "line"
+                }
+            ]
+        },
+        {
+            "Value": 800.0
+        },
+        {
+            "Value": 600.0
+        }
+    ]
+}

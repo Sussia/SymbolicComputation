@@ -5,14 +5,14 @@
       "Action": { "Name": "Delayed" },
       "Args": [
         { "Name": "Sqr" },
-        { "Name": "x" },
         {
           "Action": {"Name": "Mul" },
           "Args": [
             { "Name": "x" },
             { "Name": "x" }
           ] 
-        }
+        },
+        { "Name": "x" }
       ] 
     },
     {
